@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+
+class SignInConfirmedScreen extends StatelessWidget {
+  const SignInConfirmedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+        body: Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.alternate_email, size: 100),
+          Gap.medium(),
+          Text("Link de inicio de sesión enviado, por favor, revise su email"),
+        ],
+      ),
+    ));
+  }
+}

@@ -1,0 +1,6 @@
+import 'package:control_stock_web_admin/infraestructure/api_client.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final apiClientProvider = Provider<APIClient>((ref) {
+  return APIClient(baseUrl: "");
+});
