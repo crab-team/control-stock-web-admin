@@ -1,10 +1,38 @@
+import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products_screen/products_appbar.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products_screen/products_data_table.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 
-class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key});
+class ProductsScreen extends StatelessWidget {
+  const ProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Productos");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: kPaddingAppSmall.copyWith(top: 12, bottom: 12),
+          decoration: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(kRadiusCornerOutside),
+          ),
+          child: const ProductsAppBar(),
+        ),
+        const Gap.medium(),
+        const SizedBox(
+          height: 500,
+          child: Card(
+            child: Padding(
+              padding: kPaddingAppSmall,
+              child: ProductsDataTable(),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

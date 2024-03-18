@@ -1,36 +1,100 @@
+import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/loading_dialog.dart';
 
-enum DialogType { loading, error, success }
+enum DialogType { loading, error, success, confirmation }
 
-void useDialogs(BuildContext context, {DialogType? type, String? message}) {
-  if (type == DialogType.loading) _showLoadingDialog(context);
-  if (type == DialogType.error) _showError(context, message!);
-  if (type == DialogType.success) _showLoadingDialog(context);
+void useDialogs(BuildContext context,
+    {DialogType? type, Widget? content, String? title, VoidCallback? onConfirm, String? textConfirmationButton}) {
+  if (type == DialogType.loading) return _showLoadingDialog(context);
+  if (type == DialogType.error) return _showError(context, content!);
+  if (type == DialogType.success) return _showLoadingDialog(context);
+  if (type == DialogType.confirmation) {
+    return _showConfirmationDialog(
+      context,
+      title!,
+      content!,
+      textConfirmationButton!,
+      onConfirm!,
+    );
+  }
 }
 
-void _showLoadingDialog(BuildContext context) {
+void _showLoadingDialog(BuildContext context, [Widget message = const Text("Cargando...")]) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return const LoadingDialog();
+      return AlertDialog(
+        content: SizedBox(
+          height: 200,
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(),
+                const Gap.small(),
+                message,
+              ],
+            ),
+          ),
+        ),
+      );
     },
   );
 }
 
-void _showError(BuildContext context, String error) {
+void _showError(BuildContext context, Widget error) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
         title: const Text("Error"),
-        content: Text(error),
+        content: error,
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Cerrar"),
+            child: Text("Cerrar".toUpperCase(), style: Theme.of(context).textTheme.bodyLarge),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showConfirmationDialog(
+  BuildContext context,
+  String title,
+  Widget content,
+  String textConfirmationButton,
+  VoidCallback onConfirm,
+) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: content,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("Cancelar".toUpperCase(), style: Theme.of(context).textTheme.bodyLarge),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: colorScheme.primary,
+            ),
+            onPressed: () {
+              onConfirm();
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              textConfirmationButton.toUpperCase(),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
+            ),
           ),
         ],
       );

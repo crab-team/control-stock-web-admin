@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/presentation/widgets/layout/sidebar/brand_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/sidebar/item_sidebar_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/layout/sidebar/siderbar_user_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/version_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,17 +21,23 @@ class SidebarWidget extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border(
-          right: BorderSide(color: colorScheme.secondary),
+          right: BorderSide(color: colorScheme.secondaryContainer),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Container(
+            height: 120,
+            padding: kPaddingAppSmall,
+            child: const LogoWidget.horizontal(size: 52),
+          ),
+          const Divider(),
           const SizedBox(
             width: double.maxFinite,
-            height: 200,
-            child: BrandWidget(),
+            height: 100,
+            child: SidebarUserWidget(),
           ),
           const Divider(),
           Expanded(
@@ -48,6 +55,10 @@ class SidebarWidget extends ConsumerWidget {
                 );
               },
             ),
+          ),
+          const Padding(
+            padding: kPaddingAppSmall,
+            child: VersionWidget(),
           ),
         ],
       ),

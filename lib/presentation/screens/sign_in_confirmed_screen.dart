@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter/material.dart';
 
 class SignInConfirmedScreen extends StatelessWidget {
   const SignInConfirmedScreen({super.key});

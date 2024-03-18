@@ -27,8 +27,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
       next.maybeWhen(
         data: (data) => ref.read(navigationServiceProvider).goToSignInConfirmed(context),
-        loading: () => useDialogs(context, type: DialogType.loading, message: "Enviando link a su email"),
-        error: (error, _) => useDialogs(context, type: DialogType.error, message: error.toString()),
+        loading: () => useDialogs(context, type: DialogType.loading, content: const Text("Enviando link a su email")),
+        error: (error, _) => useDialogs(context, type: DialogType.error, content: Text(error.toString())),
         orElse: () {},
       );
     });

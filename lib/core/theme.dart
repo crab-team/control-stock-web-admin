@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-const kPaddingApp = EdgeInsets.all(24.0);
-const kPaddingAppSmall = EdgeInsets.all(12.0);
-const kPaddingAppHorizontal = EdgeInsets.symmetric(horizontal: 16.0);
-const kRadiusCorner = 28.0;
+const kPaddingApp = EdgeInsets.all(100.0);
+const kPaddingAppSmall = EdgeInsets.all(24.0);
+const kPaddingAppHorizontal = EdgeInsets.symmetric(horizontal: 52.0);
+const kPaddingAppHorizontalLarge = EdgeInsets.symmetric(horizontal: 100.0);
+const kRadiusCornerOutside = 16.0;
+const kRadiusCornerInside = 8.0;
 
 final ColorScheme colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
@@ -67,20 +69,46 @@ final ThemeData theme = ThemeData(
       color: colorScheme.primary,
     ),
   ),
-  cardTheme: CardTheme(
-    color: colorScheme.primaryContainer,
-    surfaceTintColor: colorScheme.primaryContainer,
-    elevation: 4,
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(kRadiusCorner))),
+  searchBarTheme: SearchBarThemeData(
+    padding: MaterialStateProperty.all(
+      kPaddingAppSmall.copyWith(top: 0, bottom: 0),
+    ),
+    shape: MaterialStateProperty.all(
+      RoundedRectangleBorder(
+        side: BorderSide(color: colorScheme.secondaryContainer, width: 1),
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+      ),
+    ),
+    backgroundColor: MaterialStateProperty.all(Colors.white),
+    surfaceTintColor: MaterialStateProperty.all(Colors.white),
+    overlayColor: MaterialStateProperty.all(Colors.transparent),
+    shadowColor: MaterialStateProperty.all(Colors.transparent),
+    hintStyle: MaterialStateProperty.all(
+      TextStyle(
+        color: colorScheme.secondary,
+      ),
+    ),
   ),
+  cardTheme: CardTheme(
+    color: Colors.white,
+    surfaceTintColor: Colors.transparent,
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: colorScheme.secondaryContainer, width: 1),
+      borderRadius: const BorderRadius.all(
+        Radius.circular(kRadiusCornerInside),
+      ),
+    ),
+  ),
+  dividerColor: colorScheme.secondaryContainer,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
       foregroundColor: MaterialStateProperty.all(Colors.white),
-      padding: MaterialStateProperty.all(kPaddingApp),
+      padding: MaterialStateProperty.all(kPaddingAppSmall),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRadiusCorner),
+          borderRadius: BorderRadius.circular(kRadiusCornerInside),
         ),
       ),
       textStyle: MaterialStateProperty.all(
@@ -97,7 +125,7 @@ final ThemeData theme = ThemeData(
       foregroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRadiusCorner),
+          borderRadius: BorderRadius.circular(kRadiusCornerOutside),
         ),
       ),
       textStyle: MaterialStateProperty.all(
@@ -110,11 +138,11 @@ final ThemeData theme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     iconColor: colorScheme.secondary,
-    fillColor: colorScheme.primaryContainer,
+    fillColor: colorScheme.background,
     filled: true,
-    border: const OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(kRadiusCorner)),
-      borderSide: BorderSide.none,
+    border: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.secondary),
     ),
     contentPadding: kPaddingAppSmall,
     hintStyle: TextStyle(
@@ -150,7 +178,7 @@ final ThemeData theme = ThemeData(
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(kRadiusCorner),
+      borderRadius: BorderRadius.circular(kRadiusCornerOutside),
     ),
     actionsPadding: const EdgeInsets.all(12),
   ),

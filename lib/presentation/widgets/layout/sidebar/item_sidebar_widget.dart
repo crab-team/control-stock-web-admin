@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:flutter/material.dart';
 
 class ItemSidebarWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -13,7 +13,7 @@ class ItemSidebarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isCurrent ? colorScheme.secondary : Colors.transparent,
+        color: isCurrent ? colorScheme.primary : Colors.transparent,
       ),
       child: ListTile(
         leading: icon != null
