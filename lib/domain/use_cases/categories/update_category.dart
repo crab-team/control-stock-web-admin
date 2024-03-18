@@ -8,7 +8,7 @@ class UpdateCategory {
 
   UpdateCategory(this.repository);
 
-  Future<Either<Failure, void>> call(Category category) async {
+  Future<Either<Failure, void>> execute(Category category) async {
     return await repository.update(category);
   }
 }

@@ -7,7 +7,7 @@ class DeleteCategory {
 
   DeleteCategory(this._repository);
 
-  Future<Either<Failure, void>> call(String id) async {
+  Future<Either<Failure, void>> execute(String id) async {
     return await _repository.delete(id);
   }
 }

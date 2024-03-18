@@ -1,28 +1,26 @@
-import 'package:control_stock_web_admin/core/router.dart';
-import 'package:control_stock_web_admin/domain/entities/product.dart';
-import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/domain/entities/category.dart';
+import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products_screen/delete_product_button.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductsDataTable extends ConsumerStatefulWidget {
-  const ProductsDataTable({super.key});
+class CategoriesDataTable extends ConsumerStatefulWidget {
+  const CategoriesDataTable({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ProductsDataTableState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CategoriesDataTableState();
 }
 
-class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
+class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productsControllerProvider);
+    final state = ref.watch(categoriesControllerProvider);
 
     return state.when(
-      data: (infractions) {
-        return _buildDataTable(infractions);
+      data: (data) {
+        return _buildDataTable(data);
       },
       loading: () {
         return const Center(child: CircularProgressIndicator());
@@ -33,7 +31,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
     );
   }
 
-  _buildDataTable(List<Product> data) {
+  _buildDataTable(List<Category> data) {
     if (data.isEmpty) {
       return const Center(child: Text(Texts.noProducts));
     }
@@ -48,20 +46,9 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         DataColumn(
           label: Text('Código'),
         ),
-        DataColumn(
+        DataColumn2(
           label: Text('Nombre'),
-        ),
-        DataColumn2(
-          label: Text('Precio'),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text('Imagen'),
           size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text('Actualizar'),
-          size: ColumnSize.S,
         ),
         DataColumn2(
           label: Text('Eliminar'),
@@ -72,7 +59,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           ? const [
               DataRow(
                 cells: [
-                  DataCell(Text('No hay infracciones')),
+                  DataCell(Text('No hay categorias')),
                 ],
               ),
             ]
@@ -81,23 +68,13 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
               (index) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(data[index].code)),
+                    DataCell(Text(data[index].id)),
                     DataCell(Text(data[index].name)),
-                    DataCell(Text('\$${data[index].price.toString()}')),
-                    DataCell(Image.network(data[index].imageUrl)),
-                    DataCell(IconButton(
-                      icon: const Icon(PhosphorIcons.pencil),
-                      onPressed: () => _onUpdate(data[index]),
-                    )),
                     DataCell(DeleteProductButton(data[index].id)),
                   ],
                 );
               },
             ),
     );
-  }
-
-  void _onUpdate(Product product) {
-    ref.read(navigationServiceProvider).goToProduct(context, product);
   }
 }

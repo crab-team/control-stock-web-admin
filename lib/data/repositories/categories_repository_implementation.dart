@@ -10,7 +10,7 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   CategoriesRepositoryImplementation({required this.apiClient});
 
   @override
-  Future<Either<Failure, void>> create(Category category) {
+  Future<Either<Failure, Category>> create(String categoryName) {
     // TODO: implement create
     throw UnimplementedError();
   }
@@ -28,13 +28,23 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Category>>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<Either<Failure, List<Category>>> getAll() async {
+    try {
+      final categories = [
+        Category(id: '1', name: 'Category 1'),
+        Category(id: '2', name: 'Category 2'),
+        Category(id: '3', name: 'Category 3'),
+      ];
+
+      await Future.delayed(const Duration(seconds: 2));
+      return Right(categories);
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, void>> update(Category category) {
+  Future<Either<Failure, Category>> update(Category category) {
     // TODO: implement update
     throw UnimplementedError();
   }

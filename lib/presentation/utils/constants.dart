@@ -20,6 +20,15 @@ class Texts {
   static const String deleteProduct = 'Eliminar producto';
   static const String deleteProductConfirmation = '¿Está seguro que desea eliminar este producto?';
   static const String noProducts = 'No hay productos';
+  static const String searchProduct = 'Buscar producto';
+
+  // Categories
+  static const String createCategory = 'Crear categoría';
+  static const String updateCategory = 'Actualizar categoría';
+  static const String deleteCategory = 'Eliminar categoría';
+  static const String deleteCategoryConfirmation = '¿Está seguro que desea eliminar esta categoría?';
+  static const String noCategories = 'No hay categorías';
+  static const String searchCategory = 'Buscar categoría';
 
   // Errors
   static const String error = 'Error';

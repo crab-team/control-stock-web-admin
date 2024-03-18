@@ -1,4 +1,6 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/screens/categories_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/category_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/product_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/sign_in_confirmed_screen.dart';
@@ -22,7 +24,6 @@ class Routes {
   static const String product = 'product/:id';
   static const String createProduct = 'createProduct';
   static const String categories = '/categories';
-  static const String category = 'category/:id';
   static const String createCategory = 'createCategory';
 
   static const Map<String, String> names = {
@@ -34,7 +35,6 @@ class Routes {
     signInConfirmed: 'Inicio de sesión confirmado',
     categories: 'Categorías',
     createCategory: 'Crear categoría',
-    category: 'Actualizar categoría',
   };
 }
 
@@ -77,7 +77,7 @@ class NavigationService {
                   builder: (context, state) => const ProductsScreen(),
                   routes: [
                     GoRoute(
-                      path: 'create',
+                      path: Routes.createProduct,
                       name: Routes.names[Routes.createProduct]!,
                       builder: (context, state) {
                         return const ProductScreen();
@@ -101,21 +101,13 @@ class NavigationService {
                 GoRoute(
                   path: Routes.categories,
                   name: Routes.names[Routes.categories]!,
-                  builder: (context, state) => const ProductsScreen(),
+                  builder: (context, state) => const CategoriesScreen(),
                   routes: [
                     GoRoute(
                       path: Routes.createCategory,
                       name: Routes.names[Routes.createCategory]!,
                       builder: (context, state) {
-                        return const ProductScreen();
-                      },
-                    ),
-                    GoRoute(
-                      path: Routes.category,
-                      name: Routes.names[Routes.category]!,
-                      builder: (context, state) {
-                        Product product = state.extra as Product;
-                        return ProductScreen(product: product);
+                        return const CategoryScreen();
                       },
                     ),
                   ],
@@ -145,10 +137,16 @@ class NavigationService {
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);
   goToSignInConfirmed(BuildContext context) => context.go('${Routes.signIn}/${Routes.signInConfirmed}');
+
   goToHome(BuildContext context) => context.go(Routes.home);
+
+  goToProducts(BuildContext context) => context.go(Routes.products);
   goToProduct(BuildContext context, Product product) =>
       context.go('${Routes.products}${Routes.product}', extra: product);
   goToCreateProduct(BuildContext context) => context.go('${Routes.products}/${Routes.createProduct}');
+
+  goToCategories(BuildContext context) => context.go(Routes.categories);
+  goToCreateCategory(BuildContext context) => context.go('${Routes.categories}/${Routes.createCategory}');
 
   void pop() => navigatorKey.currentState?.pop();
 }
