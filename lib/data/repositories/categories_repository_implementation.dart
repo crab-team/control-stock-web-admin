@@ -1,13 +1,13 @@
 import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
+import 'package:control_stock_web_admin/data/data_sources/categories_remote_data_source.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/repositories/categories_repository.dart';
-import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 import 'package:dartz/dartz.dart';
 
 class CategoriesRepositoryImplementation implements CategoriesRepository {
-  final APIClient apiClient;
+  final CategoriesRemoteDataSource categoriesRemoteDataSource;
 
-  CategoriesRepositoryImplementation({required this.apiClient});
+  CategoriesRepositoryImplementation(this.categoriesRemoteDataSource);
 
   @override
   Future<Either<Failure, Category>> create(String categoryName) {
@@ -30,13 +30,8 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   @override
   Future<Either<Failure, List<Category>>> getAll() async {
     try {
-      final categories = [
-        Category(id: '1', name: 'Category 1'),
-        Category(id: '2', name: 'Category 2'),
-        Category(id: '3', name: 'Category 3'),
-      ];
-
-      await Future.delayed(const Duration(seconds: 2));
+      final categoriesResponse = await categoriesRemoteDataSource.getCategories();
+      final categories = categoriesResponse.map((e) => e.toDomain()).toList();
       return Right(categories);
     } on Exception catch (e) {
       return Left(Failure(e.toString()));

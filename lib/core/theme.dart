@@ -11,18 +11,18 @@ const kRadiusCornerInside = 8.0;
 final ColorScheme colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
   seedColor: Colors.white,
-  primary: const Color(0xFF567DF4),
-  primaryContainer: const Color(0xFFF3F6FF),
-  secondary: const Color(0xFF677191),
-  secondaryContainer: const Color(0xFFE2E9FD),
-  tertiary: const Color(0xFFF5B556),
+  primary: const Color(0xFF6F4BF2),
+  primaryContainer: const Color.fromARGB(255, 240, 236, 255),
+  secondary: const Color(0xFF0FA4E4),
+  secondaryContainer: const Color.fromARGB(255, 221, 245, 255),
+  tertiary: const Color(0xFFED5B15),
   tertiaryContainer: const Color(0xFFFFD8E4),
   error: const Color(0xFF02191f),
   errorContainer: const Color(0xFFE5E5E5),
-  inversePrimary: const Color(0xFF2C2D30),
+  inversePrimary: const Color(0xFF0D0D0D),
   outline: const Color(0xFFE5E5E5),
   background: const Color(0xFFFFFFFF),
-  onError: const Color(0xFFD8000C),
+  onError: const Color(0xFFED1C15),
 );
 
 final ThemeData theme = ThemeData(
@@ -31,42 +31,38 @@ final ThemeData theme = ThemeData(
   colorScheme: colorScheme,
   appBarTheme:
       const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0, surfaceTintColor: Colors.transparent),
-  textTheme: TextTheme(
-    displayLarge: const TextStyle(
+  textTheme: const TextTheme(
+    displayLarge: TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    displayMedium: const TextStyle(
+    displayMedium: TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    displaySmall: const TextStyle(
+    displaySmall: TextStyle(
       letterSpacing: 0.0,
     ),
-    bodyLarge: const TextStyle(
+    bodyLarge: TextStyle(
       fontWeight: FontWeight.w400,
     ),
-    bodyMedium: const TextStyle(
+    bodyMedium: TextStyle(
       fontWeight: FontWeight.w400,
     ),
-    headlineLarge: const TextStyle(
+    headlineLarge: TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    headlineMedium: TextStyle(
-      color: colorScheme.secondary,
-    ),
+    headlineMedium: TextStyle(),
     headlineSmall: TextStyle(
       fontWeight: FontWeight.w400,
-      color: colorScheme.secondary,
     ),
-    labelLarge: const TextStyle(
+    labelLarge: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    labelMedium: const TextStyle(
+    labelMedium: TextStyle(
       fontWeight: FontWeight.bold,
     ),
     labelSmall: TextStyle(
       fontWeight: FontWeight.w400,
-      color: colorScheme.primary,
     ),
   ),
   searchBarTheme: SearchBarThemeData(
@@ -75,7 +71,7 @@ final ThemeData theme = ThemeData(
     ),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
-        side: BorderSide(color: colorScheme.secondaryContainer, width: 1),
+        side: BorderSide(color: colorScheme.primaryContainer, width: 1),
         borderRadius: BorderRadius.circular(kRadiusCornerInside),
       ),
     ),
@@ -85,7 +81,7 @@ final ThemeData theme = ThemeData(
     shadowColor: MaterialStateProperty.all(Colors.transparent),
     hintStyle: MaterialStateProperty.all(
       TextStyle(
-        color: colorScheme.secondary,
+        color: colorScheme.inversePrimary.withOpacity(0.4),
       ),
     ),
   ),
@@ -94,13 +90,17 @@ final ThemeData theme = ThemeData(
     surfaceTintColor: Colors.transparent,
     elevation: 4,
     shape: RoundedRectangleBorder(
-      side: BorderSide(color: colorScheme.secondaryContainer, width: 1),
+      side: BorderSide(color: colorScheme.primaryContainer, width: 1),
       borderRadius: const BorderRadius.all(
         Radius.circular(kRadiusCornerInside),
       ),
     ),
   ),
-  dividerColor: colorScheme.secondaryContainer,
+  dividerTheme: DividerThemeData(
+    space: 0,
+    thickness: 1,
+    color: colorScheme.primaryContainer,
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
@@ -142,19 +142,19 @@ final ThemeData theme = ThemeData(
     filled: true,
     border: OutlineInputBorder(
       borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
-      borderSide: BorderSide(color: colorScheme.secondary),
+      borderSide: BorderSide(color: colorScheme.primaryContainer),
     ),
     contentPadding: kPaddingAppSmall,
     hintStyle: TextStyle(
       fontWeight: FontWeight.w400,
-      color: colorScheme.secondary,
+      color: colorScheme.inversePrimary.withOpacity(0.4),
     ),
   ),
   timePickerTheme: TimePickerThemeData(
     backgroundColor: colorScheme.primaryContainer,
     dialBackgroundColor: colorScheme.primaryContainer,
   ),
-  disabledColor: Colors.grey,
+  disabledColor: colorScheme.outline,
   cupertinoOverrideTheme: CupertinoThemeData(
     barBackgroundColor: colorScheme.secondaryContainer,
     primaryColor: colorScheme.primaryContainer,
@@ -164,7 +164,7 @@ final ThemeData theme = ThemeData(
     brightness: Brightness.light,
     textTheme: CupertinoTextThemeData(
       primaryColor: colorScheme.primary,
-      dateTimePickerTextStyle: const TextStyle(color: Colors.red),
+      dateTimePickerTextStyle: TextStyle(color: colorScheme.onError),
     ),
   ),
   bottomAppBarTheme: const BottomAppBarTheme(color: Colors.transparent, elevation: 0),

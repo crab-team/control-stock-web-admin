@@ -13,7 +13,7 @@ class AppBarWidget extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(color: Colors.grey.shade300),
+          bottom: BorderSide(color: colorScheme.primaryContainer),
         ),
       ),
       child: Padding(
@@ -25,7 +25,6 @@ class AppBarWidget extends ConsumerWidget {
               currentRoute,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            const Icon(Icons.notifications),
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:control_stock_web_admin/core/router.dart';
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
@@ -27,7 +26,10 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
   final formKey = GlobalKey<FormState>();
   String selectedType = '';
+  TextEditingController codeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController stockController = TextEditingController();
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
       children: [
         Text(
           widget.product != null ? 'Editar producto' : 'Agregar producto',
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: colorScheme.secondary),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         const Gap.large(),
         Expanded(
@@ -72,8 +74,41 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: codeController,
+                            decoration: const InputDecoration(labelText: Texts.code),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return Texts.requiredField;
+                              }
+                              return null;
+                            },
+                          ),
+                          const Gap.small(),
+                          TextFormField(
                             controller: nameController,
                             decoration: const InputDecoration(labelText: Texts.name),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return Texts.requiredField;
+                              }
+                              return null;
+                            },
+                          ),
+                          const Gap.small(),
+                          TextFormField(
+                            controller: priceController,
+                            decoration: const InputDecoration(labelText: Texts.price),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return Texts.requiredField;
+                              }
+                              return null;
+                            },
+                          ),
+                          const Gap.small(),
+                          TextFormField(
+                            controller: stockController,
+                            decoration: const InputDecoration(labelText: Texts.stock),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return Texts.requiredField;

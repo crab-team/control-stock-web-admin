@@ -20,7 +20,7 @@ class LogoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(
-                AssetsImages.logoMtc,
+                AssetsImages.logo,
                 width: size,
               ),
               Visibility(

@@ -21,7 +21,7 @@ class SidebarWidget extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border(
-          right: BorderSide(color: colorScheme.secondaryContainer),
+          right: BorderSide(color: colorScheme.primaryContainer),
         ),
       ),
       child: Column(

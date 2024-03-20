@@ -19,6 +19,7 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(getCategoriesUseCaseProvider).execute();
+      print(categoriesEither);
       return categoriesEither.fold(
         (l) => throw l,
         (r) => r,

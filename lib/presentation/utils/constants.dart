@@ -1,6 +1,7 @@
 class AssetsImages {
   static const String logo = 'assets/images/logo.png';
   static const String logoMtc = 'assets/images/logo_mtc.png';
+  static const String background = 'assets/images/background.jpg';
 }
 
 class Texts {
@@ -13,6 +14,8 @@ class Texts {
   static const String name = 'Nombre';
   static const String description = 'Descripción';
   static const String price = 'Precio';
+  static const String stock = 'Stock';
+  static const String code = 'Código';
 
   // Products
   static const String createProduct = 'Crear producto';

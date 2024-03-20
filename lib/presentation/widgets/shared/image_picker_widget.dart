@@ -46,7 +46,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             right: 16.0,
             top: 16.0,
             child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(backgroundColor: colorScheme.secondary, padding: kPaddingAppSmall),
+              style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primaryContainer, padding: kPaddingAppSmall),
               icon: const Icon(Icons.close),
               onPressed: _clear,
               label: const Text('Limpiar'),
@@ -97,7 +97,11 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             height: 512,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
-              color: colorScheme.secondaryContainer,
+              border: Border.all(
+                color: colorScheme.primaryContainer,
+                width: 1.0,
+              ),
+              color: Colors.white,
             ),
             child: Center(
               child: Icon(

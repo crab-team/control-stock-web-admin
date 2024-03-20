@@ -1,3 +1,9 @@
+import 'dart:ui';
+
+import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
@@ -35,63 +41,95 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
     return Scaffold(
       body: LayoutBuilder(builder: (context, constraints) {
-        return Center(
-          child: SizedBox(
-            width: 500,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Inicio de sesión", style: Theme.of(context).textTheme.headlineLarge),
-                const Gap.medium(),
-                Text(
-                  "Ingresá tu email y pedí tu link de inicio de sesión, el mismo será enviado a tu cuenta.",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const Gap.large(),
-                SizedBox(
-                  width: 400,
-                  child: Form(
-                    key: _formKey,
+        return Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              width: constraints.maxWidth * 0.6,
+              child: Image.asset(
+                AssetsImages.background,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: constraints.maxWidth * 0.6,
+              child: Image.asset(
+                AssetsImages.background,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Center(
+              child: SizedBox(
+                width: 500,
+                child: Card(
+                  child: Padding(
+                    padding: kPaddingApp,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextFormField(
-                          controller: _controller,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Por favor, ingrese su email";
-                            }
-
-                            if (!value.contains("@")) {
-                              return "Por favor, ingrese un email válido";
-                            }
-
-                            return null;
-                          },
-                          onFieldSubmitted: (_) => _singIn(context),
-                          decoration: const InputDecoration(
-                              labelText: "Email", prefixIcon: Icon(PhosphorIcons.envelope_simple_fill)),
+                        const LogoWidget.horizontal(
+                          withText: false,
+                          size: 120,
                         ),
                         const Gap.medium(),
+                        Text("Inicio de sesión", style: Theme.of(context).textTheme.headlineLarge),
+                        const Gap.medium(),
+                        Text(
+                          "Ingresá tu email y pedí tu link de inicio de sesión, el mismo será enviado a tu cuenta.",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const Gap.large(),
                         SizedBox(
-                          width: double.maxFinite,
-                          child: ElevatedButton(
-                            onPressed: () => _singIn(context),
-                            child: const Text("Pedir link de inicio de sesión"),
+                          width: 400,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextFormField(
+                                  controller: _controller,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Por favor, ingrese su email";
+                                    }
+
+                                    if (!value.contains("@")) {
+                                      return "Por favor, ingrese un email válido";
+                                    }
+
+                                    return null;
+                                  },
+                                  onFieldSubmitted: (_) => _singIn(context),
+                                  decoration: const InputDecoration(
+                                      labelText: "Email", prefixIcon: Icon(PhosphorIcons.envelope_simple_fill)),
+                                ),
+                                const Gap.medium(),
+                                SizedBox(
+                                  width: double.maxFinite,
+                                  child: ElevatedButton(
+                                    onPressed: () => _singIn(context),
+                                    child: const Text("Pedir link de inicio de sesión"),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
+                        ),
+                        const Gap.large(),
+                        const LogoMtcWidget()
                       ],
                     ),
                   ),
                 ),
-                const Gap.large(),
-                const LogoMtcWidget()
-              ],
+              ),
             ),
-          ),
+          ],
         );
       }),
     );
