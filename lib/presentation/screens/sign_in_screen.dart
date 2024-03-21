@@ -1,13 +1,10 @@
-import 'dart:ui';
-
 import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:control_stock_web_admin/presentation/providers/sign_in/sign_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
-import 'package:control_stock_web_admin/presentation/providers/sign_in/sign_providers.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_mtc_widget.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -32,7 +29,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       }
 
       next.maybeWhen(
-        data: (data) => ref.read(navigationServiceProvider).goToSignInConfirmed(context),
+        data: (data) => ref.read(navigationServiceProvider).goToVerifyEmail(context),
         loading: () => useDialogs(context, type: DialogType.loading, content: const Text("Enviando link a su email")),
         error: (error, _) => useDialogs(context, type: DialogType.error, content: Text(error.toString())),
         orElse: () {},
@@ -66,7 +63,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 width: 500,
                 child: Card(
                   child: Padding(
-                    padding: kPaddingApp,
+                    padding: kPaddingAppSmall,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,

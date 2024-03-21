@@ -1,12 +1,14 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/domain/entities/user.dart';
+import 'package:control_stock_web_admin/presentation/providers/users/user_controller.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/category_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/email_link_confirmation_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/product_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/sign_in_confirmed_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
-import 'package:control_stock_web_admin/providers/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +21,8 @@ final navigationServiceProvider = Provider<NavigationService>((ref) {
 class Routes {
   static const String home = '/';
   static const String signIn = '/signIn';
-  static const String signInConfirmed = 'confirmed';
+  static const String verifyEmail = 'verifyEmail';
+  static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
   static const String products = '/products';
   static const String product = 'product/:id';
   static const String createProduct = 'createProduct';
@@ -32,7 +35,8 @@ class Routes {
     products: 'Productos',
     createProduct: 'Crear producto',
     product: 'Actualizar producto',
-    signInConfirmed: 'Inicio de sesión confirmado',
+    verifyEmail: 'Verificar email',
+    emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
     createCategory: 'Crear categoría',
   };
@@ -50,15 +54,22 @@ class NavigationService {
       initialLocation: Routes.signIn,
       routes: [
         GoRoute(
+          path: Routes.emailLinkConfirmation,
+          name: Routes.names[Routes.emailLinkConfirmation]!,
+          builder: (context, state) {
+            return EmailLinkConfirmationScreen(token: state.pathParameters['token']!);
+          },
+        ),
+        GoRoute(
             path: Routes.signIn,
             name: Routes.names[Routes.signIn]!,
             builder: (context, state) => const SignInScreen(),
             routes: [
               GoRoute(
-                path: Routes.signInConfirmed,
-                name: Routes.names[Routes.signInConfirmed]!,
+                path: Routes.verifyEmail,
+                name: Routes.names[Routes.verifyEmail]!,
                 builder: (context, state) {
-                  return const SignInConfirmedScreen();
+                  return const VerifyEmailScreen();
                 },
               ),
             ]),
@@ -118,8 +129,14 @@ class NavigationService {
         ),
       ],
       redirect: (context, state) async {
-        final isLoggedIn = await ref.watch(authControllerProvider.future);
-        if (!isLoggedIn && state.name != Routes.names[Routes.signIn]!) {
+        final token = state.pathParameters['token'];
+        User? user = await ref.watch(userControllerProvider.future);
+        bool hasSavedToken = user != null;
+        bool isSignInScreen = state.uri.path == Routes.signIn;
+        bool isSignInConfirmed = state.uri.path == Routes.verifyEmail;
+        bool hasEmailToken = token != null;
+
+        if (!hasSavedToken && !isSignInScreen && !isSignInConfirmed && !hasEmailToken) {
           return Routes.signIn;
         }
 
@@ -136,7 +153,7 @@ class NavigationService {
       };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);
-  goToSignInConfirmed(BuildContext context) => context.go('${Routes.signIn}/${Routes.signInConfirmed}');
+  goToVerifyEmail(BuildContext context) => context.go('${Routes.signIn}/${Routes.verifyEmail}');
 
   goToHome(BuildContext context) => context.go(Routes.home);
 

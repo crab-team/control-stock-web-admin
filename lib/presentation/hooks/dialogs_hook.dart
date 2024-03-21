@@ -5,18 +5,12 @@ import 'package:flutter/material.dart';
 enum DialogType { loading, error, success, confirmation }
 
 void useDialogs(BuildContext context,
-    {DialogType? type, Widget? content, String? title, VoidCallback? onConfirm, String? textConfirmationButton}) {
+    {DialogType? type, Widget? content, String? title, Function? onConfirm, String? textConfirmationButton}) {
   if (type == DialogType.loading) return _showLoadingDialog(context);
   if (type == DialogType.error) return _showError(context, content!);
   if (type == DialogType.success) return _showLoadingDialog(context);
   if (type == DialogType.confirmation) {
-    return _showConfirmationDialog(
-      context,
-      title!,
-      content!,
-      textConfirmationButton!,
-      onConfirm!,
-    );
+    return _showConfirmationDialog(context, title!, content!, textConfirmationButton!, onConfirm!);
   }
 }
 
@@ -69,7 +63,7 @@ void _showConfirmationDialog(
   String title,
   Widget content,
   String textConfirmationButton,
-  VoidCallback onConfirm,
+  Function onConfirm,
 ) {
   showDialog(
     context: context,
@@ -88,7 +82,7 @@ void _showConfirmationDialog(
               foregroundColor: colorScheme.primary,
             ),
             onPressed: () {
-              onConfirm();
+              onConfirm.call();
               Navigator.of(context).pop();
             },
             child: Text(

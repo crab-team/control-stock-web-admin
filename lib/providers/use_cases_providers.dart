@@ -1,4 +1,7 @@
 // Products
+import 'package:control_stock_web_admin/domain/use_cases/auth/exchange_token.dart';
+import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_crendetials.dart';
+import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_email_link.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/create_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/delete_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
@@ -8,8 +11,23 @@ import 'package:control_stock_web_admin/domain/use_cases/products/delete_product
 import 'package:control_stock_web_admin/domain/use_cases/products/get_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_product.dart';
+import 'package:control_stock_web_admin/domain/use_cases/users/get_user.dart';
+import 'package:control_stock_web_admin/domain/use_cases/users/store_user.dart';
 import 'package:control_stock_web_admin/providers/repositories_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Auth
+final signInWitEmailLinkUseCase = Provider<SignInWitEmailLink>((ref) {
+  final repository = ref.read(authRepositoryProvider);
+  return SignInWitEmailLink(repository);
+});
+final signInWithCredentialsUseCase =
+    Provider.autoDispose((ref) => SignInWithCredentials(ref.read(authRepositoryProvider)));
+final exchangeTokenUseCase = Provider.autoDispose((ref) => ExchangeToken(ref.read(authRepositoryProvider)));
+
+// Users
+final getUserUseCase = Provider.autoDispose((ref) => GetUser(ref.read(usersRepositoryProvider)));
+final storeUserUseCase = Provider.autoDispose((ref) => StoreUser(ref.read(usersRepositoryProvider)));
 
 // Products
 final getProductsUseCaseProvider = Provider<GetProducts>((ref) {

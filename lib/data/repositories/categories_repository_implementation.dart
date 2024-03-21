@@ -10,21 +10,30 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   CategoriesRepositoryImplementation(this.categoriesRemoteDataSource);
 
   @override
-  Future<Either<Failure, Category>> create(String categoryName) {
-    // TODO: implement create
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, void>> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either<Failure, Category>> get(String id) {
     // TODO: implement get
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Category>> create(String categoryName) async {
+    try {
+      final categoriesResponse = await categoriesRemoteDataSource.addCategory(categoryName);
+      final category = categoriesResponse.toDomain();
+      return Right(category);
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> delete(String id) async {
+    try {
+      await categoriesRemoteDataSource.deleteCategory(id);
+      return const Right(null);
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
@@ -39,8 +48,12 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   }
 
   @override
-  Future<Either<Failure, Category>> update(Category category) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Either<Failure, Category>> update(Category category) async {
+    try {
+      final categoriesResponse = await categoriesRemoteDataSource.updateCategory(category);
+      return Right(categoriesResponse.toDomain());
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 }

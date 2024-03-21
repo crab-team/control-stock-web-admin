@@ -4,7 +4,6 @@ import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,11 +17,6 @@ class CategoryScreen extends ConsumerStatefulWidget {
 class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

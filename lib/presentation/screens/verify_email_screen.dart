@@ -1,8 +1,8 @@
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 
-class SignInConfirmedScreen extends StatelessWidget {
-  const SignInConfirmedScreen({super.key});
+class VerifyEmailScreen extends StatelessWidget {
+  const VerifyEmailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

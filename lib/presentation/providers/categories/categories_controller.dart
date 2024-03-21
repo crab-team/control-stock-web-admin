@@ -5,9 +5,9 @@ import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoriesControllerProvider =
-    AsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
+    AutoDisposeAsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
 
-class CategoriesController extends AsyncNotifier<List<Category>> {
+class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
   List<Category> categories = [];
 
   @override
@@ -19,7 +19,6 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(getCategoriesUseCaseProvider).execute();
-      print(categoriesEither);
       return categoriesEither.fold(
         (l) => throw l,
         (r) => r,
@@ -59,9 +58,6 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
         },
       );
     });
-
-    categories = state.asData?.value ?? [];
-    return categories;
   }
 
   create(String category) async {

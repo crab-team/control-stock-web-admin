@@ -25,7 +25,7 @@ class App extends ConsumerWidget {
     final router = ref.watch(navigationServiceProvider);
 
     return MaterialApp.router(
-      title: "Flutter admin",
+      title: "Control stock",
       routerConfig: router.appRouter,
       builder: (context, child) {
         return Overlay(
