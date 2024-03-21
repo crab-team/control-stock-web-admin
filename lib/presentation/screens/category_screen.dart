@@ -20,19 +20,6 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<void>>(categoriesControllerProvider, (previous, next) {
-      if (previous != null && previous.isLoading) {
-        Navigator.of(context).pop();
-      }
-
-      next.maybeWhen(
-        data: (data) => ref.read(navigationServiceProvider).goToCategories(context),
-        loading: () => useDialogs(context, type: DialogType.loading, content: const Text("Creando categoría")),
-        error: (error, _) => useDialogs(context, type: DialogType.error, content: Text(error.toString())),
-        orElse: () {},
-      );
-    });
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,6 +62,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   void _create() {
     if (formKey.currentState!.validate()) {
       ref.read(categoriesControllerProvider.notifier).create(nameController.text);
+      ref.read(navigationServiceProvider).goToCategories(context);
     }
   }
 }

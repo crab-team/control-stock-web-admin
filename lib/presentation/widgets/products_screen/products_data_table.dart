@@ -2,7 +2,7 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products_screen/delete_product_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -89,12 +89,18 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
                       icon: const Icon(PhosphorIcons.pencil),
                       onPressed: () => _onUpdate(data[index]),
                     )),
-                    DataCell(DeleteProductButton(data[index].id)),
+                    DataCell(ButtonWithConfirmation(
+                      onConfirm: () => _delete(data[index].id),
+                    )),
                   ],
                 );
               },
             ),
     );
+  }
+
+  void _delete(String id) {
+    ref.read(productsControllerProvider.notifier).delete(id);
   }
 
   void _onUpdate(Product product) {

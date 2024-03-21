@@ -1,7 +1,7 @@
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products_screen/delete_product_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -70,11 +70,17 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
                   cells: [
                     DataCell(Text(data[index].id)),
                     DataCell(Text(data[index].name)),
-                    DataCell(DeleteProductButton(data[index].id)),
+                    DataCell(ButtonWithConfirmation(
+                      onConfirm: () => _delete(data[index].id),
+                    )),
                   ],
                 );
               },
             ),
     );
+  }
+
+  void _delete(String id) {
+    ref.read(categoriesControllerProvider.notifier).delete(id);
   }
 }
