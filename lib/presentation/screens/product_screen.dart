@@ -1,11 +1,13 @@
 import 'package:control_stock_web_admin/core/router.dart';
+import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
-import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/image_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductScreen extends ConsumerStatefulWidget {
@@ -17,19 +19,13 @@ class ProductScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductScreenState extends ConsumerState<ProductScreen> {
-  List<String> type = [
-    'Cartera',
-    'Billetera',
-    'Mochila',
-    'Bolso',
-  ];
-
   final formKey = GlobalKey<FormState>();
   String selectedType = '';
   TextEditingController codeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController stockController = TextEditingController();
+  Category? category;
 
   @override
   void initState() {
@@ -38,19 +34,6 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<void>>(productsControllerProvider, (previous, next) {
-      if (previous != null && previous.isLoading) {
-        Navigator.of(context).pop();
-      }
-
-      next.maybeWhen(
-        data: (data) => ref.read(navigationServiceProvider).goToProducts(context),
-        loading: () => useDialogs(context, type: DialogType.loading, content: const Text("Creando producto")),
-        error: (error, _) => useDialogs(context, type: DialogType.error, content: Text(error.toString())),
-        orElse: () {},
-      );
-    });
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,7 +80,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                           const Gap.small(),
                           TextFormField(
                             controller: priceController,
-                            decoration: const InputDecoration(labelText: Texts.price),
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$'),
+                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return Texts.requiredField;
@@ -108,7 +93,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                           const Gap.small(),
                           TextFormField(
                             controller: stockController,
+                            keyboardType: TextInputType.number,
                             decoration: const InputDecoration(labelText: Texts.stock),
+                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return Texts.requiredField;
@@ -116,17 +103,60 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                               return null;
                             },
                           ),
+                          const Gap.small(),
+                          FormField<Category>(
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null) {
+                                return Texts.requiredField;
+                              }
+                              return null;
+                            },
+                            builder: (FormFieldState state) {
+                              return CategorySelector(
+                                initialCategory: state.value,
+                                onCategorySelected: (value) {
+                                  state.didChange(value);
+                                  category = value;
+                                },
+                              );
+                            },
+                          ),
+                          const Gap.small(),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.save),
+                              onPressed: () => _onSubmit(),
+                              label: Text(widget.product != null ? 'Editar' : 'Agregar'),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                const Gap.small(),
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  void _onSubmit() {
+    if (formKey.currentState!.validate() && category != null) {
+      final product = Product(
+        code: codeController.text,
+        name: nameController.text,
+        price: double.parse(priceController.text),
+        stock: int.parse(stockController.text),
+        category: category!.name,
+        imageUrl: '',
+      );
+
+      ref.read(productsControllerProvider.notifier).create(product);
+      ref.read(navigationServiceProvider).goBack(context);
+    }
   }
 }

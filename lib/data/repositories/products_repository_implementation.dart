@@ -10,98 +10,48 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   ProductsRepositoryImplementation(this.productsRemoteDataSource);
 
   @override
-  Future<Either<Failure, Product>> create(Product product) {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<Either<Failure, Product>> create(Product product) async {
+    try {
+      final productResponse = await productsRemoteDataSource.add(product);
+      return Right(productResponse.toDomain());
+    } catch (e) {
+      return Left(Failure('Error al crear el producto'));
+    }
   }
 
   @override
-  Future<Either<Failure, Product>> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<Either<Failure, void>> delete(String id) async {
+    try {
+      await productsRemoteDataSource.delete(id);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure('Error al eliminar el producto'));
+    }
   }
 
   @override
-  Future<Either<Failure, Product>> get(String id) {
-    // TODO: implement get
+  Future<Either<Failure, Product>> get(String id) async {
     throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, List<Product>>> getAll() async {
     try {
-      // final products = [
-      //   Product(
-      //     id: '1',
-      //     name: 'MEDALLA PLATA FLOR',
-      //     code: '81905',
-      //     price: 11009,
-      //     stock: 10,
-      //     type: 'Oro y plata',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      //   Product(
-      //     id: '2',
-      //     name: 'PRODUCTO 2',
-      //     code: '81906',
-      //     price: 12009,
-      //     stock: 20,
-      //     type: 'Tipo 2',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      //   Product(
-      //     id: '20',
-      //     name: 'PRODUCTO 20',
-      //     code: '81924',
-      //     price: 13009,
-      //     stock: 30,
-      //     type: 'Tipo 20',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      //   Product(
-      //     id: '3',
-      //     name: 'PRODUCTO 3',
-      //     code: '81907',
-      //     price: 13009,
-      //     stock: 30,
-      //     type: 'Tipo 3',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      //   Product(
-      //     id: '4',
-      //     name: 'PRODUCTO 4',
-      //     code: '81908',
-      //     price: 14009,
-      //     stock: 40,
-      //     type: 'Tipo 4',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      //   Product(
-      //     id: '5',
-      //     name: 'PRODUCTO 5',
-      //     code: '81909',
-      //     price: 15009,
-      //     stock: 50,
-      //     type: 'Tipo 5',
-      //     imageUrl: 'https://via.placeholder.com/150',
-      //   ),
-      // ];
-
-      try {
-        final productsResponse = await productsRemoteDataSource.getAll();
-        final products = productsResponse.map((e) => e.toDomain()).toList();
-        return Right(products);
-      } catch (e) {
-        return Left(Failure('Error al obtener los productos'));
-      }
+      final productsResponse = await productsRemoteDataSource.getAll();
+      final products = productsResponse.map((e) => e.toDomain()).toList();
+      return Right(products);
     } catch (e) {
       return Left(Failure('Error al obtener los productos'));
     }
   }
 
   @override
-  Future<Either<Failure, Product>> update(Product product) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Either<Failure, Product>> update(Product product) async {
+    try {
+      final productResponse = await productsRemoteDataSource.update(product);
+      return Right(productResponse.toDomain());
+    } catch (e) {
+      return Left(Failure('Error al actualizar el producto'));
+    }
   }
 }

@@ -17,6 +17,16 @@ class ProductsDataTable extends ConsumerStatefulWidget {
 
 class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => _getProducts());
+  }
+
+  void _getProducts() {
+    ref.read(productsControllerProvider.notifier).getAll();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(productsControllerProvider);
 
@@ -45,14 +55,20 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       minWidth: 600,
       dataTextStyle: Theme.of(context).textTheme.bodyLarge,
       columns: const [
-        DataColumn(
+        DataColumn2(
           label: Text('Código'),
+          size: ColumnSize.S,
         ),
-        DataColumn(
+        DataColumn2(
           label: Text('Nombre'),
+          size: ColumnSize.L,
         ),
         DataColumn2(
           label: Text('Precio'),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
+          label: Text('Categoria'),
           size: ColumnSize.S,
         ),
         DataColumn2(
@@ -60,11 +76,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           size: ColumnSize.L,
         ),
         DataColumn2(
-          label: Text('Actualizar'),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text('Eliminar'),
+          label: Text('Acciones'),
           size: ColumnSize.S,
         ),
       ],
@@ -81,16 +93,22 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
               (index) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(data[index].code)),
-                    DataCell(Text(data[index].name)),
+                    DataCell(Text(data[index].code.toUpperCase())),
+                    DataCell(Text(data[index].name.toUpperCase())),
                     DataCell(Text('\$${data[index].price.toString()}')),
-                    DataCell(Image.network(data[index].imageUrl)),
-                    DataCell(IconButton(
-                      icon: const Icon(PhosphorIcons.pencil),
-                      onPressed: () => _onUpdate(data[index]),
-                    )),
-                    DataCell(ButtonWithConfirmation(
-                      onConfirm: () => _delete(data[index].id),
+                    DataCell(Text(data[index].category.toUpperCase())),
+                    DataCell(
+                        data[index].imageUrl == '' ? const Text(Texts.noImage) : Image.network(data[index].imageUrl)),
+                    DataCell(Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(PhosphorIcons.pencil),
+                          onPressed: () => _onUpdate(data[index]),
+                        ),
+                        ButtonWithConfirmation(
+                          onConfirm: () => _delete(data[index].id as String),
+                        ),
+                      ],
                     )),
                   ],
                 );

@@ -165,5 +165,5 @@ class NavigationService {
   goToCategories(BuildContext context) => context.go(Routes.categories);
   goToCreateCategory(BuildContext context) => context.go('${Routes.categories}/${Routes.createCategory}');
 
-  void pop() => navigatorKey.currentState?.pop();
+  void goBack(BuildContext context) => context.pop();
 }

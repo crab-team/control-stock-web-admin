@@ -3,28 +3,31 @@ import 'package:control_stock_web_admin/domain/entities/product.dart';
 class ProductResponse {
   final String id;
   final String name;
-  final String description;
-  final String imageUrl;
+  final String code;
   final double price;
   final int stock;
+  final String category;
+  final String? imageUrl;
 
   ProductResponse({
     required this.id,
     required this.name,
-    required this.description,
-    required this.imageUrl,
+    required this.code,
     required this.price,
     required this.stock,
+    required this.category,
+    this.imageUrl,
   });
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
-      id: json['_id'],
+      id: json['id'],
       name: json['name'],
-      description: json['description'],
-      imageUrl: json['imageUrl'],
+      code: json['code'],
+      imageUrl: json['imageUrl'] ?? '',
       price: json['price'],
       stock: json['stock'],
+      category: json['category'],
     );
   }
 
@@ -32,11 +35,11 @@ class ProductResponse {
     return Product(
       id: id,
       name: name,
-      code: '',
-      imageUrl: imageUrl,
+      code: code,
+      imageUrl: imageUrl ?? '',
       price: price,
       stock: stock,
-      type: '',
+      category: category,
     );
   }
 }

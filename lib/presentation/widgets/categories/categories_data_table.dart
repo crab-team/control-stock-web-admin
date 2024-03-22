@@ -33,7 +33,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
 
   _buildDataTable(List<Category> data) {
     if (data.isEmpty) {
-      return const Center(child: Text(Texts.noProducts));
+      return const Center(child: Text(Texts.noCategories));
     }
 
     return DataTable2(
@@ -43,15 +43,12 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
       minWidth: 600,
       dataTextStyle: Theme.of(context).textTheme.bodyLarge,
       columns: const [
-        DataColumn(
-          label: Text('Código'),
-        ),
         DataColumn2(
           label: Text('Nombre'),
           size: ColumnSize.L,
         ),
         DataColumn2(
-          label: Text('Eliminar'),
+          label: Text('Acciones'),
           size: ColumnSize.S,
         ),
       ],
@@ -68,8 +65,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
               (index) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(data[index].id)),
-                    DataCell(Text(data[index].name)),
+                    DataCell(Text(data[index].name.toUpperCase())),
                     DataCell(ButtonWithConfirmation(
                       onConfirm: () => _delete(data[index].id),
                     )),

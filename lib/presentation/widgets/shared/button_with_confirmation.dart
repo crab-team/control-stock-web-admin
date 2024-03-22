@@ -16,30 +16,39 @@ class _ButtonWithConfirmationState extends State<ButtonWithConfirmation> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: !_showConfirmationState,
-      replacement: Row(
-        children: [
-          IconButton(
-            icon: Icon(
-              Icons.check,
-              color: colorScheme.primary,
+      replacement: Container(
+        width: 80,
+        decoration: BoxDecoration(
+          color: colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.check,
+                color: colorScheme.primary,
+              ),
+              onPressed: () {
+                widget.onConfirm();
+                setState(() {
+                  _showConfirmationState = false;
+                });
+              },
             ),
-            onPressed: () {
-              widget.onConfirm();
-              setState(() {
+            IconButton(
+              icon: Icon(
+                Icons.close,
+                color: colorScheme.tertiary,
+              ),
+              onPressed: () => setState(() {
                 _showConfirmationState = false;
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.close,
-              color: colorScheme.tertiary,
+              }),
             ),
-            onPressed: () => setState(() {
-              _showConfirmationState = false;
-            }),
-          ),
-        ],
+          ],
+        ),
       ),
       child: IconButton(
         icon: Icon(

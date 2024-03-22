@@ -4,6 +4,20 @@ import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final categoriesFutureProvider = FutureProvider.autoDispose<List<Category>>(
+  (ref) async {
+    final categoriesEither = await ref.read(getCategoriesUseCaseProvider).execute();
+    return categoriesEither.fold(
+      (l) => throw l,
+      (r) {
+        List<Category> categories = r;
+        categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        return categories;
+      },
+    );
+  },
+);
+
 final categoriesControllerProvider =
     AutoDisposeAsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
 

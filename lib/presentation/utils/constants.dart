@@ -16,6 +16,8 @@ class Texts {
   static const String price = 'Precio';
   static const String stock = 'Stock';
   static const String code = 'Código';
+  static const String loading = 'Cargando...';
+  static const String noImage = 'Sin imagen';
 
   // Products
   static const String createProduct = 'Crear producto';
@@ -26,6 +28,7 @@ class Texts {
   static const String searchProduct = 'Buscar producto';
 
   // Categories
+  static const String categories = 'Categorías';
   static const String createCategory = 'Crear categoría';
   static const String updateCategory = 'Actualizar categoría';
   static const String deleteCategory = 'Eliminar categoría';

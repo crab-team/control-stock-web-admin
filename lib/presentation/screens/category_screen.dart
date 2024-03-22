@@ -1,6 +1,5 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -42,6 +41,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                     }
                     return null;
                   },
+                  onFieldSubmitted: (_) => _create(),
                 ),
                 const Gap.medium(),
                 Align(

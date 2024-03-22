@@ -20,7 +20,11 @@ class ProductsController extends AsyncNotifier<List<Product>> {
       final productsEither = await ref.read(getProductsUseCaseProvider).call();
       return productsEither.fold(
         (l) => throw l,
-        (r) => r,
+        (r) {
+          List<Product> products = r;
+          products.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+          return products;
+        },
       );
     });
 
@@ -38,9 +42,9 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     state = AsyncValue.data(
       products.where((element) {
         final byName = element.name.toLowerCase().contains(query.toLowerCase());
-        final byCode = element.id.toLowerCase().contains(query.toLowerCase());
+        final byCategory = element.category.toLowerCase().contains(query.toLowerCase());
 
-        return byName || byCode;
+        return byName || byCategory;
       }).toList(),
     );
   }

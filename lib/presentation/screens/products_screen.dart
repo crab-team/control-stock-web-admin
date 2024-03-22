@@ -1,6 +1,7 @@
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products_screen/products_appbar.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products_screen/products_data_table.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_appbar.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_chips_filter.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +26,19 @@ class ProductsScreen extends StatelessWidget {
         const Gap.medium(),
         const SizedBox(
           height: 500,
-          child: Card(
-            child: Padding(
-              padding: kPaddingAppSmall,
-              child: ProductsDataTable(),
-            ),
+          child: Column(
+            children: [
+              ChipsFilterTabBar(),
+              Gap.small(),
+              Expanded(
+                child: Card(
+                  child: Padding(
+                    padding: kPaddingAppSmall,
+                    child: ProductsDataTable(),
+                  ),
+                ),
+              ),
+            ],
           ),
         )
       ],

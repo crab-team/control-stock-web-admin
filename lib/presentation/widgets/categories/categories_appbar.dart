@@ -1,12 +1,13 @@
-import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products_screen/add_product_button.dart';
+import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/categories/add_category_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductsAppBar extends ConsumerWidget {
-  const ProductsAppBar({super.key});
+class CategoriesAppBar extends ConsumerWidget {
+  const CategoriesAppBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,17 +17,17 @@ class ProductsAppBar extends ConsumerWidget {
         Expanded(
           child: SearchBar(
             leading: const Icon(PhosphorIcons.magnifying_glass),
-            hintText: 'Buscar producto',
+            hintText: Texts.searchCategory,
             onChanged: (value) => _search(ref, value),
           ),
         ),
         const Gap.medium(isHorizontal: true),
-        const AddProductButton(),
+        const AddCategoryButton(),
       ],
     );
   }
 
   void _search(WidgetRef ref, String query) {
-    ref.read(productsControllerProvider.notifier).search(query);
+    ref.read(categoriesControllerProvider.notifier).search(query);
   }
 }
