@@ -30,6 +30,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.product != null) {
+      codeController.text = widget.product!.code;
+      nameController.text = widget.product!.name;
+      priceController.text = widget.product!.price.toString();
+      stockController.text = widget.product!.stock.toString();
+    }
   }
 
   @override
@@ -114,7 +120,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                             },
                             builder: (FormFieldState state) {
                               return CategorySelector(
-                                initialCategory: state.value,
+                                initialCategory: widget.product?.category,
                                 onCategorySelected: (value) {
                                   state.didChange(value);
                                   category = value;
@@ -147,6 +153,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
   void _onSubmit() {
     if (formKey.currentState!.validate() && category != null) {
       final product = Product(
+        id: widget.product?.id,
         code: codeController.text,
         name: nameController.text,
         price: double.parse(priceController.text),
@@ -155,7 +162,11 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
         imageUrl: '',
       );
 
-      ref.read(productsControllerProvider.notifier).create(product);
+      if (widget.product != null) {
+        ref.read(productsControllerProvider.notifier).updateProduct(product);
+      } else {
+        ref.read(productsControllerProvider.notifier).create(product);
+      }
       ref.read(navigationServiceProvider).goBack(context);
     }
   }

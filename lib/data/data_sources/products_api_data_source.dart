@@ -43,7 +43,7 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
   @override
   Future<ProductResponse> update(Product product) async {
     try {
-      final response = await apiClient.sendPut(pathProducts, body: product.toJson());
+      final response = await apiClient.sendPut('$pathProducts/${product.id}', body: product.toJson());
       final productResponse = ProductResponse.fromJson(response);
       return productResponse;
     } catch (e) {

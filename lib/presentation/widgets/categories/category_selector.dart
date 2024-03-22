@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategorySelector extends ConsumerStatefulWidget {
-  final Category? initialCategory;
+  final String? initialCategory;
   final void Function(Category?) onCategorySelected;
   const CategorySelector({super.key, this.initialCategory, required this.onCategorySelected});
 
@@ -31,6 +31,18 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
 
   @override
   Widget build(BuildContext context) {
+    if (categories.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_selectedCategory == null) {
+        _selectedCategory = categories.firstWhere((element) => element.name == widget.initialCategory);
+        widget.onCategorySelected(_selectedCategory);
+        setState(() {});
+      }
+    });
+
     return DropdownButtonFormField<Category>(
       borderRadius: BorderRadius.circular(kRadiusCornerInside),
       hint: const Text(Texts.categories),

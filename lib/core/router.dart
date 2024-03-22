@@ -24,8 +24,8 @@ class Routes {
   static const String verifyEmail = 'verifyEmail';
   static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
   static const String products = '/products';
-  static const String product = 'product/:id';
-  static const String createProduct = 'createProduct';
+  static const String product = 'product';
+  static const String createProduct = 'product/create';
   static const String categories = '/categories';
   static const String createCategory = 'createCategory';
 
@@ -95,9 +95,13 @@ class NavigationService {
                       },
                     ),
                     GoRoute(
-                      path: Routes.product,
+                      path: '${Routes.product}/:id',
                       name: Routes.names[Routes.product]!,
                       builder: (context, state) {
+                        if (state.extra == null) {
+                          goToProducts(context);
+                        }
+
                         Product product = state.extra as Product;
                         return ProductScreen(product: product);
                       },
@@ -159,7 +163,7 @@ class NavigationService {
 
   goToProducts(BuildContext context) => context.go(Routes.products);
   goToProduct(BuildContext context, Product product) =>
-      context.go('${Routes.products}${Routes.product}', extra: product);
+      context.go('${Routes.products}/${Routes.product}/${product.id}', extra: product);
   goToCreateProduct(BuildContext context) => context.go('${Routes.products}/${Routes.createProduct}');
 
   goToCategories(BuildContext context) => context.go(Routes.categories);

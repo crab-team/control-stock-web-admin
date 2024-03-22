@@ -2,6 +2,7 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/utils/price_formatter.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,10 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           size: ColumnSize.S,
         ),
         DataColumn2(
+          label: Text('Cantidad'),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
           label: Text('Imagen'),
           size: ColumnSize.L,
         ),
@@ -84,7 +89,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           ? const [
               DataRow(
                 cells: [
-                  DataCell(Text('No hay infracciones')),
+                  DataCell(Text(Texts.noProducts)),
                 ],
               ),
             ]
@@ -95,8 +100,9 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
                   cells: [
                     DataCell(Text(data[index].code.toUpperCase())),
                     DataCell(Text(data[index].name.toUpperCase())),
-                    DataCell(Text('\$${data[index].price.toString()}')),
+                    DataCell(Text(PriceFormatter.formatPrice(data[index].price))),
                     DataCell(Text(data[index].category.toUpperCase())),
+                    DataCell(_buildStock(data[index].stock)),
                     DataCell(
                         data[index].imageUrl == '' ? const Text(Texts.noImage) : Image.network(data[index].imageUrl)),
                     DataCell(Row(
@@ -114,6 +120,15 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
                 );
               },
             ),
+    );
+  }
+
+  _buildStock(int stock) {
+    return Center(
+      child: Text(
+        stock.toString(),
+        style: TextStyle(color: stock > 0 ? Colors.green : Colors.red),
+      ),
     );
   }
 
