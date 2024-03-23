@@ -1,4 +1,3 @@
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +38,16 @@ class ProductDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
+        DataCell(
+          product.qrUrl == null
+              ? const SizedBox()
+              : Image.network(
+                  product.qrUrl!,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.contain,
+                ),
+        ),
         DataCell(Text(product.code)),
         DataCell(TextFormField(
           controller: nameController,
@@ -78,13 +87,13 @@ class ProductDataTableSource extends DataTableSource {
             ButtonWithConfirmation(
               onConfirm: () => onDelete(product.id!),
             ),
-            IconButton(
-              icon: Icon(
-                PhosphorIcons.chart_pie_slice,
-                color: colorScheme.secondary,
-              ),
-              onPressed: () => onAnalytics(product),
-            ),
+            // IconButton(
+            //   icon: Icon(
+            //     PhosphorIcons.chart_pie_slice,
+            //     color: colorScheme.secondary,
+            //   ),
+            //   onPressed: () => onAnalytics(product),
+            // ),
           ],
         )),
       ],

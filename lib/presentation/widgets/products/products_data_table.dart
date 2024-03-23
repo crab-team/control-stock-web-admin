@@ -60,6 +60,11 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       rowsPerPage: 15,
       columns: const [
         DataColumn2(
+          fixedWidth: 50,
+          label: Text('QR'),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
           fixedWidth: 100,
           label: Text('Código'),
           size: ColumnSize.S,

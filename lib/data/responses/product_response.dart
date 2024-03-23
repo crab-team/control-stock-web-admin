@@ -8,6 +8,7 @@ class ProductResponse {
   final int stock;
   final String category;
   final String? imageUrl;
+  final String? qrUrl;
 
   ProductResponse({
     required this.id,
@@ -17,6 +18,7 @@ class ProductResponse {
     required this.stock,
     required this.category,
     this.imageUrl,
+    this.qrUrl,
   });
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class ProductResponse {
       price: json['price'],
       stock: json['stock'],
       category: json['category'],
+      qrUrl: json['qrURL'],
     );
   }
 
@@ -40,6 +43,7 @@ class ProductResponse {
       price: price,
       stock: stock,
       category: category,
+      qrUrl: qrUrl,
     );
   }
 }

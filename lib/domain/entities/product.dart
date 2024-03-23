@@ -6,6 +6,7 @@ class Product {
   final double price;
   final int stock;
   final String imageUrl;
+  final String? qrUrl;
 
   Product({
     this.id,
@@ -15,6 +16,7 @@ class Product {
     required this.price,
     required this.stock,
     required this.imageUrl,
+    this.qrUrl,
   });
 
   toJson() {
@@ -26,6 +28,7 @@ class Product {
       'price': price,
       'stock': stock,
       'imageUrl': imageUrl,
+      'qrUrl': qrUrl,
     };
   }
 
@@ -38,6 +41,7 @@ class Product {
       price: json['price'],
       stock: json['stock'],
       imageUrl: json['imageUrl'],
+      qrUrl: json['qrUrl'],
     );
   }
 
@@ -49,6 +53,7 @@ class Product {
     double? price,
     int? stock,
     String? imageUrl,
+    String? qrUrl,
   }) {
     return Product(
       id: id ?? this.id,
@@ -58,6 +63,7 @@ class Product {
       price: price ?? this.price,
       stock: stock ?? this.stock,
       imageUrl: imageUrl ?? this.imageUrl,
+      qrUrl: qrUrl ?? this.qrUrl,
     );
   }
 }
