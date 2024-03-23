@@ -76,7 +76,7 @@ class ProductDataTableSource extends DataTableSource {
               onPressed: () => onEdit(product),
             ),
             ButtonWithConfirmation(
-              onConfirm: () => onDelete(product.code),
+              onConfirm: () => onDelete(product.id!),
             ),
             IconButton(
               icon: Icon(
