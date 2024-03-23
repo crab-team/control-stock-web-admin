@@ -3,7 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/upload_csv_products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products/upload_products_preview_data_table.dart';
+import 'package:control_stock_web_admin/presentation/widgets/upload_products_csv/upload_products_preview_data_table.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

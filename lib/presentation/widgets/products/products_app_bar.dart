@@ -1,6 +1,6 @@
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products/upload_csv_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/upload_products_csv/upload_csv_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
