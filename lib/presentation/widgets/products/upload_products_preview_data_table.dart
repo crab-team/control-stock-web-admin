@@ -40,6 +40,14 @@ class _UploadProductsPreviewDataTableState extends ConsumerState<UploadProductsP
       return const Center(child: Text(Texts.noProducts));
     }
 
+    int countAnomalies = data.where((element) {
+      return element.name.isEmpty ||
+          element.price == 0 ||
+          element.stock == 0 ||
+          RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(element.name) ||
+          RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(element.code);
+    }).length;
+
     return Column(
       children: [
         Expanded(
@@ -57,9 +65,14 @@ class _UploadProductsPreviewDataTableState extends ConsumerState<UploadProductsP
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Text(
+                  'Hay $countAnomalies anomalias',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const Gap.small(isHorizontal: true),
                 Tooltip(
                   message:
-                      'Aquellas filas que tengan algún campo vacío, cantidad en 0 \no caracteres especiales (ejemplo: !@#<>?":_`~;|=+*&^%£ï¿½),\nserán marcadas en naranja como aviso de que pueden contener errores que impidan su guardado.',
+                      'Aquellas filas que tengan algún campo vacío, valor en 0 \no caracteres especiales (ejemplo: !@#<>?":_`~;|=+*&^%£ï¿½),\nserán marcadas en naranja como aviso de que pueden contener errores que impidan su guardado.',
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 12,

@@ -51,6 +51,7 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
   }
 
   delete(String id) async {
+    final products = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(deleteProductUseCaseProvider).execute(id);
@@ -63,11 +64,11 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
       );
     });
 
-    products = state.asData?.value ?? [];
-    return products;
+    sortByName();
   }
 
   create(Product product) async {
+    final products = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
@@ -80,11 +81,11 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
       );
     });
 
-    products = state.asData?.value ?? [];
-    return products;
+    sortByName();
   }
 
   updateProduct(Product product) async {
+    final products = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductUseCaseProvider).execute(product);
@@ -98,7 +99,11 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
       );
     });
 
-    products = state.asData?.value ?? [];
-    return products;
+    sortByName();
+  }
+
+  sortByName() {
+    products.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    state = AsyncValue.data(products);
   }
 }
