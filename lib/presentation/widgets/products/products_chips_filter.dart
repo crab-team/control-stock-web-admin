@@ -20,7 +20,7 @@ class _ChipsFilterTabBarState extends ConsumerState<ChipsFilterTabBar> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(categoriesFutureProvider.future).then((value) {
+      ref.read(categoriesControllerProvider.future).then((value) {
         categories = value;
         setState(() {});
       });
@@ -29,17 +29,29 @@ class _ChipsFilterTabBarState extends ConsumerState<ChipsFilterTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Wrap(
-        alignment: WrapAlignment.start,
-        runSpacing: 8,
-        spacing: 8,
-        children: [
-          _buildFilter('Todos'),
-          ...categories.map((category) => _buildFilter(category.name)),
-        ],
-      ),
+    final state = ref.watch(categoriesControllerProvider);
+
+    return state.when(
+      data: (values) {
+        return SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            runSpacing: 8,
+            spacing: 8,
+            children: [
+              _buildFilter('Todos'),
+              ...categories.map((category) => _buildFilter(category.name)),
+            ],
+          ),
+        );
+      },
+      loading: () {
+        return const Center(child: CircularProgressIndicator());
+      },
+      error: (error, stackTrace) {
+        return Center(child: Text('Error: $error'));
+      },
     );
   }
 

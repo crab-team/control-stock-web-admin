@@ -4,20 +4,6 @@ import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final categoriesFutureProvider = FutureProvider.autoDispose<List<Category>>(
-  (ref) async {
-    final categoriesEither = await ref.read(getCategoriesUseCaseProvider).execute();
-    return categoriesEither.fold(
-      (l) => throw l,
-      (r) {
-        List<Category> categories = r;
-        categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-        return categories;
-      },
-    );
-  },
-);
-
 final categoriesControllerProvider =
     AutoDisposeAsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
 
@@ -40,6 +26,8 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
     });
 
     categories = state.asData?.value ?? [];
+
+    sortByName();
     return categories;
   }
 
@@ -61,6 +49,7 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
   }
 
   delete(String id) async {
+    final categories = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(deleteCategoryUseCaseProvider).execute(id);
@@ -72,9 +61,11 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
         },
       );
     });
+    sortByName();
   }
 
   create(String category) async {
+    List<Category> categories = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(createCategoryUseCaseProvider).execute(category);
@@ -87,11 +78,11 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
       );
     });
 
-    categories = state.asData?.value ?? [];
-    return categories;
+    sortByName();
   }
 
   updateCategory(Category category) async {
+    final categories = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(updateCategoryUseCaseProvider).execute(category);
@@ -104,8 +95,12 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
         },
       );
     });
+    sortByName();
+  }
 
-    categories = state.asData?.value ?? [];
-    return categories;
+  sortByName() {
+    final categories = state.asData?.value ?? [];
+    categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    state = AsyncValue.data(categories);
   }
 }

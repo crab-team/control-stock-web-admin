@@ -7,6 +7,7 @@ class AssetsImages {
 class Texts {
   static const String accept = 'Aceptar';
   static const String cancel = 'Cancelar';
+  static const String save = 'Guardar';
   static const String add = 'Agregar';
   static const String delete = 'Eliminar';
   static const String update = 'Actualizar';
@@ -18,6 +19,7 @@ class Texts {
   static const String code = 'Código';
   static const String loading = 'Cargando...';
   static const String noImage = 'Sin imagen';
+  static const String noData = 'No hay datos';
 
   // Products
   static const String createProduct = 'Crear producto';

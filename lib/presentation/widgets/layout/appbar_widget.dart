@@ -17,7 +17,7 @@ class AppBarWidget extends ConsumerWidget {
         ),
       ),
       child: Padding(
-        padding: kPaddingAppHorizontalLarge,
+        padding: kPaddingAppHorizontalSmall,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

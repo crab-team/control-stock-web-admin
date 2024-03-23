@@ -1,8 +1,8 @@
 import 'package:control_stock_web_admin/core/router.dart';
+import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/utils/price_formatter.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +32,8 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
     final state = ref.watch(productsControllerProvider);
 
     return state.when(
-      data: (infractions) {
-        return _buildDataTable(infractions);
+      data: (values) {
+        return _buildDataTable(values);
       },
       loading: () {
         return const Center(child: CircularProgressIndicator());
@@ -49,14 +49,19 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       return const Center(child: Text(Texts.noProducts));
     }
 
-    return DataTable2(
-      showBottomBorder: false,
-      columnSpacing: 12,
-      horizontalMargin: 12,
-      minWidth: 600,
+    return PaginatedDataTable2(
+      border: TableBorder(
+        horizontalInside: BorderSide(color: colorScheme.secondaryContainer),
+        verticalInside: BorderSide(color: colorScheme.secondaryContainer),
+        bottom: BorderSide(color: colorScheme.secondaryContainer),
+      ),
+      minWidth: 1200,
       dataTextStyle: Theme.of(context).textTheme.bodyLarge,
+      columnSpacing: 12,
+      rowsPerPage: 15,
       columns: const [
         DataColumn2(
+          fixedWidth: 100,
           label: Text('Código'),
           size: ColumnSize.S,
         ),
@@ -67,6 +72,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         DataColumn2(
           label: Text('Precio'),
           size: ColumnSize.S,
+          fixedWidth: 150,
         ),
         DataColumn2(
           label: Text('Categoria'),
@@ -75,59 +81,18 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         DataColumn2(
           label: Text('Cantidad'),
           size: ColumnSize.S,
+          fixedWidth: 100,
         ),
-        DataColumn2(
-          label: Text('Imagen'),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text('Acciones'),
-          size: ColumnSize.S,
-        ),
+        DataColumn2(label: Text('Acciones'), size: ColumnSize.S, fixedWidth: 200),
       ],
-      rows: data.isEmpty
-          ? const [
-              DataRow(
-                cells: [
-                  DataCell(Text(Texts.noProducts)),
-                ],
-              ),
-            ]
-          : List<DataRow>.generate(
-              data.length,
-              (index) {
-                return DataRow(
-                  cells: [
-                    DataCell(Text(data[index].code.toUpperCase())),
-                    DataCell(Text(data[index].name.toUpperCase())),
-                    DataCell(Text(PriceFormatter.formatPrice(data[index].price))),
-                    DataCell(Text(data[index].category.toUpperCase())),
-                    DataCell(_buildStock(data[index].stock)),
-                    DataCell(
-                        data[index].imageUrl == '' ? const Text(Texts.noImage) : Image.network(data[index].imageUrl)),
-                    DataCell(Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(PhosphorIcons.pencil),
-                          onPressed: () => _onUpdate(data[index]),
-                        ),
-                        ButtonWithConfirmation(
-                          onConfirm: () => _delete(data[index].id as String),
-                        ),
-                      ],
-                    )),
-                  ],
-                );
-              },
-            ),
-    );
-  }
-
-  _buildStock(int stock) {
-    return Center(
-      child: Text(
-        stock.toString(),
-        style: TextStyle(color: stock > 0 ? Colors.green : Colors.red),
+      source: MyDataSource(
+        data: data,
+        onDelete: _delete,
+        onChangeAnyValue: (productUpdated) {
+          ref.read(productsControllerProvider.notifier).updateProduct(productUpdated);
+        },
+        onEdit: _onEdit,
+        onAnalytics: _goToAnalitycs,
       ),
     );
   }
@@ -136,7 +101,105 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
     ref.read(productsControllerProvider.notifier).delete(id);
   }
 
-  void _onUpdate(Product product) {
+  void _onEdit(Product product) {
     ref.read(navigationServiceProvider).goToProduct(context, product);
   }
+
+  void _goToAnalitycs(Product product) {
+    ref.read(navigationServiceProvider).goToProductAnalytics(context, product);
+  }
+}
+
+class MyDataSource extends DataTableSource {
+  final List<Product> _data;
+  final Function(String code) onDelete;
+  final Function(Product product) onEdit;
+  final Function(Product code) onAnalytics;
+  final Function(Product productUpdated) onChangeAnyValue;
+
+  MyDataSource({
+    List<Product>? data,
+    required this.onDelete,
+    required this.onChangeAnyValue,
+    required this.onEdit,
+    required this.onAnalytics,
+  }) : _data = data ?? <Product>[];
+
+  @override
+  int get rowCount => _data.length;
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= _data.length) {
+      return null;
+    }
+
+    final product = _data[index];
+    TextEditingController nameController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
+    TextEditingController stockController = TextEditingController();
+    nameController.text = product.name.toUpperCase();
+    priceController.text = product.price.toString();
+    stockController.text = product.stock.toString();
+
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Text(product.code)),
+        DataCell(TextFormField(
+          controller: nameController,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            fillColor: Colors.transparent,
+            border: InputBorder.none,
+          ),
+          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(name: value)),
+        )),
+        DataCell(TextFormField(
+          controller: priceController,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            fillColor: Colors.transparent,
+            border: InputBorder.none,
+            prefix: Text('\$ '),
+          ),
+          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(price: double.tryParse(value) ?? 0.0)),
+        )),
+        DataCell(Text(product.category.toUpperCase())),
+        DataCell(TextFormField(
+          controller: stockController,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            fillColor: Colors.transparent,
+            border: InputBorder.none,
+          ),
+          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(stock: int.tryParse(value) ?? 0)),
+        )),
+        DataCell(Row(
+          children: [
+            IconButton(
+              icon: const Icon(PhosphorIcons.pencil),
+              onPressed: () => onEdit(product),
+            ),
+            ButtonWithConfirmation(
+              onConfirm: () => onDelete(product.code),
+            ),
+            IconButton(
+              icon: Icon(
+                PhosphorIcons.chart_pie_slice,
+                color: colorScheme.secondary,
+              ),
+              onPressed: () => onAnalytics(product),
+            ),
+          ],
+        )),
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
 }

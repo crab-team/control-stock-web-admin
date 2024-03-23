@@ -22,7 +22,7 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(categoriesFutureProvider.future).then((value) {
+      ref.read(categoriesControllerProvider.future).then((value) {
         categories = value;
         setState(() {});
       });
@@ -31,37 +31,45 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
 
   @override
   Widget build(BuildContext context) {
-    if (categories.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    final state = ref.watch(categoriesControllerProvider);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_selectedCategory == null) {
-        _selectedCategory = categories.firstWhere((element) => element.name == widget.initialCategory);
-        widget.onCategorySelected(_selectedCategory);
-        setState(() {});
-      }
-    });
+    return state.when(
+      data: (values) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_selectedCategory == null && categories.isNotEmpty && widget.initialCategory != null) {
+            _selectedCategory = categories.firstWhere((element) => element.name == widget.initialCategory);
+            widget.onCategorySelected(_selectedCategory);
+            setState(() {});
+          }
+        });
 
-    return DropdownButtonFormField<Category>(
-      borderRadius: BorderRadius.circular(kRadiusCornerInside),
-      hint: const Text(Texts.categories),
-      value: _selectedCategory,
-      validator: (value) {
-        if (value == null) {
-          return Texts.requiredField;
-        }
-        return null;
+        return DropdownButtonFormField<Category>(
+          borderRadius: BorderRadius.circular(kRadiusCornerInside),
+          hint: const Text(Texts.categories),
+          value: _selectedCategory,
+          validator: (value) {
+            if (value == null) {
+              return Texts.requiredField;
+            }
+            return null;
+          },
+          onChanged: (Category? value) => _onChange(value?.id),
+          items: categories
+              .map<DropdownMenuItem<Category>>(
+                (Category category) => DropdownMenuItem<Category>(
+                  value: category,
+                  child: Text(category.name.toUpperCase()),
+                ),
+              )
+              .toList(),
+        );
       },
-      onChanged: (Category? value) => _onChange(value?.id),
-      items: categories
-          .map<DropdownMenuItem<Category>>(
-            (Category category) => DropdownMenuItem<Category>(
-              value: category,
-              child: Text(category.name.toUpperCase()),
-            ),
-          )
-          .toList(),
+      loading: () {
+        return const Center(child: CircularProgressIndicator());
+      },
+      error: (error, stackTrace) {
+        return Center(child: Text('Error: $error'));
+      },
     );
   }
 

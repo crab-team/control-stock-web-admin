@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const kPaddingApp = EdgeInsets.all(100.0);
 const kPaddingAppSmall = EdgeInsets.all(24.0);
 const kPaddingAppHorizontal = EdgeInsets.symmetric(horizontal: 52.0);
+const kPaddingAppHorizontalSmall = EdgeInsets.symmetric(horizontal: 24.0);
 const kPaddingAppHorizontalLarge = EdgeInsets.symmetric(horizontal: 100.0);
 const kRadiusCornerOutside = 16.0;
 const kRadiusCornerInside = 8.0;

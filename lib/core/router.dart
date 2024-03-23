@@ -1,13 +1,14 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/entities/user.dart';
 import 'package:control_stock_web_admin/presentation/providers/users/user_controller.dart';
-import 'package:control_stock_web_admin/presentation/screens/categories_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/category_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/email_link_confirmation_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/product_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/products_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/verify_email_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/sign_in_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/email_link_confirmation_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/products/product_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -25,6 +26,8 @@ class Routes {
   static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
   static const String products = '/products';
   static const String product = 'product';
+  static const String productAnalitycs = 'product/analytics';
+  static const String productsUploadCsv = 'uploadCsv';
   static const String createProduct = 'product/create';
   static const String categories = '/categories';
   static const String createCategory = 'createCategory';
@@ -35,6 +38,8 @@ class Routes {
     products: 'Productos',
     createProduct: 'Crear producto',
     product: 'Actualizar producto',
+    productAnalitycs: 'Análisis de producto',
+    productsUploadCsv: 'Subir productos',
     verifyEmail: 'Verificar email',
     emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
@@ -106,6 +111,25 @@ class NavigationService {
                         return ProductScreen(product: product);
                       },
                     ),
+                    GoRoute(
+                      path: '${Routes.productAnalitycs}/:id',
+                      name: Routes.names[Routes.productAnalitycs]!,
+                      builder: (context, state) {
+                        if (state.extra == null) {
+                          goToProducts(context);
+                        }
+
+                        Product product = state.extra as Product;
+                        return ProductScreen(product: product);
+                      },
+                    ),
+                    GoRoute(
+                      path: Routes.productsUploadCsv,
+                      name: Routes.names[Routes.productsUploadCsv]!,
+                      builder: (context, state) {
+                        return const UploadCsvProductsScreen();
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -165,6 +189,9 @@ class NavigationService {
   goToProduct(BuildContext context, Product product) =>
       context.go('${Routes.products}/${Routes.product}/${product.id}', extra: product);
   goToCreateProduct(BuildContext context) => context.go('${Routes.products}/${Routes.createProduct}');
+  goToProductAnalytics(BuildContext context, Product product) =>
+      context.go('${Routes.products}/${Routes.product}/${product.id}/analytics');
+  goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
 
   goToCategories(BuildContext context) => context.go(Routes.categories);
   goToCreateCategory(BuildContext context) => context.go('${Routes.categories}/${Routes.createCategory}');
