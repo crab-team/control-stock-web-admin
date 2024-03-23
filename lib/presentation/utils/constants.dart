@@ -28,6 +28,8 @@ class Texts {
   static const String deleteProductConfirmation = '¿Está seguro que desea eliminar este producto?';
   static const String noProducts = 'No hay productos';
   static const String searchProduct = 'Buscar producto';
+  static const String uploadCsvProductsScreenTitle = 'Subir productos desde CSV';
+  static const String uploadCsv = 'Subir CSV';
 
   // Categories
   static const String categories = 'Categorías';

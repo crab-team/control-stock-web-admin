@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
-import 'package:control_stock_web_admin/utils/csv_loader.dart';
+import 'package:control_stock_web_admin/utils/products_csv_loader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final uploadCsvProductsControllerProvider =
@@ -15,20 +15,30 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
   }
 
   upload(String category) async {
-    state = const AsyncValue.loading();
-    final csv = await CsvLoader.upload();
-    List<Product> products = [];
-    products = await Future.value(csv
-        .map((e) => Product(
-              code: e.code!,
-              name: e.name!,
-              category: category,
-              price: e.price!,
-              stock: e.stock!,
-              imageUrl: '',
-            ))
-        .toList());
-    state = AsyncValue.data(products);
+    try {
+      state = const AsyncValue.loading();
+      final csv = await ProductsCsvLoader.upload();
+      List<Product> products = [];
+
+      csv.fold(
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          products = r
+              .map((e) => Product(
+                    code: e.code!,
+                    name: e.name!,
+                    category: category,
+                    price: e.price!,
+                    stock: e.stock!,
+                    imageUrl: '',
+                  ))
+              .toList();
+          state = AsyncValue.data(products);
+        },
+      );
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
   }
 
   delete(String code) {

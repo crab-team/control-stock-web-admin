@@ -47,3 +47,10 @@ class CacheFailure extends Failure {
 class NoUserStored extends Failure {
   NoUserStored({message = 'No hay usuario almacenado'}) : super(message);
 }
+
+// Upload csv
+class FormatFailure extends Failure {
+  FormatFailure(
+      {message = 'Error en alguno de los campos que se esta intentando subir. Revise el csv y vuelva a intentarlo'})
+      : super(message);
+}

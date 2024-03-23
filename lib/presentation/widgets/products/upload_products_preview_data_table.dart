@@ -7,6 +7,7 @@ import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.d
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UploadProductsPreviewDataTable extends ConsumerStatefulWidget {
@@ -29,7 +30,7 @@ class _UploadProductsPreviewDataTableState extends ConsumerState<UploadProductsP
         return const Center(child: CircularProgressIndicator());
       },
       error: (error, stackTrace) {
-        return Center(child: Text('Error: $error'));
+        return Center(child: Text('$error'));
       },
     );
   }
@@ -47,10 +48,30 @@ class _UploadProductsPreviewDataTableState extends ConsumerState<UploadProductsP
               horizontalInside: BorderSide(color: colorScheme.secondaryContainer),
               verticalInside: BorderSide(color: colorScheme.secondaryContainer),
               bottom: BorderSide(color: colorScheme.secondaryContainer),
+              top: BorderSide(color: colorScheme.secondaryContainer),
             ),
             minWidth: 1200,
             dataTextStyle: Theme.of(context).textTheme.bodyLarge,
             columnSpacing: 12,
+            header: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Tooltip(
+                  message:
+                      'Aquellas filas que tengan algún campo vacío, cantidad en 0 \no caracteres especiales (ejemplo: !@#<>?":_`~;|=+*&^%£ï¿½),\nserán marcadas en naranja como aviso de que pueden contener errores que impidan su guardado.',
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 12,
+                    child: Icon(
+                      PhosphorIcons.info,
+                      size: 24,
+                      color: colorScheme.tertiary,
+                    ),
+                  ),
+                )
+              ],
+            ),
             columns: const [
               DataColumn2(
                 fixedWidth: 100,

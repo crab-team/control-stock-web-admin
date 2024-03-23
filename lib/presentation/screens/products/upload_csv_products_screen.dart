@@ -1,6 +1,7 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/upload_csv_products_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/upload_products_preview_data_table.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -25,7 +26,7 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Subir productos desde CSV',
+            Texts.uploadCsvProductsScreenTitle,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
@@ -48,7 +49,7 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
                       ElevatedButton.icon(
                           icon: const Icon(Icons.upload),
                           onPressed: () => category != null ? _upload() : null,
-                          label: const Text('Subir CSV'),
+                          label: const Text(Texts.uploadCsv),
                           style: ElevatedButton.styleFrom(
                             enabledMouseCursor:
                                 category != null ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
