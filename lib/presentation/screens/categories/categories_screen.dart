@@ -10,21 +10,13 @@ class CategoriesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          padding: kPaddingAppSmall.copyWith(top: 12, bottom: 12),
-          decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(kRadiusCornerOutside),
-          ),
-          child: const CategoriesAppBar(),
-        ),
-        const Gap.medium(),
-        const SizedBox(
+        CategoriesAppBar(),
+        Gap.medium(),
+        SizedBox(
           height: 500,
           child: Card(
             child: Padding(

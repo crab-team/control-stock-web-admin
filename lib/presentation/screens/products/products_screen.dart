@@ -1,4 +1,3 @@
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_app_bar.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_chips_filter.dart';
@@ -10,25 +9,17 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          padding: kPaddingAppSmall.copyWith(top: 12, bottom: 12),
-          decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(kRadiusCornerOutside),
-          ),
-          child: const ProductsAppBar(),
-        ),
-        const Gap.medium(),
-        const Expanded(
+        ProductsAppBar(),
+        Gap.medium(),
+        Expanded(
           child: Column(
             children: [
               ChipsFilterTabBar(),
-              Gap.small(),
+              Gap.medium(),
               Expanded(
                 child: ProductsDataTable(),
               ),

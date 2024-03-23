@@ -29,7 +29,6 @@ class SidebarWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            height: 120,
             padding: kPaddingAppSmall,
             child: const LogoWidget.horizontal(size: 52),
           ),
