@@ -1,4 +1,4 @@
-import 'package:control_stock_web_admin/data/data_sources/products_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/products/products_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/models/product_model.dart';
 import 'package:control_stock_web_admin/data/responses/product_response.dart';
 import 'package:control_stock_web_admin/data/utils/constants.dart';

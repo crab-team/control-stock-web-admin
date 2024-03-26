@@ -12,13 +12,7 @@ class ProductsScreen extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: ProductsDataTable(),
-              ),
-            ],
-          ),
+          child: ProductsDataTable(),
         )
       ],
     );

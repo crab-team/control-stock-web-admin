@@ -1,4 +1,4 @@
-import 'package:control_stock_web_admin/data/data_sources/categories_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/categories/categories_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/responses/category_response.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';

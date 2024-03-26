@@ -101,6 +101,8 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     sortByName();
   }
 
+  updateCashPaymentPercentage(double value) {}
+
   sortByName() {
     products.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     state = AsyncValue.data(products);

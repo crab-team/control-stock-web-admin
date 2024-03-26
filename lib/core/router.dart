@@ -161,12 +161,11 @@ class NavigationService {
       redirect: (context, state) async {
         final token = state.pathParameters['token'];
         User? user = await ref.watch(userControllerProvider.future);
-        bool hasSavedToken = user != null;
+        bool hasSavedUser = user != null;
         bool isSignInScreen = state.uri.path == Routes.signIn;
         bool isSignInConfirmed = state.uri.path == Routes.verifyEmail;
-        bool hasEmailToken = token != null;
 
-        if (!hasSavedToken && !isSignInScreen && !isSignInConfirmed && !hasEmailToken) {
+        if (!hasSavedUser && !isSignInScreen && !isSignInConfirmed) {
           return Routes.signIn;
         }
 

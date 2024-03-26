@@ -1,5 +1,5 @@
 import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
-import 'package:control_stock_web_admin/data/data_sources/products_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/products/products_remote_data_source.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/repositories/products_repository.dart';
 import 'package:dartz/dartz.dart';
