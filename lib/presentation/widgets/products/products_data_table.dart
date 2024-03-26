@@ -110,17 +110,15 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   }
 
   void _update(Product productUpdated) {
-    (productUpdated) {
-      Product product = Product(
-        id: productUpdated.id,
-        code: productUpdated.code,
-        name: productUpdated.name,
-        costPrice: productUpdated.costPrice,
-        stock: productUpdated.stock,
-        category: productUpdated.category,
-        imageUrl: '',
-      );
-      ref.read(productsControllerProvider.notifier).updateProduct(product);
-    };
+    Product product = Product(
+      id: productUpdated.id,
+      code: productUpdated.code,
+      name: productUpdated.name,
+      costPrice: productUpdated.costPrice,
+      stock: productUpdated.stock,
+      category: productUpdated.category,
+      imageUrl: '',
+    );
+    ref.read(productsControllerProvider.notifier).updateProduct(product);
   }
 }

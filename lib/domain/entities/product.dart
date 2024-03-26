@@ -1,3 +1,4 @@
+import 'package:control_stock_web_admin/data/models/product_model.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 
 class Product {
@@ -72,6 +73,28 @@ class Product {
       imageUrl: imageUrl ?? this.imageUrl,
       qrCodeUrl: qrCodeUrl ?? this.qrCodeUrl,
       publicPrice: publicPrice ?? this.publicPrice,
+    );
+  }
+
+  ProductModel toCreateProductJson() {
+    return ProductModel(
+      code: code,
+      name: name,
+      costPrice: costPrice,
+      stock: stock,
+      categoryId: category.id,
+    );
+  }
+
+  ProductModel toUpdateProductJson() {
+    return ProductModel(
+      id: id,
+      code: code,
+      name: name,
+      costPrice: costPrice,
+      stock: stock,
+      categoryId: category.id,
+      imageUrl: imageUrl,
     );
   }
 }

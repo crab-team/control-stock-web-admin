@@ -1,14 +1,14 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/entities/user.dart';
 import 'package:control_stock_web_admin/presentation/providers/users/user_controller.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/email_link_confirmation_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/auth/email_link_confirmation_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -90,7 +90,9 @@ class NavigationService {
                 GoRoute(
                   path: Routes.products,
                   name: Routes.names[Routes.products]!,
-                  builder: (context, state) => const ProductsScreen(),
+                  builder: (context, state) {
+                    return const ProductsScreen();
+                  },
                   routes: [
                     GoRoute(
                       path: Routes.createProduct,

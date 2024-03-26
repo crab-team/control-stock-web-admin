@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
@@ -73,14 +71,16 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
 
   saveCsvProducts() async {
     final products = state.asData!.value;
-    List<Product> productsNotSaved = [];
-    state = const AsyncValue.loading();
-    Future.wait(
-      products.map((e) async {
-        final response = await ref.read(createProductUseCaseProvider).execute(e);
-        response.fold((l) => productsNotSaved.add(e), (r) {});
-      }),
-    ).whenComplete(() => state = AsyncValue.data(productsNotSaved));
+    try {
+      state = const AsyncValue.loading();
+      final result = await ref.read(createProductsUseCaseProvider).execute(products);
+      result.fold(
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = const AsyncValue.data([]),
+      );
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
   }
 
   clear() {

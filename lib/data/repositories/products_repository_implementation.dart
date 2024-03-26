@@ -12,7 +12,8 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   @override
   Future<Either<Failure, Product>> create(Product product) async {
     try {
-      final productResponse = await productsRemoteDataSource.add(product);
+      final productModel = product.toCreateProductJson();
+      final productResponse = await productsRemoteDataSource.add(productModel);
       return Right(productResponse.toDomain());
     } catch (e) {
       return Left(Failure('Error al crear el producto'));
@@ -48,8 +49,20 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   @override
   Future<Either<Failure, Product>> update(Product product) async {
     try {
-      final productResponse = await productsRemoteDataSource.update(product);
+      final productModel = product.toUpdateProductJson();
+      final productResponse = await productsRemoteDataSource.update(productModel);
       return Right(productResponse.toDomain());
+    } catch (e) {
+      return Left(Failure('Error al actualizar el producto'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createProducts(List<Product> products) async {
+    try {
+      final productsModel = products.map((e) => e.toCreateProductJson()).toList();
+      await productsRemoteDataSource.addProducts(productsModel);
+      return const Right(null);
     } catch (e) {
       return Left(Failure('Error al actualizar el producto'));
     }

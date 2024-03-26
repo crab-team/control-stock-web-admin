@@ -44,6 +44,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                     return null;
                   },
                 ),
+                const Gap.small(),
                 TextFormField(
                   controller: percentageProfitController,
                   decoration: const InputDecoration(labelText: Texts.percentageProfit),

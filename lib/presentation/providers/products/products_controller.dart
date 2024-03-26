@@ -24,7 +24,6 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     });
 
     products = state.asData?.value ?? [];
-    print('Products: $products');
     sortByName();
   }
 
@@ -37,10 +36,11 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     state = const AsyncValue.loading();
     state = AsyncValue.data(
       products.where((element) {
+        final byCode = element.code.toLowerCase().contains(query.toLowerCase());
         final byName = element.name.toLowerCase().contains(query.toLowerCase());
         final byCategory = element.category.name.toLowerCase().contains(query.toLowerCase());
 
-        return byName || byCategory;
+        return byCode || byName || byCategory;
       }).toList(),
     );
   }
@@ -71,6 +71,21 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
       });
     });
 
+    sortByName();
+  }
+
+  createProducts(List<Product> products) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final productsEither = await ref.read(createProductsUseCaseProvider).execute(products);
+      productsEither.leftMap((l) {
+        throw l.message;
+      });
+
+      return [];
+    });
+
+    await getAll();
     sortByName();
   }
 

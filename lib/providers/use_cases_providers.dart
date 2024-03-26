@@ -7,6 +7,7 @@ import 'package:control_stock_web_admin/domain/use_cases/categories/delete_categ
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/update_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_product.dart';
+import 'package:control_stock_web_admin/domain/use_cases/products/create_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/delete_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_products.dart';
@@ -44,6 +45,10 @@ final updateProductUseCaseProvider = Provider<UpdateProduct>((ref) {
 
 final createProductUseCaseProvider = Provider<CreateProduct>((ref) {
   return CreateProduct(ref.read(productsRepositoryProvider));
+});
+
+final createProductsUseCaseProvider = Provider<CreateProducts>((ref) {
+  return CreateProducts(ref.read(productsRepositoryProvider));
 });
 
 final deleteProductUseCaseProvider = Provider<DeleteProduct>((ref) {

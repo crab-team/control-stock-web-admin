@@ -1,4 +1,5 @@
 import 'package:control_stock_web_admin/core/router.dart';
+import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
@@ -131,10 +132,22 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                           const Gap.small(),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: ElevatedButton.icon(
-                              icon: const Icon(Icons.save),
-                              onPressed: () => _onSubmit(),
-                              label: Text(widget.product != null ? 'Editar' : 'Agregar'),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ElevatedButton.icon(
+                                  icon: const Icon(Icons.cancel),
+                                  onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+                                  label: const Text('Cancelar'),
+                                ),
+                                const Gap.medium(isHorizontal: true),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
+                                  icon: const Icon(Icons.save),
+                                  onPressed: () => _onSubmit(),
+                                  label: Text(widget.product != null ? 'Editar' : 'Agregar'),
+                                ),
+                              ],
                             ),
                           ),
                         ],

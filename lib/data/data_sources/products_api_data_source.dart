@@ -1,7 +1,7 @@
 import 'package:control_stock_web_admin/data/data_sources/products_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/models/product_model.dart';
 import 'package:control_stock_web_admin/data/responses/product_response.dart';
 import 'package:control_stock_web_admin/data/utils/constants.dart';
-import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 
@@ -11,12 +11,14 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
   ProductsApiDataSource(this.apiClient);
 
   @override
-  Future<ProductResponse> add(Product product) async {
+  Future<ProductResponse> add(ProductModel product) async {
     try {
-      final response = await apiClient.sendPost(pathProducts, body: product.toJson());
+      final body = product.toCreateProductJson();
+      final response = await apiClient.sendPost(pathProducts, body: body);
       final productResponse = ProductResponse.fromJson(response);
       return productResponse;
     } catch (e) {
+      logger.e(e);
       rethrow;
     }
   }
@@ -26,6 +28,7 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
     try {
       return await apiClient.sendDelete('$pathProducts/$id');
     } catch (e) {
+      logger.e(e);
       rethrow;
     }
   }
@@ -42,12 +45,27 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
   }
 
   @override
-  Future<ProductResponse> update(Product product) async {
+  Future<ProductResponse> update(ProductModel product) async {
     try {
-      final response = await apiClient.sendPut('$pathProducts/${product.id}', body: product.toJson());
+      final body = product.toUpdateProductJson();
+      final response = await apiClient.sendPut('$pathProducts/${product.id}', body: body);
       final productResponse = ProductResponse.fromJson(response);
       return productResponse;
     } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addProducts(List<ProductModel> products) async {
+    try {
+      final body = {
+        'products': products.map((e) => e.toCreateProductJson()).toList(),
+      };
+      return await apiClient.sendPost('$pathProducts/bulk', body: body);
+    } catch (e) {
+      logger.e(e);
       rethrow;
     }
   }

@@ -95,7 +95,7 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
         );
       },
       loading: () {
-        return const Center(child: CircularProgressIndicator());
+        return Text(Texts.loading, style: Theme.of(context).textTheme.bodyMedium);
       },
       error: (error, stackTrace) {
         return Center(child: Text('Error: $error'));
