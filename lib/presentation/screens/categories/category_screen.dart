@@ -4,6 +4,7 @@ import 'package:control_stock_web_admin/presentation/providers/categories/catego
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryScreen extends ConsumerStatefulWidget {
@@ -16,6 +17,7 @@ class CategoryScreen extends ConsumerStatefulWidget {
 class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController percentageProfitController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,17 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(labelText: Texts.name),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return Texts.requiredField;
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: percentageProfitController,
+                  decoration: const InputDecoration(labelText: Texts.percentageProfit),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) {
                     if (value!.isEmpty) {
                       return Texts.requiredField;
@@ -61,7 +74,10 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
 
   void _create() {
     if (formKey.currentState!.validate()) {
-      ref.read(categoriesControllerProvider.notifier).create(nameController.text);
+      ref.read(categoriesControllerProvider.notifier).create(
+            nameController.text,
+            double.parse(percentageProfitController.text),
+          );
       ref.read(navigationServiceProvider).goToCategories(context);
     }
   }

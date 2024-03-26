@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:control_stock_web_admin/utils/products_csv_loader.dart';
@@ -14,7 +15,7 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
     return [];
   }
 
-  upload(String category) async {
+  upload(Category category) async {
     try {
       state = const AsyncValue.loading();
       final csv = await ProductsCsvLoader.upload();
@@ -28,7 +29,7 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
                     code: e.code!,
                     name: e.name!,
                     category: category,
-                    price: e.price!,
+                    costPrice: e.price!,
                     stock: e.stock!,
                     imageUrl: '',
                   ))
@@ -60,7 +61,7 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
         products[index] = product.copyWith(name: value);
         break;
       case 'price':
-        products[index] = product.copyWith(price: double.tryParse(value) ?? 0.0);
+        products[index] = product.copyWith(costPrice: double.tryParse(value) ?? 0.0);
         break;
       case 'stock':
         products[index] = product.copyWith(stock: int.tryParse(value) ?? 0);

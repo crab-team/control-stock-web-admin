@@ -25,9 +25,9 @@ class CategoriesApiDataSource implements CategoriesRemoteDataSource {
   }
 
   @override
-  Future<CategoryResponse> addCategory(String category) async {
+  Future<CategoryResponse> addCategory(String category, double percentageProfit) async {
     try {
-      final body = {"name": category};
+      final body = {"name": category, "percentageProfit": percentageProfit};
       final response = await apiClient.sendPost(path, body: body);
       final categoryResponse = CategoryResponse.fromJson(response);
       return categoryResponse;
@@ -50,7 +50,7 @@ class CategoriesApiDataSource implements CategoriesRemoteDataSource {
   }
 
   @override
-  Future<void> deleteCategory(String id) async {
+  Future<void> deleteCategory(int id) async {
     try {
       await apiClient.sendDelete('$path/$id');
     } catch (e) {

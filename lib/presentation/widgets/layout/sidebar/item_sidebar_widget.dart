@@ -13,7 +13,12 @@ class ItemSidebarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isCurrent ? colorScheme.primary : Colors.transparent,
+        gradient: isCurrent
+            ? LinearGradient(colors: [
+                colorScheme.primary,
+                colorScheme.secondary.withOpacity(0.5),
+              ])
+            : null,
       ),
       child: ListTile(
         leading: icon != null

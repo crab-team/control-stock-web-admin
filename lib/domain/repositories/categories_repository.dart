@@ -4,8 +4,8 @@ import 'package:dartz/dartz.dart';
 
 abstract class CategoriesRepository {
   Future<Either<Failure, List<Category>>> getAll();
-  Future<Either<Failure, Category>> get(String id);
-  Future<Either<Failure, Category>> create(String categoryName);
+  Future<Either<Failure, Category>> get(int id);
+  Future<Either<Failure, Category>> create(String categoryName, double percentageProfit);
   Future<Either<Failure, Category>> update(Category category);
-  Future<Either<Failure, void>> delete(String id);
+  Future<Either<Failure, void>> delete(int id);
 }

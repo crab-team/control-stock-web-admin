@@ -1,18 +1,20 @@
 class Category {
-  final String id;
+  final int id;
   final String name;
+  final double percentageProfit;
 
-  Category({required this.id, required this.name});
+  Category({required this.id, required this.name, required this.percentageProfit});
 
   @override
   String toString() {
-    return 'Category{id: $id, name $name}';
+    return 'Category{id: $id, name $name, percentageProfit: $percentageProfit}';
   }
 
   toJson() {
     return {
       'id': id,
       'name': name,
+      'percentageProfit': percentageProfit,
     };
   }
 
@@ -20,6 +22,19 @@ class Category {
     return Category(
       id: map['id'],
       name: map['name'],
+      percentageProfit: map['percentageProfit'],
+    );
+  }
+
+  copyWith({
+    int? id,
+    String? name,
+    double? percentageProfit,
+  }) {
+    return Category(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      percentageProfit: percentageProfit ?? this.percentageProfit,
     );
   }
 }

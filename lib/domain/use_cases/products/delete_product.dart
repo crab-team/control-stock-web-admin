@@ -7,7 +7,7 @@ class DeleteProduct {
 
   DeleteProduct(this.repository);
 
-  Future<Either<Failure, void>> execute(String id) async {
+  Future<Either<Failure, void>> execute(int id) async {
     return await repository.delete(id);
   }
 }

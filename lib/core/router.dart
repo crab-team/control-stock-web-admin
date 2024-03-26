@@ -186,9 +186,9 @@ class NavigationService {
   goToHome(BuildContext context) => context.go(Routes.home);
 
   goToProducts(BuildContext context) => context.go(Routes.products);
-  goToProduct(BuildContext context, String productId) => context.go('${Routes.products}/${Routes.product}/$productId');
+  goToProduct(BuildContext context, int productId) => context.go('${Routes.products}/${Routes.product}/$productId');
   goToCreateProduct(BuildContext context) => context.go('${Routes.products}/${Routes.createProduct}');
-  goToProductAnalytics(BuildContext context, String productId) =>
+  goToProductAnalytics(BuildContext context, int productId) =>
       context.go('${Routes.products}/${Routes.product}/$productId/analytics');
   goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
 

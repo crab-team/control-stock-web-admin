@@ -41,7 +41,7 @@ class _UploadProductsPreviewDataTableState extends ConsumerState<UploadProductsP
 
     int countAnomalies = data.where((element) {
       return element.name.isEmpty ||
-          element.price == 0 ||
+          element.costPrice == 0 ||
           element.stock == 0 ||
           RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(element.name) ||
           RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(element.code);

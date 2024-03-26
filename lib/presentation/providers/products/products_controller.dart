@@ -12,25 +12,20 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
 
   @override
   FutureOr<List<Product>> build() async {
-    return await getAll();
+    await getAll();
+    return products;
   }
 
   getAll() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(getProductsUseCaseProvider).call();
-      return productsEither.fold(
-        (l) => throw l,
-        (r) {
-          List<Product> products = r;
-          products.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-          return products;
-        },
-      );
+      return productsEither.fold((l) => throw l, (r) => r);
     });
 
     products = state.asData?.value ?? [];
-    return products;
+    print('Products: $products');
+    sortByName();
   }
 
   search(String query) async {
@@ -43,15 +38,14 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     state = AsyncValue.data(
       products.where((element) {
         final byName = element.name.toLowerCase().contains(query.toLowerCase());
-        final byCategory = element.category.toLowerCase().contains(query.toLowerCase());
+        final byCategory = element.category.name.toLowerCase().contains(query.toLowerCase());
 
         return byName || byCategory;
       }).toList(),
     );
   }
 
-  delete(String id) async {
-    final products = state.asData?.value ?? [];
+  delete(int id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(deleteProductUseCaseProvider).execute(id);
@@ -68,35 +62,27 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
   }
 
   create(Product product) async {
-    final products = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
-      return productsEither.fold(
-        (l) => throw l,
-        (r) {
-          products.add(r);
-          return products;
-        },
-      );
+      return productsEither.fold((l) => throw l, (r) {
+        products.add(r);
+        return products;
+      });
     });
 
     sortByName();
   }
 
   updateProduct(Product product) async {
-    final products = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductUseCaseProvider).execute(product);
-      return productsEither.fold(
-        (l) => throw l,
-        (r) {
-          final index = products.indexWhere((element) => element.id == product.id);
-          products[index] = product;
-          return products;
-        },
-      );
+      return productsEither.fold((l) => throw l, (r) {
+        products.removeWhere((element) => element.id == product.id);
+        products.add(r);
+        return products;
+      });
     });
 
     sortByName();

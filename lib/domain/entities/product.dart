@@ -1,22 +1,26 @@
+import 'package:control_stock_web_admin/domain/entities/category.dart';
+
 class Product {
-  final String? id;
+  final int? id;
   final String code;
   final String name;
-  final String category;
-  final double price;
+  final double costPrice;
+  final double? publicPrice;
   final int stock;
-  final String imageUrl;
-  final String? qrUrl;
+  final Category category;
+  final String? imageUrl;
+  final String? qrCodeUrl;
 
   Product({
     this.id,
     required this.code,
     required this.name,
     required this.category,
-    required this.price,
+    required this.costPrice,
     required this.stock,
-    required this.imageUrl,
-    this.qrUrl,
+    this.imageUrl,
+    this.qrCodeUrl,
+    this.publicPrice,
   });
 
   toJson() {
@@ -25,10 +29,11 @@ class Product {
       'code': code,
       'name': name,
       'category': category,
-      'price': price,
+      'costPrice': costPrice,
       'stock': stock,
       'imageUrl': imageUrl,
-      'qrUrl': qrUrl,
+      'qrUrl': qrCodeUrl,
+      'publicPrice': publicPrice,
     };
   }
 
@@ -38,32 +43,35 @@ class Product {
       code: json['code'],
       name: json['name'],
       category: json['category'],
-      price: json['price'],
+      costPrice: json['costPrice'],
+      publicPrice: json['publicPrice'],
       stock: json['stock'],
       imageUrl: json['imageUrl'],
-      qrUrl: json['qrUrl'],
+      qrCodeUrl: json['qrCodeUrl'],
     );
   }
 
   copyWith({
-    String? id,
+    int? id,
     String? code,
     String? name,
-    String? category,
-    double? price,
+    double? costPrice,
+    double? publicPrice,
     int? stock,
+    Category? category,
     String? imageUrl,
-    String? qrUrl,
+    String? qrCodeUrl,
   }) {
     return Product(
       id: id ?? this.id,
       code: code ?? this.code,
       name: name ?? this.name,
       category: category ?? this.category,
-      price: price ?? this.price,
+      costPrice: costPrice ?? this.costPrice,
       stock: stock ?? this.stock,
       imageUrl: imageUrl ?? this.imageUrl,
-      qrUrl: qrUrl ?? this.qrUrl,
+      qrCodeUrl: qrCodeUrl ?? this.qrCodeUrl,
+      publicPrice: publicPrice ?? this.publicPrice,
     );
   }
 }

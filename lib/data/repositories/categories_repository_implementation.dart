@@ -10,15 +10,15 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   CategoriesRepositoryImplementation(this.categoriesRemoteDataSource);
 
   @override
-  Future<Either<Failure, Category>> get(String id) {
+  Future<Either<Failure, Category>> get(int id) {
     // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, Category>> create(String categoryName) async {
+  Future<Either<Failure, Category>> create(String categoryName, double percentageProfit) async {
     try {
-      final categoriesResponse = await categoriesRemoteDataSource.addCategory(categoryName);
+      final categoriesResponse = await categoriesRemoteDataSource.addCategory(categoryName, percentageProfit);
       final category = categoriesResponse.toDomain();
       return Right(category);
     } on Exception catch (e) {
@@ -27,7 +27,7 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   }
 
   @override
-  Future<Either<Failure, void>> delete(String id) async {
+  Future<Either<Failure, void>> delete(int id) async {
     try {
       await categoriesRemoteDataSource.deleteCategory(id);
       return const Right(null);

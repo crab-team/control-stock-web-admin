@@ -3,6 +3,7 @@ import 'package:control_stock_web_admin/data/responses/product_response.dart';
 import 'package:control_stock_web_admin/data/utils/constants.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
+import 'package:control_stock_web_admin/utils/logger.dart';
 
 class ProductsApiDataSource implements ProductsRemoteDataSource {
   final APIClient apiClient;
@@ -21,7 +22,7 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
   }
 
   @override
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     try {
       return await apiClient.sendDelete('$pathProducts/$id');
     } catch (e) {
@@ -33,9 +34,9 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
   Future<List<ProductResponse>> getAll() async {
     try {
       final response = await apiClient.sendGet(pathProducts);
-      final productResponse = response.map<ProductResponse>((e) => ProductResponse.fromJson(e)).toList();
-      return productResponse;
+      return response.map<ProductResponse>((e) => ProductResponse.fromJson(e)).toList();
     } catch (e) {
+      logger.e(e);
       rethrow;
     }
   }

@@ -39,6 +39,7 @@ class Texts {
   static const String deleteCategoryConfirmation = '¿Está seguro que desea eliminar esta categoría?';
   static const String noCategories = 'No hay categorías';
   static const String searchCategory = 'Buscar categoría';
+  static const String percentageProfit = 'Porcentaje de ganancia';
 
   // Errors
   static const String error = 'Error';

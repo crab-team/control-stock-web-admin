@@ -26,11 +26,11 @@ class CSVDataTableViewSource extends DataTableSource {
     TextEditingController priceController = TextEditingController();
     TextEditingController stockController = TextEditingController();
     nameController.text = product.name;
-    priceController.text = product.price.toString();
+    priceController.text = product.costPrice.toString();
     stockController.text = product.stock.toString();
 
     bool hasSomeAnomaly = product.name.isEmpty ||
-        product.price == 0 ||
+        product.costPrice == 0 ||
         product.stock == 0 ||
         RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(product.name) ||
         RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£ï¿½]').hasMatch(product.code);
@@ -62,7 +62,7 @@ class CSVDataTableViewSource extends DataTableSource {
           ),
           onFieldSubmitted: (value) => onChangeAnyValue(product.code, 'price', value),
         )),
-        DataCell(Text(product.category.toUpperCase())),
+        DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: stockController,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],

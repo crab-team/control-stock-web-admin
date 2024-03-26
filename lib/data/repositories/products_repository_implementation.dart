@@ -20,7 +20,7 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> delete(String id) async {
+  Future<Either<Failure, void>> delete(int id) async {
     try {
       await productsRemoteDataSource.delete(id);
       return const Right(null);
@@ -30,7 +30,7 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   }
 
   @override
-  Future<Either<Failure, Product>> get(String id) async {
+  Future<Either<Failure, Product>> get(int id) async {
     throw UnimplementedError();
   }
 

@@ -5,7 +5,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class ProductDataTableSource extends DataTableSource {
   final List<Product> _data;
-  final Function(String code) onDelete;
+  final Function(int code) onDelete;
   final Function(Product product) onEdit;
   final Function(Product code) onAnalytics;
   final Function(Product productUpdated) onChangeAnyValue;
@@ -32,17 +32,17 @@ class ProductDataTableSource extends DataTableSource {
     TextEditingController priceController = TextEditingController();
     TextEditingController stockController = TextEditingController();
     nameController.text = product.name.toUpperCase();
-    priceController.text = product.price.toString();
+    priceController.text = product.costPrice.toString();
     stockController.text = product.stock.toString();
 
     return DataRow.byIndex(
       index: index,
       cells: [
         DataCell(
-          product.qrUrl == null
+          product.qrCodeUrl == ''
               ? const SizedBox()
               : Image.network(
-                  product.qrUrl!,
+                  product.qrCodeUrl!,
                   width: 50,
                   height: 50,
                   fit: BoxFit.contain,
@@ -66,9 +66,10 @@ class ProductDataTableSource extends DataTableSource {
             border: InputBorder.none,
             prefix: Text('\$ '),
           ),
-          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(price: double.tryParse(value) ?? 0.0)),
+          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(costPrice: double.tryParse(value) ?? 0.0)),
         )),
-        DataCell(Text(product.category.toUpperCase())),
+        DataCell(Text('\$ ${product.publicPrice?.toStringAsFixed(2)}')),
+        DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: stockController,
           decoration: const InputDecoration(

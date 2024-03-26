@@ -8,7 +8,7 @@ class CreateCategory {
 
   CreateCategory(this._repository);
 
-  Future<Either<Failure, Category>> execute(String categoryName) async {
-    return await _repository.create(categoryName);
+  Future<Either<Failure, Category>> execute(String categoryName, double percentageProfit) async {
+    return await _repository.create(categoryName, percentageProfit);
   }
 }

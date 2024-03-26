@@ -16,6 +16,9 @@ class CategoriesAppBar extends ConsumerWidget {
       children: [
         Expanded(
           child: SearchBar(
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              const LinearBorder(),
+            ),
             leading: const Icon(PhosphorIcons.magnifying_glass),
             hintText: Texts.searchCategory,
             onChanged: (value) => _search(ref, value),

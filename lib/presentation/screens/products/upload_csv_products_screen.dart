@@ -72,7 +72,7 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
 
   void _upload() {
     if (_formKey.currentState!.validate()) {
-      ref.read(uploadCsvProductsControllerProvider.notifier).upload(category!.name);
+      ref.read(uploadCsvProductsControllerProvider.notifier).upload(category!);
     }
   }
 }

@@ -33,7 +33,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     if (widget.product != null) {
       codeController.text = widget.product!.code;
       nameController.text = widget.product!.name;
-      priceController.text = widget.product!.price.toString();
+      priceController.text = widget.product!.costPrice.toString();
       stockController.text = widget.product!.stock.toString();
     }
   }
@@ -120,7 +120,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                             },
                             builder: (FormFieldState state) {
                               return CategorySelector(
-                                initialCategory: widget.product?.category,
+                                initialCategory: widget.product?.category.name,
                                 onCategorySelected: (value) {
                                   state.didChange(value);
                                   category = value;
@@ -156,9 +156,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
         id: widget.product?.id,
         code: codeController.text,
         name: nameController.text,
-        price: double.parse(priceController.text),
+        costPrice: double.parse(priceController.text),
         stock: int.parse(stockController.text),
-        category: category!.name,
+        category: category!,
         imageUrl: '',
       );
 

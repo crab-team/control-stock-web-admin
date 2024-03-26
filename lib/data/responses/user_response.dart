@@ -1,7 +1,7 @@
 import 'package:control_stock_web_admin/domain/entities/user.dart';
 
 class UserResponse {
-  String id;
+  int id;
   String email;
   String accessToken;
   String refreshToken;

@@ -12,7 +12,8 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
 
   @override
   FutureOr<List<Category>> build() async {
-    return await getAll();
+    await getAll();
+    return categories;
   }
 
   getAll() async {
@@ -26,7 +27,6 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
     });
 
     categories = state.asData?.value ?? [];
-
     sortByName();
     return categories;
   }
@@ -41,15 +41,13 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
     state = AsyncValue.data(
       categories.where((element) {
         final byName = element.name.toLowerCase().contains(query.toLowerCase());
-        final byCode = element.id.toLowerCase().contains(query.toLowerCase());
 
-        return byName || byCode;
+        return byName;
       }).toList(),
     );
   }
 
-  delete(String id) async {
-    final categories = state.asData?.value ?? [];
+  delete(int id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(deleteCategoryUseCaseProvider).execute(id);
@@ -64,11 +62,10 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
     sortByName();
   }
 
-  create(String category) async {
-    List<Category> categories = state.asData?.value ?? [];
+  create(String category, double percentageProfit) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final categoriesEither = await ref.read(createCategoryUseCaseProvider).execute(category);
+      final categoriesEither = await ref.read(createCategoryUseCaseProvider).execute(category, percentageProfit);
       return categoriesEither.fold(
         (l) => throw l,
         (r) {
@@ -82,7 +79,6 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
   }
 
   updateCategory(Category category) async {
-    final categories = state.asData?.value ?? [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(updateCategoryUseCaseProvider).execute(category);
@@ -99,7 +95,6 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
   }
 
   sortByName() {
-    final categories = state.asData?.value ?? [];
     categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     state = AsyncValue.data(categories);
   }
