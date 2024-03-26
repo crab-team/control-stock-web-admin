@@ -78,14 +78,12 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductsUseCaseProvider).execute(products);
-      productsEither.leftMap((l) {
-        throw l.message;
+      return productsEither.fold((l) => throw l, (r) async {
+        await getAll();
+        return products;
       });
-
-      return [];
     });
 
-    await getAll();
     sortByName();
   }
 

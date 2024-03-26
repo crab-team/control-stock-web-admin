@@ -6,7 +6,7 @@ class VersionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'v1.0.0',
+      'v0.1.0',
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
     );
   }

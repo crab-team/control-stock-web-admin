@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:control_stock_web_admin/domain/entities/category.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -91,11 +92,16 @@ class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
         },
       );
     });
+    _refreshProducts();
     sortByName();
   }
 
   sortByName() {
     categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     state = AsyncValue.data(categories);
+  }
+
+  _refreshProducts() {
+    ref.read(productsControllerProvider.notifier).getAll();
   }
 }
