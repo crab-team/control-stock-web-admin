@@ -21,7 +21,7 @@ class ProductModel {
     return {
       'code': code,
       'name': name,
-      'costPrice': costPrice,
+      'price': costPrice,
       'stock': stock,
       'categoryId': categoryId,
     };
@@ -32,7 +32,7 @@ class ProductModel {
       'id': id,
       'code': code,
       'name': name,
-      'costPrice': costPrice,
+      'price': costPrice,
       'stock': stock,
       'categoryId': categoryId,
       'imageUrl': '',

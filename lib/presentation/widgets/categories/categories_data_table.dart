@@ -34,10 +34,6 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
   }
 
   _buildDataTable(List<Category> data) {
-    if (data.isEmpty) {
-      return const Center(child: Text(Texts.noCategories));
-    }
-
     return PaginatedDataTable2(
       border: TableBorder(
         horizontalInside: BorderSide(color: colorScheme.secondaryContainer),
