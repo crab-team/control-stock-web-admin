@@ -15,8 +15,8 @@ class _IncrementPercentageCashPaymentInputState extends ConsumerState<IncrementP
     final state = ref.watch(commerceController);
     return state.when(
       data: (value) => _buildInput(value),
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) => const Text('Error'),
+      loading: () => const SizedBox(),
+      error: (error, stackTrace) => const SizedBox(),
     );
   }
 
