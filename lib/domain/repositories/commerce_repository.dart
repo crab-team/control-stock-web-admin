@@ -4,5 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class CommerceRepository {
   Future<Either<Failure, Commerce>> getById(String id);
-  Future<Either<Failure, void>> updateCashPaymenetPercentage(double cashPaymentPercentage);
+  Future<Either<Failure, void>> updateDiscountCashPercentage(double cashPaymentPercentage);
 }

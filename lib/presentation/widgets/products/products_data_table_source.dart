@@ -38,16 +38,9 @@ class ProductDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(
-          product.qrCodeUrl == ''
-              ? const SizedBox()
-              : Image.network(
-                  product.qrCodeUrl!,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.contain,
-                ),
-        ),
+        DataCell(Icon(
+          product.qrCodeUrl != null ? PhosphorIcons.check : PhosphorIcons.printer,
+        )),
         DataCell(Text(product.code)),
         DataCell(TextFormField(
           controller: nameController,
@@ -69,6 +62,7 @@ class ProductDataTableSource extends DataTableSource {
           onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(costPrice: double.tryParse(value) ?? 0.0)),
         )),
         DataCell(Text('\$ ${product.publicPrice?.toStringAsFixed(2)}')),
+        DataCell(Text('\$ ${product.cashPurchasePrice?.toStringAsFixed(2)}')),
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: stockController,

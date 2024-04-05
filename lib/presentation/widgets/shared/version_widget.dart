@@ -5,9 +5,13 @@ class VersionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'v0.1.0',
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+    return Column(
+      children: [
+        Text(
+          'v0.1.0',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

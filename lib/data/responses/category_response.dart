@@ -3,19 +3,19 @@ import 'package:control_stock_web_admin/domain/entities/category.dart';
 class CategoryResponse {
   final int id;
   final String name;
-  final double percentageProfit;
+  final double profitPercentage;
 
   CategoryResponse({
     required this.id,
     required this.name,
-    required this.percentageProfit,
+    required this.profitPercentage,
   });
 
   factory CategoryResponse.fromJson(Map<String, dynamic> json) {
     return CategoryResponse(
       id: json['id'],
       name: json['name'],
-      percentageProfit: double.parse(json['percentageProfit']),
+      profitPercentage: double.parse(json['profitPercentage']),
     );
   }
 
@@ -23,7 +23,7 @@ class CategoryResponse {
     return Category(
       id: id,
       name: name,
-      percentageProfit: percentageProfit,
+      percentageProfit: profitPercentage,
     );
   }
 }

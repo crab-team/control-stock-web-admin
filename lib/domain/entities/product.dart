@@ -7,6 +7,7 @@ class Product {
   final String name;
   final double costPrice;
   final double? publicPrice;
+  final double? cashPurchasePrice;
   final int stock;
   final Category category;
   final String? imageUrl;
@@ -22,6 +23,7 @@ class Product {
     this.imageUrl,
     this.qrCodeUrl,
     this.publicPrice,
+    this.cashPurchasePrice,
   });
 
   toJson() {
@@ -35,6 +37,7 @@ class Product {
       'imageUrl': imageUrl,
       'qrUrl': qrCodeUrl,
       'publicPrice': publicPrice,
+      'cashPurchasePrice': cashPurchasePrice,
     };
   }
 
@@ -46,6 +49,7 @@ class Product {
       category: json['category'],
       costPrice: json['costPrice'],
       publicPrice: json['publicPrice'],
+      cashPurchasePrice: json['cashPurchasePrice'],
       stock: json['stock'],
       imageUrl: json['imageUrl'],
       qrCodeUrl: json['qrCodeUrl'],
@@ -58,6 +62,7 @@ class Product {
     String? name,
     double? costPrice,
     double? publicPrice,
+    double? cashPurchasePrice,
     int? stock,
     Category? category,
     String? imageUrl,
@@ -73,6 +78,7 @@ class Product {
       imageUrl: imageUrl ?? this.imageUrl,
       qrCodeUrl: qrCodeUrl ?? this.qrCodeUrl,
       publicPrice: publicPrice ?? this.publicPrice,
+      cashPurchasePrice: cashPurchasePrice ?? this.cashPurchasePrice,
     );
   }
 

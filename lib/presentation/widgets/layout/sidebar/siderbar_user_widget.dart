@@ -30,7 +30,7 @@ class SidebarUserWidget extends ConsumerWidget {
           child: Icon(Icons.person),
         ),
         title: Text(user.username),
-        subtitle: const Text('Administrador - Acceso total'),
+        subtitle: const Text('Administrador'),
       ),
     );
   }

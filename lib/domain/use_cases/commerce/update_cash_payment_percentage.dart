@@ -8,6 +8,6 @@ class UpdateCashPaymentPercentage {
   UpdateCashPaymentPercentage(this._repository);
 
   Future<Either<Failure, void>> execute(double value) async {
-    return await _repository.updateCashPaymenetPercentage(value);
+    return await _repository.updateDiscountCashPercentage(value);
   }
 }

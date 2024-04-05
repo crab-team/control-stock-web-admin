@@ -6,6 +6,7 @@ import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen
 import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String createProduct = 'product/create';
   static const String categories = '/categories';
   static const String createCategory = 'createCategory';
+  static const String commerce = '/commerce';
 
   static const Map<String, String> names = {
     home: 'Inicio',
@@ -44,6 +46,7 @@ class Routes {
     emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
     createCategory: 'Crear categoría',
+    commerce: 'Comercio',
   };
 }
 
@@ -155,6 +158,16 @@ class NavigationService {
                 ),
               ],
             ),
+            StatefulShellBranch(
+              initialLocation: Routes.commerce,
+              routes: [
+                GoRoute(
+                  path: Routes.commerce,
+                  name: Routes.names[Routes.commerce]!,
+                  builder: (context, state) => const CommerceScreen(),
+                ),
+              ],
+            ),
           ],
         ),
       ],
@@ -179,6 +192,7 @@ class NavigationService {
         Routes.signIn: Icons.login,
         Routes.products: PhosphorIcons.shopping_bag,
         Routes.categories: PhosphorIcons.tag,
+        Routes.commerce: PhosphorIcons.house,
       };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);

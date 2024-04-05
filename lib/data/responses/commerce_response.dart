@@ -4,13 +4,13 @@ class CommerceResponse {
   final int id;
   final String name;
   final String address;
-  final double cashPaymentPercentage;
+  final double discountCashPercentage;
 
   CommerceResponse({
     required this.id,
     required this.name,
     required this.address,
-    required this.cashPaymentPercentage,
+    required this.discountCashPercentage,
   });
 
   factory CommerceResponse.fromJson(Map<String, dynamic> json) {
@@ -18,7 +18,7 @@ class CommerceResponse {
       id: json['id'],
       name: json['name'],
       address: json['address'],
-      cashPaymentPercentage: json['cashPaymentPercentage'],
+      discountCashPercentage: json['discount_cash_percentage'],
     );
   }
 
@@ -27,7 +27,7 @@ class CommerceResponse {
       'id': id,
       'name': name,
       'address': address,
-      'cashPaymentPercentage': cashPaymentPercentage,
+      'discount_cash_percentage': discountCashPercentage,
     };
   }
 
@@ -36,7 +36,7 @@ class CommerceResponse {
       id: id,
       name: name,
       address: address,
-      cashPaymentPercentage: cashPaymentPercentage,
+      discountCashPercentage: discountCashPercentage,
     );
   }
 }

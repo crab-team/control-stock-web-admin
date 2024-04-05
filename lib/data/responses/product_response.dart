@@ -7,6 +7,7 @@ class ProductResponse {
   String name;
   double costPrice;
   double publicPrice;
+  double? cashPurchasePrice;
   int stock;
   CategoryResponse category;
   String qrCodeUrl;
@@ -20,6 +21,7 @@ class ProductResponse {
     required this.category,
     required this.qrCodeUrl,
     required this.publicPrice,
+    this.cashPurchasePrice,
   });
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class ProductResponse {
       name: json["name"],
       costPrice: double.parse(json["costPrice"]),
       publicPrice: json["publicPrice"],
+      cashPurchasePrice: json["cashPurchasePrice"],
       stock: json["stock"],
       category: CategoryResponse.fromJson(json["category"]),
       qrCodeUrl: json["qrCodeUrl"],
@@ -42,6 +45,7 @@ class ProductResponse {
       name: name,
       costPrice: costPrice,
       publicPrice: publicPrice,
+      cashPurchasePrice: cashPurchasePrice,
       stock: stock,
       category: category.toDomain(),
       qrCodeUrl: qrCodeUrl,

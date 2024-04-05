@@ -17,7 +17,7 @@ class DashboardWidget extends ConsumerWidget {
           height: constraints.maxHeight,
           child: Row(
             children: [
-              SizedBox(width: constraints.maxWidth * 0.2, child: SidebarWidget(navigationShell: page)),
+              SizedBox(width: constraints.maxWidth * 0.15, child: SidebarWidget(navigationShell: page)),
               Expanded(
                 child: Stack(
                   children: [

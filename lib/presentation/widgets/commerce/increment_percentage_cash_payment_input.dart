@@ -2,19 +2,19 @@ import 'package:control_stock_web_admin/presentation/providers/commerce/commerce
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IncrementPercentageCashPaymentInput extends ConsumerStatefulWidget {
-  const IncrementPercentageCashPaymentInput({super.key});
+class DiscountCashPercentageInput extends ConsumerStatefulWidget {
+  const DiscountCashPercentageInput({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _IncrementPercentageCashPaymentInputState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _DiscountCashPercentageInputState();
 }
 
-class _IncrementPercentageCashPaymentInputState extends ConsumerState<IncrementPercentageCashPaymentInput> {
+class _DiscountCashPercentageInputState extends ConsumerState<DiscountCashPercentageInput> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(commerceController);
     return state.when(
-      data: (value) => _buildInput(value),
+      data: (value) => _buildInput(value?.discountCashPercentage ?? 0),
       loading: () => const SizedBox(),
       error: (error, stackTrace) => const SizedBox(),
     );
@@ -22,13 +22,12 @@ class _IncrementPercentageCashPaymentInputState extends ConsumerState<IncrementP
 
   _buildInput(double value) {
     return SizedBox(
-      width: 100,
       child: TextField(
         decoration: const InputDecoration(
-          labelText: 'Porcentaje de pago en efectivo',
+          labelText: 'Porcentaje de descuento en efectivo',
         ),
         keyboardType: TextInputType.number,
-        onChanged: (value) => _updateCashPaymentPercentage(double.parse(value)),
+        onSubmitted: (value) => _updateCashPaymentPercentage(double.parse(value)),
         controller: TextEditingController(text: value.toString()),
       ),
     );

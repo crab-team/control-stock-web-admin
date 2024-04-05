@@ -7,13 +7,13 @@ class CommerceApiDataSource implements CommerceRemoteDataSource {
 
   CommerceApiDataSource(this.apiClient);
 
-  String path = '/commerce';
+  String path = '/commerces';
 
   @override
-  Future<void> updateCashPaymenetPercentage(double cashPaymentPercentage) async {
+  Future<void> updateDiscountCashPercentage(double value) async {
     try {
-      final body = {'cashPaymentPercentage': cashPaymentPercentage};
-      return await apiClient.sendPut('$path/cash-payment-percentage', body: body);
+      final body = {'discountCashPercentage': value};
+      return await apiClient.sendPut('$path/discount-cash-percentage', body: body);
     } catch (e) {
       rethrow;
     }
