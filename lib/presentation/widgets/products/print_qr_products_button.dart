@@ -30,7 +30,9 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
       ),
       icon: const Icon(PhosphorIcons.printer),
       onPressed: () => hasProductsSelected ? _openPreviewPrint() : null,
-      label: const Text('Imprimir QRs'),
+      label: const Text(
+        'Imprimir QRs',
+      ),
     );
   }
 
@@ -53,7 +55,6 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
                   decoration: pw.BoxDecoration(
                     border: pw.Border.all(color: PdfColors.black),
                   ),
-                  margin: const pw.EdgeInsets.all(4),
                   child: pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.center,
                     mainAxisAlignment: pw.MainAxisAlignment.center,

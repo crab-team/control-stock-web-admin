@@ -1,6 +1,7 @@
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
@@ -29,14 +30,12 @@ class ProductDataTableSource extends DataTableSource {
   final Function(int code) onDelete;
   final Function(Product product) onEdit;
   final Function(Product code) onAnalytics;
-  final Function(Product productUpdated) onChangeAnyValue;
   final Function(String selectedProduct) onSelect;
 
   ProductDataTableSource({
     List<ProductDataTableModel>? data,
     List<String>? selectedProductsCode,
     required this.onDelete,
-    required this.onChangeAnyValue,
     required this.onEdit,
     required this.onAnalytics,
     required this.onSelect,
@@ -72,27 +71,12 @@ class ProductDataTableSource extends DataTableSource {
       selected: productIsSelected,
       cells: [
         DataCell(Text(product.code)),
-        DataCell(TextFormField(
-          controller: nameController,
-          decoration: inputDataTableDecoration,
-          style: const TextStyle(fontSize: 14),
-          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(name: value)),
-        )),
-        DataCell(TextFormField(
-          controller: priceController,
-          decoration: inputDataTableDecoration,
-          style: const TextStyle(fontSize: 14),
-          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(costPrice: double.tryParse(value) ?? 0.0)),
-        )),
-        DataCell(Text('\$ ${product.publicPrice?.toStringAsFixed(2)}')),
-        DataCell(Text('\$ ${product.cashPurchasePrice?.toStringAsFixed(2)}')),
+        DataCell(Text(product.name.toUpperCase())),
+        DataCell(Text(CurrencyFormatter.format(product.costPrice, arsSettings))),
+        DataCell(Text(CurrencyFormatter.format(product.publicPrice!, arsSettings))),
+        DataCell(Text(CurrencyFormatter.format(product.cashPurchasePrice!, arsSettings))),
         DataCell(Text(product.category.name.toUpperCase())),
-        DataCell(TextFormField(
-          controller: stockController,
-          decoration: inputDataTableDecoration,
-          style: const TextStyle(fontSize: 14),
-          onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(stock: int.tryParse(value) ?? 0)),
-        )),
+        DataCell(Text(product.stock.toString())),
         DataCell(Icon(
           product.isAlreadyPrinted ? PhosphorIcons.check : PhosphorIcons.minus,
         )),

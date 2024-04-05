@@ -1,7 +1,5 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
-import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/sidebar/sidebar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +18,7 @@ class DashboardWidget extends ConsumerWidget {
       key: _scaffoldKey,
       onEndDrawerChanged: (isOpened) {
         if (!isOpened) {
-          ref.read(drawerController.notifier).state = DrawerType.none;
+          ref.read(drawerController.notifier).state = null;
         }
       },
       endDrawerEnableOpenDragGesture: false,
@@ -43,27 +41,13 @@ class DashboardWidget extends ConsumerWidget {
 
   Widget _buildDrawer(WidgetRef ref) {
     final drawerControllerListener = ref.watch(drawerController);
-    if (drawerControllerListener != DrawerType.none) {
+    if (drawerControllerListener != null) {
       _scaffoldKey.currentState!.openEndDrawer();
     }
 
     return Drawer(
       width: 720,
-      child: Padding(
-        padding: kPaddingAppSmall,
-        child: Builder(
-          builder: (_) {
-            switch (drawerControllerListener) {
-              case DrawerType.product:
-                return const ProductDrawer();
-              case DrawerType.category:
-                return const CategoryDrawer();
-              default:
-                return const SizedBox();
-            }
-          },
-        ),
-      ),
+      child: Padding(padding: kPaddingAppSmall, child: drawerControllerListener),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
+import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
@@ -104,7 +105,6 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       source: ProductDataTableSource(
         data: data,
         onDelete: _delete,
-        onChangeAnyValue: _update,
         onEdit: _onEdit,
         onAnalytics: _goToAnalitycs,
         onSelect: (productSelected) {
@@ -138,7 +138,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   }
 
   void _onEdit(Product product) {
-    ref.read(drawerController.notifier).state = DrawerType.product;
+    ref.read(drawerController.notifier).state = ProductDrawer(product: product);
   }
 
   void _goToAnalitycs(Product product) {}

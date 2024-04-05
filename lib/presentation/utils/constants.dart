@@ -1,3 +1,5 @@
+import 'package:currency_formatter/currency_formatter.dart';
+
 class AssetsImages {
   static const String logo = 'assets/images/logo.png';
   static const String logoMtc = 'assets/images/logo_mtc.png';
@@ -47,3 +49,12 @@ class Texts {
   static const String errorOccurred = 'Ocurrió un error';
   static const String errorOccurredTryAgain = 'Ocurrió un error, intente nuevamente';
 }
+
+CurrencyFormat arsSettings = const CurrencyFormat(
+  code: 'ars',
+  symbol: '\$',
+  symbolSide: SymbolSide.left,
+  thousandSeparator: '.',
+  decimalSeparator: ',',
+  symbolSeparator: ' ',
+);

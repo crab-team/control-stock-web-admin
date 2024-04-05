@@ -1,9 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum DrawerType {
-  none,
-  product,
-  category,
-}
-
-final drawerController = StateProvider<DrawerType>((ref) => DrawerType.none);
+final drawerController = StateProvider<Widget?>((ref) => null);

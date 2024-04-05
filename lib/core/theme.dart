@@ -40,7 +40,7 @@ final ColorScheme colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
   seedColor: Colors.white,
   primary: const Color(0xFF6F4BF2),
-  primaryContainer: const Color.fromARGB(255, 240, 236, 255),
+  primaryContainer: const Color.fromARGB(255, 244, 241, 254),
   secondary: const Color(0xFF0FA4E4),
   secondaryContainer: const Color.fromARGB(255, 221, 245, 255),
   tertiary: const Color(0xFFED5B15),
