@@ -164,7 +164,7 @@ final ThemeData theme = ThemeData(
       foregroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRadiusCornerOutside),
+          borderRadius: BorderRadius.circular(kRadiusCornerInside),
         ),
       ),
       textStyle: MaterialStateProperty.all(
@@ -180,28 +180,28 @@ final ThemeData theme = ThemeData(
     fillColor: colorScheme.background,
     activeIndicatorBorder: BorderSide(color: colorScheme.primary),
     enabledBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.primaryContainer),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.primary),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.error),
     ),
     focusedErrorBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.error),
     ),
     disabledBorder: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.outline),
     ),
     filled: true,
     border: OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),
       borderSide: BorderSide(color: colorScheme.primaryContainer),
     ),
     contentPadding: kPaddingAppSmall,
@@ -241,5 +241,40 @@ final ThemeData theme = ThemeData(
       borderRadius: BorderRadius.circular(kRadiusCornerOutside),
     ),
     actionsPadding: const EdgeInsets.all(12),
+  ),
+  dropdownMenuTheme: DropdownMenuThemeData(
+    textStyle: TextStyle(
+      color: colorScheme.inversePrimary,
+      fontSize: 16,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: colorScheme.primaryContainer,
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+        borderSide: BorderSide(color: colorScheme.primaryContainer),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+        borderSide: BorderSide(color: colorScheme.primary),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+        borderSide: BorderSide(color: colorScheme.error),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+        borderSide: BorderSide(color: colorScheme.error),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kRadiusCornerInside),
+        borderSide: BorderSide(color: colorScheme.outline),
+      ),
+      contentPadding: kPaddingAppSmall,
+      hintStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        color: colorScheme.inversePrimary.withOpacity(0.4),
+      ),
+    ),
   ),
 );

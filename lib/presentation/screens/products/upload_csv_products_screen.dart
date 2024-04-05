@@ -22,50 +22,53 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            Texts.uploadCsvProductsScreenTitle,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CategorySelector(
-                          onCategorySelected: (value) {
-                            category = value;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                      const Gap.medium(isHorizontal: true),
-                      ElevatedButton.icon(
-                          icon: const Icon(Icons.upload),
-                          onPressed: () => category != null ? _upload() : null,
-                          label: const Text(Texts.uploadCsv),
-                          style: ElevatedButton.styleFrom(
-                            enabledMouseCursor:
-                                category != null ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-                            backgroundColor: category != null ? colorScheme.primary : colorScheme.secondaryContainer,
-                          )),
-                    ],
-                  ),
-                ),
-                const Gap.medium(),
-                const Expanded(
-                  child: UploadProductsPreviewDataTable(),
-                ),
-              ],
+      body: Padding(
+        padding: kPaddingAppSmall,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              Texts.uploadCsvProductsScreenTitle,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Expanded(
+              child: Column(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CategorySelector(
+                            onCategorySelected: (value) {
+                              category = value;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        const Gap.medium(isHorizontal: true),
+                        ElevatedButton.icon(
+                            icon: const Icon(Icons.upload),
+                            onPressed: () => category != null ? _upload() : null,
+                            label: const Text(Texts.uploadCsv),
+                            style: ElevatedButton.styleFrom(
+                              enabledMouseCursor:
+                                  category != null ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+                              backgroundColor: category != null ? colorScheme.primary : colorScheme.secondaryContainer,
+                            )),
+                      ],
+                    ),
+                  ),
+                  const Gap.medium(),
+                  const Expanded(
+                    child: UploadProductsPreviewDataTable(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

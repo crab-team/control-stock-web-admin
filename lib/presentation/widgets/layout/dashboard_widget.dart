@@ -18,6 +18,12 @@ class DashboardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       key: _scaffoldKey,
+      onEndDrawerChanged: (isOpened) {
+        if (!isOpened) {
+          ref.read(drawerController.notifier).state = DrawerType.none;
+        }
+      },
+      endDrawerEnableOpenDragGesture: false,
       endDrawer: _buildDrawer(ref),
       body: LayoutBuilder(builder: (context, constraints) {
         return SizedBox(
