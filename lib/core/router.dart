@@ -7,7 +7,7 @@ import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_s
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/products/product_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
@@ -26,26 +26,20 @@ class Routes {
   static const String verifyEmail = 'verifyEmail';
   static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
   static const String products = '/products';
-  static const String product = 'product';
   static const String productAnalitycs = 'product/analytics';
   static const String productsUploadCsv = 'uploadCsv';
-  static const String createProduct = 'product/create';
   static const String categories = '/categories';
-  static const String createCategory = 'createCategory';
   static const String commerce = '/commerce';
 
   static const Map<String, String> names = {
     home: 'Inicio',
     signIn: 'Iniciar sesión',
     products: 'Productos',
-    createProduct: 'Crear producto',
-    product: 'Actualizar producto',
     productAnalitycs: 'Análisis de producto',
     productsUploadCsv: 'Subir productos',
     verifyEmail: 'Verificar email',
     emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
-    createCategory: 'Crear categoría',
     commerce: 'Comercio',
   };
 }
@@ -98,25 +92,6 @@ class NavigationService {
                   },
                   routes: [
                     GoRoute(
-                      path: Routes.createProduct,
-                      name: Routes.names[Routes.createProduct]!,
-                      builder: (context, state) {
-                        return const ProductScreen();
-                      },
-                    ),
-                    GoRoute(
-                      path: '${Routes.product}/:id',
-                      name: Routes.names[Routes.product]!,
-                      builder: (context, state) {
-                        if (state.extra == null) {
-                          goToProducts(context);
-                        }
-
-                        Product product = state.extra as Product;
-                        return ProductScreen(product: product);
-                      },
-                    ),
-                    GoRoute(
                       path: '${Routes.productAnalitycs}/:id',
                       name: Routes.names[Routes.productAnalitycs]!,
                       builder: (context, state) {
@@ -125,7 +100,7 @@ class NavigationService {
                         }
 
                         Product product = state.extra as Product;
-                        return ProductScreen(product: product);
+                        return ProductDrawer(product: product);
                       },
                     ),
                     GoRoute(
@@ -146,15 +121,6 @@ class NavigationService {
                   path: Routes.categories,
                   name: Routes.names[Routes.categories]!,
                   builder: (context, state) => const CategoriesScreen(),
-                  routes: [
-                    GoRoute(
-                      path: Routes.createCategory,
-                      name: Routes.names[Routes.createCategory]!,
-                      builder: (context, state) {
-                        return const CategoryScreen();
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -201,14 +167,9 @@ class NavigationService {
   goToHome(BuildContext context) => context.go(Routes.home);
 
   goToProducts(BuildContext context) => context.pushReplacement(Routes.products);
-  goToProduct(BuildContext context, int productId) => context.go('${Routes.products}/${Routes.product}/$productId');
-  goToCreateProduct(BuildContext context) => context.go('${Routes.products}/${Routes.createProduct}');
-  goToProductAnalytics(BuildContext context, int productId) =>
-      context.go('${Routes.products}/${Routes.product}/$productId/analytics');
   goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
 
   goToCategories(BuildContext context) => context.pushReplacement(Routes.categories);
-  goToCreateCategory(BuildContext context) => context.go('${Routes.categories}/${Routes.createCategory}');
 
   void goBack(BuildContext context) => context.pop();
 }

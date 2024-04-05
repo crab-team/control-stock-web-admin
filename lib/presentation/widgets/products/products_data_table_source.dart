@@ -1,3 +1,4 @@
+import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
@@ -73,21 +74,14 @@ class ProductDataTableSource extends DataTableSource {
         DataCell(Text(product.code)),
         DataCell(TextFormField(
           controller: nameController,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-          ),
+          decoration: inputDataTableDecoration,
+          style: const TextStyle(fontSize: 14),
           onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(name: value)),
         )),
         DataCell(TextFormField(
           controller: priceController,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-            prefix: Text('\$ '),
-          ),
+          decoration: inputDataTableDecoration,
+          style: const TextStyle(fontSize: 14),
           onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(costPrice: double.tryParse(value) ?? 0.0)),
         )),
         DataCell(Text('\$ ${product.publicPrice?.toStringAsFixed(2)}')),
@@ -95,11 +89,8 @@ class ProductDataTableSource extends DataTableSource {
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: stockController,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-          ),
+          decoration: inputDataTableDecoration,
+          style: const TextStyle(fontSize: 14),
           onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(stock: int.tryParse(value) ?? 0)),
         )),
         DataCell(Icon(

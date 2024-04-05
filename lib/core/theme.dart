@@ -9,6 +9,33 @@ const kPaddingAppHorizontalLarge = EdgeInsets.symmetric(horizontal: 100.0);
 const kRadiusCornerOutside = 16.0;
 const kRadiusCornerInside = 8.0;
 
+const inputDataTableDecoration = InputDecoration(
+  contentPadding: EdgeInsets.zero,
+  fillColor: Colors.transparent,
+  border: InputBorder.none,
+  enabledBorder: InputBorder.none,
+  focusedBorder: InputBorder.none,
+  errorBorder: InputBorder.none,
+  disabledBorder: InputBorder.none,
+  focusColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+);
+
+final dataTableDecoration = {
+  'border': TableBorder(
+    horizontalInside: BorderSide(color: colorScheme.primaryContainer),
+    verticalInside: BorderSide(color: colorScheme.primaryContainer),
+    bottom: BorderSide(color: colorScheme.primaryContainer),
+    top: BorderSide(color: colorScheme.primaryContainer),
+  ),
+  'minWidth': 1200,
+  'rowsPerPage': 20,
+  'wrapInCard': false,
+  'headingRowHeight': 42,
+  'headingRowColor': MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
+  'dataRowHeight': 42,
+};
+
 final ColorScheme colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
   seedColor: Colors.white,
@@ -48,12 +75,18 @@ final ThemeData theme = ThemeData(
     bodyMedium: TextStyle(
       fontWeight: FontWeight.w400,
     ),
+    bodySmall: TextStyle(
+      fontWeight: FontWeight.w400,
+    ),
     headlineLarge: TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    headlineMedium: TextStyle(),
+    headlineMedium: TextStyle(
+      fontWeight: FontWeight.bold,
+    ),
     headlineSmall: TextStyle(
-      fontWeight: FontWeight.w400,
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
     ),
     labelLarge: TextStyle(
       fontWeight: FontWeight.bold,
@@ -85,6 +118,11 @@ final ThemeData theme = ThemeData(
         color: colorScheme.inversePrimary.withOpacity(0.4),
       ),
     ),
+  ),
+  drawerTheme: const DrawerThemeData(
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.white,
+    elevation: 4,
   ),
   cardTheme: CardTheme(
     color: Colors.white,
@@ -140,6 +178,27 @@ final ThemeData theme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     iconColor: colorScheme.secondary,
     fillColor: colorScheme.background,
+    activeIndicatorBorder: BorderSide(color: colorScheme.primary),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.primaryContainer),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.primary),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.error),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.error),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),
+      borderSide: BorderSide(color: colorScheme.outline),
+    ),
     filled: true,
     border: OutlineInputBorder(
       borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerOutside)),

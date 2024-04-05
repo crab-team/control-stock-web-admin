@@ -1,3 +1,4 @@
+import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,8 @@ class CategoriesDataTableSource extends DataTableSource {
         DataCell(Text(category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: percentageController,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-            suffix: Text(' %'),
+          decoration: inputDataTableDecoration.copyWith(
+            suffixText: '%',
           ),
           onFieldSubmitted: (value) => onChangeAnyValue(
             category.copyWith(percentageProfit: double.tryParse(value) ?? 0.0),

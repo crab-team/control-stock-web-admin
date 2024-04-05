@@ -1,13 +1,13 @@
-import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/print_qr_products_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/upload_products_csv/upload_csv_button.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -30,21 +30,18 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
 
   _buildDataTable(List<ProductDataTableModel> data) {
     return PaginatedDataTable2(
-      border: TableBorder(
-        horizontalInside: BorderSide(color: colorScheme.primaryContainer),
-        verticalInside: BorderSide(color: colorScheme.primaryContainer),
-        bottom: BorderSide(color: colorScheme.primaryContainer),
-        top: BorderSide(color: colorScheme.primaryContainer),
-      ),
-      minWidth: 1200,
-      dataTextStyle: Theme.of(context).textTheme.bodyLarge,
-      rowsPerPage: 20,
-      wrapInCard: false,
+      border: dataTableDecoration['border'] as TableBorder,
+      minWidth: dataTableDecoration['minWidth'] as double,
+      rowsPerPage: dataTableDecoration['rowsPerPage'] as int,
+      wrapInCard: dataTableDecoration['wrapInCard'] as bool,
+      headingRowHeight: dataTableDecoration['headingRowHeight'] as double,
+      dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
+      headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       empty: const Center(child: Text(Texts.noProducts)),
-      header: const Text(Texts.products),
-      headingRowHeight: 42,
-      headingRowColor: MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
-      dataRowHeight: 42,
+      header: Text(
+        Texts.products,
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
       showCheckboxColumn: true,
       columns: [
         const DataColumn2(
@@ -141,12 +138,10 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   }
 
   void _onEdit(Product product) {
-    ref.read(navigationServiceProvider).goToProduct(context, product.id!);
+    ref.read(drawerController.notifier).state = DrawerType.product;
   }
 
-  void _goToAnalitycs(Product product) {
-    ref.read(navigationServiceProvider).goToProductAnalytics(context, product.id!);
-  }
+  void _goToAnalitycs(Product product) {}
 
   void _update(Product productUpdated) {
     Product product = Product(

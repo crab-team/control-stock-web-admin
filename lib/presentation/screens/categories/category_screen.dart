@@ -1,5 +1,4 @@
 import 'package:control_stock_web_admin/core/router.dart';
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -7,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoryScreen extends ConsumerStatefulWidget {
-  const CategoryScreen({super.key});
+class CategoryDrawer extends ConsumerStatefulWidget {
+  const CategoryDrawer({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CategoryScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CategoryDrawerState();
 }
 
-class _CategoryScreenState extends ConsumerState<CategoryScreen> {
+class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController percentageProfitController = TextEditingController();
@@ -26,8 +25,10 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
       children: [
         Text(
           Texts.createCategory,
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: colorScheme.secondary),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
+        const Gap.medium(),
+        const Divider(),
         const Gap.medium(),
         Expanded(
           child: Form(
@@ -57,6 +58,8 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                   },
                   onFieldSubmitted: (_) => _create(),
                 ),
+                const Gap.medium(),
+                const Divider(),
                 const Gap.medium(),
                 Align(
                   alignment: Alignment.bottomRight,
