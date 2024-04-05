@@ -16,7 +16,7 @@ class LogoWidget extends StatelessWidget {
       switch (isHorizontal) {
         case true:
           return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: withText ? MainAxisAlignment.start : MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(

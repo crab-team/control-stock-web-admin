@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,14 +30,14 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
             (states) => hasProductsSelected ? colorScheme.primary : colorScheme.primaryContainer),
       ),
       icon: const Icon(PhosphorIcons.printer),
-      onPressed: () => hasProductsSelected ? _openPreviewPrint() : null,
+      onPressed: () => hasProductsSelected ? _openPreviewPrint(products) : null,
       label: const Text(
         'Imprimir QRs',
       ),
     );
   }
 
-  void _openPreviewPrint() {
+  void _openPreviewPrint(List<ProductDataTableModel> products) {
     final doc = pw.Document();
 
     doc.addPage(pw.Page(
@@ -46,12 +47,12 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
         build: (pw.Context context) {
           final children = <pw.Widget>[];
 
-          for (final productData in ref.watch(productsDataTableStateProvider)) {
+          for (final productData in products) {
             if (productData.selected) {
               children.add(
                 pw.Container(
-                  width: 54,
-                  height: 74,
+                  width: 34,
+                  height: 54,
                   decoration: pw.BoxDecoration(
                     border: pw.Border.all(color: PdfColors.black),
                   ),
@@ -62,9 +63,12 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
                       pw.Expanded(
                           child:
                               pw.Image(pw.MemoryImage(base64Decode(productData.product.qrCodeUrl!.split(',').last)))),
-                      pw.Text(
-                        productData.product.code,
-                        style: const pw.TextStyle(fontSize: 12, color: PdfColors.black),
+                      pw.FittedBox(
+                        fit: pw.BoxFit.fitWidth,
+                        child: pw.Text(
+                          productData.product.code,
+                          style: const pw.TextStyle(fontSize: 12, color: PdfColors.black),
+                        ),
                       ),
                     ],
                   ),
@@ -82,29 +86,46 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
           ));
         })); // Page
 
-    useDialogs(
-      context,
-      title: 'Imprimir QRs',
-      actionsButton: [
-        TextButton(
-          onPressed: () => Printing.layoutPdf(onLayout: (format) => doc.save()),
-          child: Text('Imprimir'.toUpperCase()),
-        ),
-      ],
-      type: DialogType.confirmation,
-      content: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: PdfPreview(
-          canChangeOrientation: false,
-          canChangePageFormat: false,
-          enableScrollToPage: true,
-          canDebug: false,
-          allowSharing: false,
-          allowPrinting: false,
-          build: (format) => doc.save(),
-        ),
-      ),
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Vista previa de impresión'),
+          content: SizedBox(
+            width: 720,
+            height: MediaQuery.of(context).size.height,
+            child: PdfPreview(
+              canChangeOrientation: false,
+              canChangePageFormat: false,
+              enableScrollToPage: true,
+              canDebug: false,
+              allowSharing: false,
+              allowPrinting: false,
+              build: (format) => doc.save(),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) => colorScheme.tertiary),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(Texts.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final result = await Printing.layoutPdf(onLayout: (format) => doc.save());
+                if (result) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Imprimir'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
