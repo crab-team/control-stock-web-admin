@@ -12,7 +12,7 @@ class Product {
   final Category category;
   final String? imageUrl;
   final String? qrCodeUrl;
-  final bool isAlreadyPrinted;
+  final bool hasQrPrinted;
 
   Product({
     this.id,
@@ -25,7 +25,7 @@ class Product {
     this.qrCodeUrl,
     this.publicPrice,
     this.cashPurchasePrice,
-    this.isAlreadyPrinted = false,
+    this.hasQrPrinted = false,
   });
 
   toJson() {
@@ -40,7 +40,7 @@ class Product {
       'qrUrl': qrCodeUrl,
       'publicPrice': publicPrice,
       'cashPurchasePrice': cashPurchasePrice,
-      'isAlreadyPrinted': isAlreadyPrinted,
+      'hasQrPrinted': hasQrPrinted,
     };
   }
 
@@ -56,7 +56,7 @@ class Product {
       stock: json['stock'],
       imageUrl: json['imageUrl'],
       qrCodeUrl: json['qrCodeUrl'],
-      isAlreadyPrinted: json['isAlreadyPrinted'],
+      hasQrPrinted: json['hasQrPrinted'],
     );
   }
 
@@ -71,7 +71,7 @@ class Product {
     Category? category,
     String? imageUrl,
     String? qrCodeUrl,
-    bool? isAlreadyPrinted,
+    bool? hasQrPrinted,
   }) {
     return Product(
       id: id ?? this.id,
@@ -84,7 +84,7 @@ class Product {
       qrCodeUrl: qrCodeUrl ?? this.qrCodeUrl,
       publicPrice: publicPrice ?? this.publicPrice,
       cashPurchasePrice: cashPurchasePrice ?? this.cashPurchasePrice,
-      isAlreadyPrinted: isAlreadyPrinted ?? this.isAlreadyPrinted,
+      hasQrPrinted: hasQrPrinted ?? this.hasQrPrinted,
     );
   }
 

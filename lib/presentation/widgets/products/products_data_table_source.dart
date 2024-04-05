@@ -78,7 +78,7 @@ class ProductDataTableSource extends DataTableSource {
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(Text(product.stock.toString())),
         DataCell(Icon(
-          product.isAlreadyPrinted ? PhosphorIcons.check : PhosphorIcons.minus,
+          product.hasQrPrinted ? PhosphorIcons.check : PhosphorIcons.minus,
         )),
         DataCell(Row(
           children: [

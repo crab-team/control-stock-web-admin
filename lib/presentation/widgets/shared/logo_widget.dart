@@ -17,7 +17,7 @@ class LogoWidget extends StatelessWidget {
         case true:
           return Row(
             mainAxisAlignment: withText ? MainAxisAlignment.start : MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 AssetsImages.logo,

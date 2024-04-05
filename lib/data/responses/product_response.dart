@@ -11,6 +11,7 @@ class ProductResponse {
   int stock;
   CategoryResponse category;
   String qrCodeUrl;
+  bool hasQrPrinted;
 
   ProductResponse({
     required this.id,
@@ -21,6 +22,7 @@ class ProductResponse {
     required this.category,
     required this.qrCodeUrl,
     required this.publicPrice,
+    required this.hasQrPrinted,
     this.cashPurchasePrice,
   });
 
@@ -35,6 +37,7 @@ class ProductResponse {
       stock: json["stock"],
       category: CategoryResponse.fromJson(json["category"]),
       qrCodeUrl: json["qrCodeUrl"],
+      hasQrPrinted: json["hasQrPrinted"],
     );
   }
 
@@ -49,6 +52,7 @@ class ProductResponse {
       stock: stock,
       category: category.toDomain(),
       qrCodeUrl: qrCodeUrl,
+      hasQrPrinted: hasQrPrinted,
     );
   }
 }

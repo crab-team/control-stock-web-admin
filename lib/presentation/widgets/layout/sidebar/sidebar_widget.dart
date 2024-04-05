@@ -30,7 +30,9 @@ class SidebarWidget extends ConsumerWidget {
         children: [
           const Padding(
             padding: kPaddingAppSmall,
-            child: LogoWidget.horizontal(size: 42),
+            child: LogoWidget.horizontal(
+              size: 42,
+            ),
           ),
           const Divider(),
           Expanded(
