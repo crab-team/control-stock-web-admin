@@ -53,7 +53,7 @@ class _ButtonWithConfirmationState extends State<ButtonWithConfirmation> {
       child: IconButton(
         icon: Icon(
           Icons.delete,
-          color: colorScheme.onError,
+          color: colorScheme.primary,
         ),
         onPressed: () => setState(() {
           _showConfirmationState = true;

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const kPaddingApp = EdgeInsets.all(100.0);
-const kPaddingAppSmall = EdgeInsets.all(24.0);
+const kPaddingAppSmall = EdgeInsets.all(16.0);
 const kPaddingAppHorizontal = EdgeInsets.symmetric(horizontal: 52.0);
 const kPaddingAppHorizontalSmall = EdgeInsets.symmetric(horizontal: 24.0);
 const kPaddingAppHorizontalLarge = EdgeInsets.symmetric(horizontal: 100.0);
@@ -104,18 +104,18 @@ final ThemeData theme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
+      backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       foregroundColor: MaterialStateProperty.all(Colors.white),
-      padding: MaterialStateProperty.all(kPaddingAppSmall),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRadiusCornerInside),
         ),
       ),
+      iconSize: MaterialStateProperty.all(14.0),
       textStyle: MaterialStateProperty.all(
         const TextStyle(
           color: Colors.white,
-          fontSize: 16.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
       ),

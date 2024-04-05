@@ -8,7 +8,7 @@ class AddProductButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextButton.icon(
+    return ElevatedButton.icon(
       icon: const Icon(PhosphorIcons.plus),
       onPressed: () => _goToProductForm(context, ref),
       label: const Text('Agregar producto'),

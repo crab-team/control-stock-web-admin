@@ -22,6 +22,7 @@ class Texts {
   static const String noData = 'No hay datos';
 
   // Products
+  static const String products = 'Productos';
   static const String createProduct = 'Crear producto';
   static const String updateProduct = 'Actualizar producto';
   static const String deleteProduct = 'Eliminar producto';

@@ -1,4 +1,5 @@
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/upload_products_csv/upload_csv_button.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class ProductsAppBar extends ConsumerWidget {
         Expanded(
           child: SearchBar(
             leading: const Icon(PhosphorIcons.magnifying_glass),
-            hintText: 'Buscar producto',
+            hintText: Texts.searchProduct,
             onChanged: (value) => _search(ref, value),
             shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           ),

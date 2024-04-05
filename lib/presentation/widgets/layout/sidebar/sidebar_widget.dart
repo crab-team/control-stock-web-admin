@@ -28,15 +28,9 @@ class SidebarWidget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
+          const Padding(
             padding: kPaddingAppSmall,
-            child: const LogoWidget.horizontal(size: 42, withText: false),
-          ),
-          const Divider(),
-          const SizedBox(
-            width: double.maxFinite,
-            height: 100,
-            child: SidebarUserWidget(),
+            child: LogoWidget.horizontal(size: 42),
           ),
           const Divider(),
           Expanded(
@@ -55,6 +49,14 @@ class SidebarWidget extends ConsumerWidget {
               },
             ),
           ),
+          const Divider(),
+          const Gap.small(),
+          const SizedBox(
+            width: double.maxFinite,
+            child: SidebarUserWidget(),
+          ),
+          const Gap.small(),
+          const Divider(),
           const Padding(
             padding: kPaddingAppSmall,
             child: VersionWidget(),

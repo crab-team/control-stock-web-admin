@@ -36,17 +36,20 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
   _buildDataTable(List<Category> data) {
     return PaginatedDataTable2(
       border: TableBorder(
-        horizontalInside: BorderSide(color: colorScheme.secondaryContainer),
-        verticalInside: BorderSide(color: colorScheme.secondaryContainer),
-        bottom: BorderSide(color: colorScheme.secondaryContainer),
-        top: BorderSide(color: colorScheme.secondaryContainer),
+        horizontalInside: BorderSide(color: colorScheme.primaryContainer),
+        verticalInside: BorderSide(color: colorScheme.primaryContainer),
+        bottom: BorderSide(color: colorScheme.primaryContainer),
+        top: BorderSide(color: colorScheme.primaryContainer),
       ),
       minWidth: 1200,
-      dataTextStyle: Theme.of(context).textTheme.bodyLarge,
-      columnSpacing: 12,
-      rowsPerPage: 15,
-      empty: const Center(child: Text(Texts.noProducts)),
       header: const CategoriesAppBar(),
+      dataTextStyle: Theme.of(context).textTheme.bodyLarge,
+      rowsPerPage: 20,
+      wrapInCard: false,
+      empty: const Center(child: Text(Texts.noCategories)),
+      headingRowHeight: 42,
+      headingRowColor: MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
+      dataRowHeight: 42,
       columns: const [
         DataColumn2(
           label: Text('Nombre'),

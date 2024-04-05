@@ -3,23 +3,52 @@ import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
+class ProductDataTableModel {
+  final Product product;
+  final bool selected;
+
+  ProductDataTableModel({
+    required this.product,
+    this.selected = false,
+  });
+
+  ProductDataTableModel copyWith({
+    Product? product,
+    bool? selected,
+  }) {
+    return ProductDataTableModel(
+      product: product ?? this.product,
+      selected: selected ?? this.selected,
+    );
+  }
+}
+
 class ProductDataTableSource extends DataTableSource {
-  final List<Product> _data;
+  final List<ProductDataTableModel> _data;
   final Function(int code) onDelete;
   final Function(Product product) onEdit;
   final Function(Product code) onAnalytics;
   final Function(Product productUpdated) onChangeAnyValue;
+  final Function(String selectedProduct) onSelect;
 
   ProductDataTableSource({
-    List<Product>? data,
+    List<ProductDataTableModel>? data,
+    List<String>? selectedProductsCode,
     required this.onDelete,
     required this.onChangeAnyValue,
     required this.onEdit,
     required this.onAnalytics,
-  }) : _data = data ?? <Product>[];
+    required this.onSelect,
+  }) : _data = data ?? <ProductDataTableModel>[];
 
   @override
   int get rowCount => _data.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => _data.where((element) => element.selected).toList().length;
 
   @override
   DataRow? getRow(int index) {
@@ -27,7 +56,8 @@ class ProductDataTableSource extends DataTableSource {
       return null;
     }
 
-    final product = _data[index];
+    final product = _data[index].product;
+    final productIsSelected = _data[index].selected;
     TextEditingController nameController = TextEditingController();
     TextEditingController priceController = TextEditingController();
     TextEditingController stockController = TextEditingController();
@@ -37,10 +67,9 @@ class ProductDataTableSource extends DataTableSource {
 
     return DataRow.byIndex(
       index: index,
+      onSelectChanged: (_) => onSelect(product.code),
+      selected: productIsSelected,
       cells: [
-        DataCell(Icon(
-          product.qrCodeUrl != null ? PhosphorIcons.check : PhosphorIcons.printer,
-        )),
         DataCell(Text(product.code)),
         DataCell(TextFormField(
           controller: nameController,
@@ -73,10 +102,13 @@ class ProductDataTableSource extends DataTableSource {
           ),
           onFieldSubmitted: (value) => onChangeAnyValue(product.copyWith(stock: int.tryParse(value) ?? 0)),
         )),
+        DataCell(Icon(
+          product.isAlreadyPrinted ? PhosphorIcons.check : PhosphorIcons.minus,
+        )),
         DataCell(Row(
           children: [
             IconButton(
-              icon: const Icon(PhosphorIcons.pencil),
+              icon: const Icon(PhosphorIcons.pencil_simple),
               onPressed: () => onEdit(product),
             ),
             ButtonWithConfirmation(
@@ -94,10 +126,4 @@ class ProductDataTableSource extends DataTableSource {
       ],
     );
   }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0;
 }

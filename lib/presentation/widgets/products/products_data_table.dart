@@ -2,12 +2,16 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products/products_app_bar.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/print_qr_products_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/upload_products_csv/upload_csv_button.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductsDataTable extends ConsumerStatefulWidget {
@@ -20,22 +24,11 @@ class ProductsDataTable extends ConsumerStatefulWidget {
 class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productsControllerProvider);
-
-    return state.when(
-      data: (values) {
-        return _buildDataTable(values);
-      },
-      loading: () {
-        return const Center(child: CircularProgressIndicator());
-      },
-      error: (error, stackTrace) {
-        return Center(child: Text('Error: $error'));
-      },
-    );
+    final state = ref.watch(productsDataTableStateProvider);
+    return _buildDataTable(state);
   }
 
-  _buildDataTable(List<Product> data) {
+  _buildDataTable(List<ProductDataTableModel> data) {
     return PaginatedDataTable2(
       border: TableBorder(
         horizontalInside: BorderSide(color: colorScheme.primaryContainer),
@@ -48,16 +41,12 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       rowsPerPage: 20,
       wrapInCard: false,
       empty: const Center(child: Text(Texts.noProducts)),
-      header: const ProductsAppBar(),
+      header: const Text(Texts.products),
       headingRowHeight: 42,
       headingRowColor: MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
       dataRowHeight: 42,
+      showCheckboxColumn: true,
       columns: [
-        const DataColumn2(
-          fixedWidth: 50,
-          label: Text('QR'),
-          size: ColumnSize.S,
-        ),
         const DataColumn2(
           fixedWidth: 100,
           label: Text('Código'),
@@ -73,12 +62,12 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           fixedWidth: 150,
         ),
         const DataColumn2(
-          label: Text('Precio al público'),
+          label: Text('Precio público'),
           size: ColumnSize.S,
           fixedWidth: 150,
         ),
         const DataColumn2(
-          label: Text('Precio al público efectivo'),
+          label: Text('Precio contado'),
           size: ColumnSize.S,
           fixedWidth: 150,
         ),
@@ -93,7 +82,27 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           size: ColumnSize.S,
           fixedWidth: 120,
         ),
+        const DataColumn2(
+          fixedWidth: 80,
+          label: Icon(PhosphorIcons.printer),
+        ),
         const DataColumn2(label: Text('Acciones'), size: ColumnSize.S, fixedWidth: 200),
+      ],
+      onSelectAll: (value) {
+        _onSelectAllRows(data, value);
+      },
+      actions: [
+        Expanded(
+          child: SearchBar(
+            leading: const Icon(PhosphorIcons.magnifying_glass),
+            hintText: Texts.searchProduct,
+            onChanged: (value) => _search(ref, value),
+            shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
+          ),
+        ),
+        const AddProductButton(),
+        const UploadCsvButton(),
+        const PrintQrProductsButton(),
       ],
       source: ProductDataTableSource(
         data: data,
@@ -101,8 +110,30 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         onChangeAnyValue: _update,
         onEdit: _onEdit,
         onAnalytics: _goToAnalitycs,
+        onSelect: (productSelected) {
+          _onSelectRow(data, productSelected);
+        },
       ),
     );
+  }
+
+  void _search(WidgetRef ref, String query) {
+    ref.read(productsControllerProvider.notifier).search(query);
+  }
+
+  void _onSelectAllRows(List<ProductDataTableModel> data, bool? value) {
+    final updatedProducts = data.map((product) => product.copyWith(selected: value)).toList();
+    ref.read(productsDataTableStateProvider.notifier).state = updatedProducts;
+  }
+
+  void _onSelectRow(List<ProductDataTableModel> data, String productSelected) {
+    final updatedProducts = data.map((product) {
+      if (product.product.code == productSelected) {
+        return product.copyWith(selected: !product.selected);
+      }
+      return product;
+    }).toList();
+    ref.read(productsDataTableStateProvider.notifier).state = updatedProducts;
   }
 
   void _delete(int id) {

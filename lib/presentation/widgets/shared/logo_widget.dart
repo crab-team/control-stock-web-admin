@@ -16,7 +16,7 @@ class LogoWidget extends StatelessWidget {
       switch (isHorizontal) {
         case true:
           return Row(
-            mainAxisAlignment: withText ? MainAxisAlignment.start : MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(
@@ -30,7 +30,7 @@ class LogoWidget extends StatelessWidget {
                     const Gap.small(isHorizontal: true),
                     Text(
                       'Control Stock',
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: (size ?? 32) * 0.5),
                     ),
                   ],
                 ),
