@@ -90,6 +90,10 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         _onSelectAllRows(data, value);
       },
       actions: [
+        const VerticalDivider(
+          indent: 8,
+          endIndent: 8,
+        ),
         Expanded(
           child: SearchBar(
             leading: const Icon(PhosphorIcons.magnifying_glass),
@@ -97,6 +101,10 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
             onChanged: (value) => _search(ref, value),
             shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           ),
+        ),
+        const VerticalDivider(
+          indent: 8,
+          endIndent: 8,
         ),
         const AddProductButton(),
         const UploadCsvButton(),
@@ -142,17 +150,4 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   }
 
   void _goToAnalitycs(Product product) {}
-
-  void _update(Product productUpdated) {
-    Product product = Product(
-      id: productUpdated.id,
-      code: productUpdated.code,
-      name: productUpdated.name,
-      costPrice: productUpdated.costPrice,
-      stock: productUpdated.stock,
-      category: productUpdated.category,
-      imageUrl: '',
-    );
-    ref.read(productsControllerProvider.notifier).updateProduct(product);
-  }
 }

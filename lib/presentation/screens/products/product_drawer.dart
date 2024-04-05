@@ -7,6 +7,7 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/image_picker_widget.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,7 +89,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       controller: priceController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$'),
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                      inputFormatters: [CurrencyTextInputFormatter(locale: 'es_AR', decimalDigits: 2, symbol: '')],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return Texts.requiredField;

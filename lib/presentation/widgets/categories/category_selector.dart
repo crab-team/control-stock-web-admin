@@ -51,6 +51,21 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
         return DropdownButtonFormField<Category>(
           decoration: InputDecoration(
             border: widget.asFilter ? const OutlineInputBorder(borderSide: BorderSide.none) : null,
+            focusedBorder: widget.asFilter
+                ? const OutlineInputBorder(borderSide: BorderSide.none)
+                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
+            errorBorder: widget.asFilter
+                ? const OutlineInputBorder(borderSide: BorderSide.none)
+                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.error)),
+            focusedErrorBorder: widget.asFilter
+                ? const OutlineInputBorder(borderSide: BorderSide.none)
+                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.error)),
+            enabledBorder: widget.asFilter
+                ? const OutlineInputBorder(borderSide: BorderSide.none)
+                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
+            disabledBorder: widget.asFilter
+                ? const OutlineInputBorder(borderSide: BorderSide.none)
+                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
             contentPadding: widget.asFilter ? EdgeInsets.zero : null,
             fillColor: Colors.transparent,
           ),
