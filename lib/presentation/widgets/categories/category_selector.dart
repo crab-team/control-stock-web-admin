@@ -52,6 +52,7 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
           decoration: InputDecoration(
             border: widget.asFilter ? const OutlineInputBorder(borderSide: BorderSide.none) : null,
             contentPadding: widget.asFilter ? EdgeInsets.zero : null,
+            fillColor: Colors.transparent,
           ),
           borderRadius: BorderRadius.circular(widget.asFilter ? 0 : kRadiusCornerInside),
           hint: Text(

@@ -1,4 +1,3 @@
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/sidebar/sidebar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,14 +18,7 @@ class DashboardWidget extends ConsumerWidget {
             children: [
               SizedBox(width: constraints.maxWidth * 0.15, child: SidebarWidget(navigationShell: page)),
               Expanded(
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: kPaddingAppSmall,
-                      child: page,
-                    ),
-                  ],
-                ),
+                child: page,
               ),
             ],
           ),

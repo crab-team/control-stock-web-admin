@@ -38,17 +38,20 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
   _buildDataTable(List<Product> data) {
     return PaginatedDataTable2(
       border: TableBorder(
-        horizontalInside: BorderSide(color: colorScheme.secondaryContainer),
-        verticalInside: BorderSide(color: colorScheme.secondaryContainer),
-        bottom: BorderSide(color: colorScheme.secondaryContainer),
-        top: BorderSide(color: colorScheme.secondaryContainer),
+        horizontalInside: BorderSide(color: colorScheme.primaryContainer),
+        verticalInside: BorderSide(color: colorScheme.primaryContainer),
+        bottom: BorderSide(color: colorScheme.primaryContainer),
+        top: BorderSide(color: colorScheme.primaryContainer),
       ),
       minWidth: 1200,
       dataTextStyle: Theme.of(context).textTheme.bodyLarge,
-      columnSpacing: 12,
-      rowsPerPage: 15,
+      rowsPerPage: 20,
+      wrapInCard: false,
       empty: const Center(child: Text(Texts.noProducts)),
       header: const ProductsAppBar(),
+      headingRowHeight: 42,
+      headingRowColor: MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
+      dataRowHeight: 42,
       columns: [
         const DataColumn2(
           fixedWidth: 50,
@@ -88,7 +91,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         const DataColumn2(
           label: Text('Cantidad'),
           size: ColumnSize.S,
-          fixedWidth: 100,
+          fixedWidth: 120,
         ),
         const DataColumn2(label: Text('Acciones'), size: ColumnSize.S, fixedWidth: 200),
       ],

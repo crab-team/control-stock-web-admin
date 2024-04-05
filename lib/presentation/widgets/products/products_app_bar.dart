@@ -13,16 +13,16 @@ class ProductsAppBar extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const UploadCsvButton(),
-        SearchBar(
-          leading: const Icon(PhosphorIcons.magnifying_glass),
-          hintText: 'Buscar producto',
-          onChanged: (value) => _search(ref, value),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            const LinearBorder(),
+        Expanded(
+          child: SearchBar(
+            leading: const Icon(PhosphorIcons.magnifying_glass),
+            hintText: 'Buscar producto',
+            onChanged: (value) => _search(ref, value),
+            shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           ),
         ),
         const AddProductButton(),
+        const UploadCsvButton(),
       ],
     );
   }
