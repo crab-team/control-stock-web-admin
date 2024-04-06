@@ -5,7 +5,6 @@ import 'package:control_stock_web_admin/presentation/screens/auth/email_link_con
 import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/categories/category_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';

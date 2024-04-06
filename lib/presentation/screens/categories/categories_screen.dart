@@ -7,10 +7,6 @@ class CategoriesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [Expanded(child: CategoriesDataTable())],
-    );
+    return const CategoriesDataTable();
   }
 }
