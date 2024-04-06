@@ -6,5 +6,6 @@ abstract class ProductsRemoteDataSource {
   Future<ProductResponse> add(ProductModel product);
   Future<void> addProducts(List<ProductModel> products);
   Future<ProductResponse> update(ProductModel product);
+  Future<void> updateProducts(List<ProductModel> products);
   Future<void> delete(int id);
 }

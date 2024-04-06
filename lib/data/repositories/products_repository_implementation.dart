@@ -67,4 +67,15 @@ class ProductsRepositoryImplementation implements ProductsRepository {
       return Left(Failure('Error al actualizar el producto'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateProducts(List<Product> products) async {
+    try {
+      final productsModel = products.map((e) => e.toUpdateProductJson()).toList();
+      await productsRemoteDataSource.updateProducts(productsModel);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure('Error al actualizar los productos'));
+    }
+  }
 }

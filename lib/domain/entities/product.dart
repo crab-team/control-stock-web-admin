@@ -95,6 +95,7 @@ class Product {
       costPrice: costPrice,
       stock: stock,
       categoryId: category.id,
+      hasQrPrinted: hasQrPrinted,
     );
   }
 
@@ -107,6 +108,7 @@ class Product {
       stock: stock,
       categoryId: category.id,
       imageUrl: imageUrl,
+      hasQrPrinted: hasQrPrinted,
     );
   }
 }

@@ -89,7 +89,15 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       controller: priceController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$'),
-                      inputFormatters: [CurrencyTextInputFormatter(locale: 'es_AR', decimalDigits: 2, symbol: '')],
+                      inputFormatters: [
+                        CurrencyTextInputFormatter(
+                          locale: 'es_AR',
+                          decimalDigits: 2,
+                          symbol: '',
+                          inputDirection: InputDirection.left,
+                          customPattern: '\$####,##',
+                        )
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return Texts.requiredField;
@@ -165,6 +173,8 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
 
   void _onSubmit() {
     if (formKey.currentState!.validate() && category != null) {
+      priceController.text = priceController.text.replaceAll('.', '').replaceAll(',', '.');
+
       final product = Product(
         id: widget.product?.id,
         code: codeController.text,

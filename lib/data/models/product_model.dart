@@ -6,6 +6,7 @@ class ProductModel {
   final int stock;
   final int categoryId;
   final String? imageUrl;
+  final bool hasQrPrinted;
 
   ProductModel({
     this.id,
@@ -14,6 +15,7 @@ class ProductModel {
     required this.costPrice,
     required this.stock,
     required this.categoryId,
+    required this.hasQrPrinted,
     this.imageUrl,
   });
 
@@ -36,6 +38,7 @@ class ProductModel {
       'stock': stock,
       'categoryId': categoryId,
       'imageUrl': '',
+      'hasQrPrinted': hasQrPrinted,
     };
   }
 }

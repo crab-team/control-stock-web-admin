@@ -14,6 +14,7 @@ import 'package:control_stock_web_admin/domain/use_cases/products/delete_product
 import 'package:control_stock_web_admin/domain/use_cases/products/get_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_product.dart';
+import 'package:control_stock_web_admin/domain/use_cases/products/update_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/get_user.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/store_user.dart';
 import 'package:control_stock_web_admin/providers/repositories_providers.dart';
@@ -49,6 +50,10 @@ final getProductUseCaseProvider = Provider<GetProduct>((ref) {
 
 final updateProductUseCaseProvider = Provider<UpdateProduct>((ref) {
   return UpdateProduct(ref.read(productsRepositoryProvider));
+});
+
+final updateProductsUseCaseProvider = Provider<UpdateProducts>((ref) {
+  return UpdateProducts(ref.read(productsRepositoryProvider));
 });
 
 final createProductUseCaseProvider = Provider<CreateProduct>((ref) {

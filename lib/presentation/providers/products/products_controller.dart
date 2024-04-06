@@ -101,6 +101,19 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
     sortByName();
   }
 
+  updateProducts(List<Product> products) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final productsEither = await ref.read(updateProductsUseCaseProvider).execute(products);
+      return productsEither.fold((l) => throw l, (r) async {
+        await getAll();
+        return products;
+      });
+    });
+
+    sortByName();
+  }
+
   updateCashPaymentPercentage(double value) {}
 
   sortByName() {

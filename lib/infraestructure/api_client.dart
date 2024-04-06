@@ -120,6 +120,28 @@ class APIClient {
     );
   }
 
+  Future<dynamic> sendPatch(
+    String path, {
+    bool authenticated = false,
+    Map<String, dynamic> body = const {},
+    Map<String, String> headers = const {},
+  }) async {
+    if (authenticated) {
+      headers = await _addAuthHeader(headers);
+    }
+
+    logger.d('-- PATCH: $path');
+    logger.d('-- BODY: $body');
+
+    return execute(
+      () => dio.patch(
+        path,
+        data: body,
+        options: Options(headers: headers),
+      ),
+    );
+  }
+
   Future<dynamic> execute(Function() function) async {
     try {
       var response = await function();

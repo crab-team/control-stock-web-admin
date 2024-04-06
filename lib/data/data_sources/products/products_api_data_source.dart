@@ -69,4 +69,17 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> updateProducts(List<ProductModel> products) {
+    try {
+      final body = {
+        'products': products.map((e) => e.toUpdateProductJson()).toList(),
+      };
+      return apiClient.sendPatch('$pathProducts/bulk', body: body);
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
 }

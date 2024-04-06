@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:control_stock_web_admin/core/theme.dart';
+import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
@@ -118,6 +120,7 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
               onPressed: () async {
                 final result = await Printing.layoutPdf(onLayout: (format) => doc.save());
                 if (result) {
+                  _updateProductsState(products);
                   Navigator.of(context).pop();
                 }
               },
@@ -127,5 +130,24 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
         );
       },
     );
+  }
+
+  void _updateProductsState(List<ProductDataTableModel> products) {
+    final productsSelected = products.where((product) => product.selected).toList();
+    List<Product> updatedProducts = productsSelected
+        .map((productModel) => Product(
+              id: productModel.product.id,
+              code: productModel.product.code,
+              name: productModel.product.name,
+              costPrice: productModel.product.costPrice,
+              publicPrice: productModel.product.publicPrice,
+              category: productModel.product.category,
+              qrCodeUrl: productModel.product.qrCodeUrl,
+              stock: productModel.product.stock,
+              hasQrPrinted: true,
+            ))
+        .toList();
+
+    ref.read(productsControllerProvider.notifier).updateProducts(updatedProducts);
   }
 }
