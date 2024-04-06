@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/data/repositories/auth_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/categories_repository_implementation.dart';
+import 'package:control_stock_web_admin/data/repositories/clients_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/commerce_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/products_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/users_repository_implementation.dart';
@@ -17,3 +18,5 @@ final categoriesRepositoryProvider =
     Provider((ref) => CategoriesRepositoryImplementation(ref.read(categoriesRemoteDataSourcesProvider)));
 final commerceRepositoryProvider =
     Provider((ref) => CommerceRepositoryImplementation(ref.read(commerceRemoteDataSourcesProvider)));
+final clientsRepositoryProvider =
+    Provider((ref) => ClientsRepositoryImplementation(ref.read(clientsRemoteDataSourcesProvider)));

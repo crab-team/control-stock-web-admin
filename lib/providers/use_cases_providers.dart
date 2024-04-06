@@ -6,6 +6,10 @@ import 'package:control_stock_web_admin/domain/use_cases/categories/create_categ
 import 'package:control_stock_web_admin/domain/use_cases/categories/delete_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/update_category.dart';
+import 'package:control_stock_web_admin/domain/use_cases/clients/create_client.dart';
+import 'package:control_stock_web_admin/domain/use_cases/clients/delete_client.dart';
+import 'package:control_stock_web_admin/domain/use_cases/clients/get_clients.dart';
+import 'package:control_stock_web_admin/domain/use_cases/clients/update_client.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
@@ -100,4 +104,24 @@ final updateCashPaymentPercentageUseCaseProvider = Provider<UpdateCashPaymentPer
 
 final updateCommerceUseCaseProvider = Provider<UpdateCommerce>((ref) {
   return UpdateCommerce(ref.read(commerceRepositoryProvider));
+});
+
+// ------------------//
+// ---- Clients ---- //
+// ------------------//
+
+final getClientsUseCaseProvider = Provider<GetClients>((ref) {
+  return GetClients(ref.read(clientsRepositoryProvider));
+});
+
+final updateClientUseCaseProvider = Provider<UpdateClient>((ref) {
+  return UpdateClient(ref.read(clientsRepositoryProvider));
+});
+
+final createClientUseCaseProvider = Provider<CreateClient>((ref) {
+  return CreateClient(ref.read(clientsRepositoryProvider));
+});
+
+final deleteClientUseCaseProvider = Provider<DeleteClient>((ref) {
+  return DeleteClient(ref.read(clientsRepositoryProvider));
 });

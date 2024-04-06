@@ -10,11 +10,13 @@ class Texts {
   static const String accept = 'Aceptar';
   static const String cancel = 'Cancelar';
   static const String save = 'Guardar';
+  static const String edit = 'Editar';
   static const String add = 'Agregar';
   static const String delete = 'Eliminar';
   static const String update = 'Actualizar';
   static const String requiredField = 'Campo requerido';
   static const String name = 'Nombre';
+  static const String lastName = 'Apellido';
   static const String description = 'Descripción';
   static const String price = 'Precio';
   static const String stock = 'Stock';
@@ -57,6 +59,17 @@ class Texts {
   static const String noCategories = 'No hay categorías';
   static const String searchCategory = 'Buscar categoría';
   static const String percentageProfit = 'Porcentaje de ganancia';
+
+  // Clients
+  static const String clients = 'Clientes';
+  static const String createClient = 'Crear cliente';
+  static const String updateClient = 'Actualizar cliente';
+  static const String deleteClient = 'Eliminar cliente';
+  static const String deleteClientConfirmation = '¿Está seguro que desea eliminar este cliente?';
+  static const String noClients = 'No hay clientes';
+  static const String searchClient = 'Buscar cliente';
+  static const String addClient = 'Agregar cliente';
+  static const String editClient = 'Editar cliente';
 
   // Errors
   static const String error = 'Error';
