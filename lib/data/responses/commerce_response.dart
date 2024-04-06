@@ -3,13 +3,17 @@ import 'package:control_stock_web_admin/domain/entities/commerce.dart';
 class CommerceResponse {
   final int id;
   final String name;
-  final String address;
   final double discountCashPercentage;
+  final String? address;
+  final String? phone;
+  final String? email;
 
   CommerceResponse({
     required this.id,
     required this.name,
-    required this.address,
+    this.address,
+    this.phone,
+    this.email,
     required this.discountCashPercentage,
   });
 
@@ -18,6 +22,8 @@ class CommerceResponse {
       id: json['id'],
       name: json['name'],
       address: json['address'],
+      phone: json['phone'],
+      email: json['email'],
       discountCashPercentage: json['discount_cash_percentage'],
     );
   }
@@ -27,6 +33,8 @@ class CommerceResponse {
       'id': id,
       'name': name,
       'address': address,
+      'phone': phone,
+      'email': email,
       'discount_cash_percentage': discountCashPercentage,
     };
   }
@@ -35,7 +43,9 @@ class CommerceResponse {
     return Commerce(
       id: id,
       name: name,
-      address: address,
+      address: address ?? '',
+      phone: phone ?? '',
+      email: email ?? '',
       discountCashPercentage: discountCashPercentage,
     );
   }

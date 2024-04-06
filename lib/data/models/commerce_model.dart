@@ -2,12 +2,16 @@ class CommerceModel {
   final String id;
   final String name;
   final String address;
+  final String phone;
+  final String email;
   final double cashPaymentPercentage;
 
   CommerceModel({
     required this.id,
     required this.name,
     required this.address,
+    required this.phone,
+    required this.email,
     required this.cashPaymentPercentage,
   });
 
@@ -16,6 +20,8 @@ class CommerceModel {
       id: json['id'],
       name: json['name'],
       address: json['address'],
+      phone: json['phone'],
+      email: json['email'],
       cashPaymentPercentage: json['cashPaymentPercentage'],
     );
   }
@@ -25,6 +31,8 @@ class CommerceModel {
       'id': id,
       'name': name,
       'address': address,
+      'phone': phone,
+      'email': email,
       'cashPaymentPercentage': cashPaymentPercentage,
     };
   }

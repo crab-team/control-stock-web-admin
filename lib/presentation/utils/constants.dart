@@ -22,6 +22,20 @@ class Texts {
   static const String loading = 'Cargando...';
   static const String noImage = 'Sin imagen';
   static const String noData = 'No hay datos';
+  static const String saved = 'Guardado';
+
+  // Commerce
+  static const String email = 'Correo electrónico';
+  static const String address = 'Dirección';
+  static const String phone = 'Teléfono';
+  static const String discountCashPercentage = 'Descuento en efectivo';
+  static const String commerce = 'Comercio';
+  static const String commerceName = 'Nombre del comercio';
+  static const String accountingData = 'Datos contables';
+  static const String commerceSettings = 'Configuración de comercio';
+  static const String commerceData = 'Datos del comercio';
+  static const String commerceImage = 'Imagen del comercio';
+  static const String commerceImageDescription = 'Haga clic en la imagen para cambiarla';
 
   // Products
   static const String products = 'Productos';

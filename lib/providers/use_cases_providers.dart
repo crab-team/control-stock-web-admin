@@ -8,6 +8,7 @@ import 'package:control_stock_web_admin/domain/use_cases/categories/get_categori
 import 'package:control_stock_web_admin/domain/use_cases/categories/update_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
+import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/delete_product.dart';
@@ -95,4 +96,8 @@ final getCommerceByIdUseCaseProvider = Provider<GetCommerceById>((ref) {
 });
 final updateCashPaymentPercentageUseCaseProvider = Provider<UpdateCashPaymentPercentage>((ref) {
   return UpdateCashPaymentPercentage(ref.read(commerceRepositoryProvider));
+});
+
+final updateCommerceUseCaseProvider = Provider<UpdateCommerce>((ref) {
+  return UpdateCommerce(ref.read(commerceRepositoryProvider));
 });

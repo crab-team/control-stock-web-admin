@@ -1,4 +1,5 @@
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/models/commerce_model.dart';
 import 'package:control_stock_web_admin/data/responses/commerce_response.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 
@@ -10,10 +11,10 @@ class CommerceApiDataSource implements CommerceRemoteDataSource {
   String path = '/commerces';
 
   @override
-  Future<void> updateDiscountCashPercentage(double value) async {
+  Future<void> updateDiscountCashPercentage(String commerceId, double value) async {
     try {
       final body = {'discountCashPercentage': value};
-      return await apiClient.sendPut('$path/discount-cash-percentage', body: body);
+      return await apiClient.sendPatch('$path/accounting/$commerceId', body: body);
     } catch (e) {
       rethrow;
     }
@@ -23,6 +24,15 @@ class CommerceApiDataSource implements CommerceRemoteDataSource {
   Future<CommerceResponse> getById(String id) {
     try {
       return apiClient.sendGet('$path/$id').then((response) => CommerceResponse.fromJson(response));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> update(CommerceModel commerce) async {
+    try {
+      return await apiClient.sendPut('$path/${commerce.id}', body: commerce.toJson());
     } catch (e) {
       rethrow;
     }

@@ -20,11 +20,11 @@ class CommerceController extends AsyncNotifier<Commerce?> {
     });
   }
 
-  Future<void> updateCashPaymentPercentage(double cashPaymentPercentage) async {
+  Future<void> updateData(Commerce commerce) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final result = await ref.read(updateCashPaymentPercentageUseCaseProvider).execute(cashPaymentPercentage);
-      return result.fold((error) => throw error, (_) => state.asData?.value);
+      final result = await ref.read(updateCommerceUseCaseProvider).execute(commerce);
+      return result.fold((error) => throw error, (_) => commerce);
     });
   }
 }

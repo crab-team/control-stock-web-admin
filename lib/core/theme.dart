@@ -209,6 +209,14 @@ final ThemeData theme = ThemeData(
       fontWeight: FontWeight.w400,
       color: colorScheme.inversePrimary.withOpacity(0.4),
     ),
+    labelStyle: TextStyle(
+      fontWeight: FontWeight.w400,
+      color: colorScheme.inversePrimary.withOpacity(0.4),
+    ),
+    helperStyle: TextStyle(
+      fontWeight: FontWeight.w400,
+      color: colorScheme.inversePrimary.withOpacity(0.4),
+    ),
   ),
   timePickerTheme: TimePickerThemeData(
     backgroundColor: colorScheme.primaryContainer,
@@ -272,6 +280,14 @@ final ThemeData theme = ThemeData(
       ),
       contentPadding: kPaddingAppSmall,
       hintStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        color: colorScheme.inversePrimary.withOpacity(0.4),
+      ),
+      labelStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        color: colorScheme.inversePrimary.withOpacity(0.4),
+      ),
+      helperStyle: TextStyle(
         fontWeight: FontWeight.w400,
         color: colorScheme.inversePrimary.withOpacity(0.4),
       ),
