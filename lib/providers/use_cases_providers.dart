@@ -6,10 +6,10 @@ import 'package:control_stock_web_admin/domain/use_cases/categories/create_categ
 import 'package:control_stock_web_admin/domain/use_cases/categories/delete_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/update_category.dart';
-import 'package:control_stock_web_admin/domain/use_cases/clients/create_client.dart';
-import 'package:control_stock_web_admin/domain/use_cases/clients/delete_client.dart';
-import 'package:control_stock_web_admin/domain/use_cases/clients/get_clients.dart';
-import 'package:control_stock_web_admin/domain/use_cases/clients/update_client.dart';
+import 'package:control_stock_web_admin/domain/use_cases/customers/create_customer.dart';
+import 'package:control_stock_web_admin/domain/use_cases/customers/delete_customer.dart';
+import 'package:control_stock_web_admin/domain/use_cases/customers/get_customers.dart';
+import 'package:control_stock_web_admin/domain/use_cases/customers/update_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
@@ -106,22 +106,22 @@ final updateCommerceUseCaseProvider = Provider<UpdateCommerce>((ref) {
   return UpdateCommerce(ref.read(commerceRepositoryProvider));
 });
 
-// ------------------//
-// ---- Clients ---- //
-// ------------------//
+// --------------------//
+// ---- Customers ---- //
+// --------------------//
 
-final getClientsUseCaseProvider = Provider<GetClients>((ref) {
-  return GetClients(ref.read(clientsRepositoryProvider));
+final getCustomersUseCaseProvider = Provider<GetCustomers>((ref) {
+  return GetCustomers(ref.read(customersRepositoryProvider));
 });
 
-final updateClientUseCaseProvider = Provider<UpdateClient>((ref) {
-  return UpdateClient(ref.read(clientsRepositoryProvider));
+final updateCustomerUseCaseProvider = Provider<UpdateCustomer>((ref) {
+  return UpdateCustomer(ref.read(customersRepositoryProvider));
 });
 
-final createClientUseCaseProvider = Provider<CreateClient>((ref) {
-  return CreateClient(ref.read(clientsRepositoryProvider));
+final createCustomerUseCaseProvider = Provider<CreateCustomer>((ref) {
+  return CreateCustomer(ref.read(customersRepositoryProvider));
 });
 
-final deleteClientUseCaseProvider = Provider<DeleteClient>((ref) {
-  return DeleteClient(ref.read(clientsRepositoryProvider));
+final deleteCustomerUseCaseProvider = Provider<DeleteCustomer>((ref) {
+  return DeleteCustomer(ref.read(customersRepositoryProvider));
 });

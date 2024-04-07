@@ -1,27 +1,27 @@
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/client.dart';
-import 'package:control_stock_web_admin/presentation/providers/clients/clients_controller.dart';
+import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/clients/client_drawer.dart';
-import 'package:control_stock_web_admin/presentation/widgets/clients/clients_data_table_source.dart';
+import 'package:control_stock_web_admin/presentation/widgets/customers/customer_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/customers/clients_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ClientsDataTable extends ConsumerStatefulWidget {
-  const ClientsDataTable({super.key});
+class CustomersDataTable extends ConsumerStatefulWidget {
+  const CustomersDataTable({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ClientsDataTableState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CustomersDataTableState();
 }
 
-class _ClientsDataTableState extends ConsumerState<ClientsDataTable> {
+class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(clientsControllerProvider);
+    final state = ref.watch(customersControllerProvider);
 
     return state.when(
       data: (data) {
@@ -36,7 +36,7 @@ class _ClientsDataTableState extends ConsumerState<ClientsDataTable> {
     );
   }
 
-  _buildDataTable(List<Client> data) {
+  _buildDataTable(List<Customer> data) {
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,
@@ -97,16 +97,16 @@ class _ClientsDataTableState extends ConsumerState<ClientsDataTable> {
           size: ColumnSize.S,
         ),
       ],
-      source: ClientsDataTableSource(data: data, onDelete: _delete),
+      source: CustomersDataTableSource(data: data, onDelete: _delete),
     );
   }
 
   void _search(String value) {
-    ref.read(clientsControllerProvider.notifier).search(value);
+    ref.read(customersControllerProvider.notifier).search(value);
   }
 
   void _delete(int id) {
-    ref.read(clientsControllerProvider.notifier).delete(id);
+    ref.read(customersControllerProvider.notifier).delete(id);
   }
 
   Widget _buildAddClient() {

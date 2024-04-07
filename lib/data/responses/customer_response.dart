@@ -1,6 +1,6 @@
-import 'package:control_stock_web_admin/domain/entities/client.dart';
+import 'package:control_stock_web_admin/domain/entities/customer.dart';
 
-class ClientResponse {
+class CustomerResponse {
   final int id;
   final String name;
   final String lastName;
@@ -8,7 +8,7 @@ class ClientResponse {
   final String? phone;
   final String? address;
 
-  ClientResponse({
+  CustomerResponse({
     required this.id,
     required this.name,
     required this.lastName,
@@ -17,8 +17,8 @@ class ClientResponse {
     this.address,
   });
 
-  factory ClientResponse.fromJson(Map<String, dynamic> json) {
-    return ClientResponse(
+  factory CustomerResponse.fromJson(Map<String, dynamic> json) {
+    return CustomerResponse(
       id: json["id"],
       name: json["name"],
       lastName: json["lastName"],
@@ -28,8 +28,8 @@ class ClientResponse {
     );
   }
 
-  Client toDomain() {
-    return Client(
+  Customer toDomain() {
+    return Customer(
       id: id,
       name: name,
       lastName: lastName,

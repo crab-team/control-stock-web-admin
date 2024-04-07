@@ -1,10 +1,10 @@
-import 'package:control_stock_web_admin/domain/entities/client.dart';
+import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final clientsControllerProvider = AsyncNotifierProvider<ClientsController, List<Client>>(ClientsController.new);
+final customersControllerProvider = AsyncNotifierProvider<CustomersController, List<Customer>>(CustomersController.new);
 
-class ClientsController extends AsyncNotifier<List<Client>> {
+class CustomersController extends AsyncNotifier<List<Customer>> {
   @override
   build() async {
     await getClients();
@@ -14,7 +14,7 @@ class ClientsController extends AsyncNotifier<List<Client>> {
   Future<void> getClients() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final response = await ref.read(getClientsUseCaseProvider).execute();
+      final response = await ref.read(getCustomersUseCaseProvider).execute();
       return response.fold(
         (l) => throw Exception('Error'),
         (r) => r,
@@ -22,52 +22,52 @@ class ClientsController extends AsyncNotifier<List<Client>> {
     });
   }
 
-  Future<void> create(Client client) async {
-    final clients = state.asData!.value;
+  Future<void> create(Customer customer) async {
+    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final response = await ref.read(createClientUseCaseProvider).execute(client);
+      final response = await ref.read(createCustomerUseCaseProvider).execute(customer);
       return response.fold(
         (l) => throw Exception('Error'),
-        (r) => [...clients, r],
+        (r) => [...customers, r],
       );
     });
   }
 
-  Future<void> updateClient(Client client) async {
-    final clients = state.asData!.value;
+  Future<void> updateClient(Customer customer) async {
+    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final response = await ref.read(updateClientUseCaseProvider).execute(client);
+      final response = await ref.read(updateCustomerUseCaseProvider).execute(customer);
       return response.fold(
         (l) => throw Exception('Error'),
         (_) {
-          final index = clients.indexWhere((element) => element.id == client.id);
-          clients[index] = client;
-          return clients;
+          final index = customers.indexWhere((element) => element.id == customer.id);
+          customers[index] = customer;
+          return customers;
         },
       );
     });
   }
 
   Future<void> delete(int id) async {
-    final clients = state.asData!.value;
+    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final response = await ref.read(deleteClientUseCaseProvider).execute(id);
+      final response = await ref.read(deleteCustomerUseCaseProvider).execute(id);
       return response.fold(
         (l) => throw Exception('Error'),
         (_) {
-          clients.removeWhere((element) => element.id == id);
-          return clients;
+          customers.removeWhere((element) => element.id == id);
+          return customers;
         },
       );
     });
   }
 
   search(String query) {
-    final clients = state.asData!.value;
-    state = AsyncData(clients.where((element) {
+    final customers = state.asData!.value;
+    state = AsyncData(customers.where((element) {
       final byName = element.name.toLowerCase().contains(query.toLowerCase());
       final byLastName = element.lastName.toLowerCase().contains(query.toLowerCase());
       return byName || byLastName;

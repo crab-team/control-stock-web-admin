@@ -1,15 +1,15 @@
-import 'package:control_stock_web_admin/domain/entities/client.dart';
+import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
 
-class ClientsDataTableSource extends DataTableSource {
-  final List<Client> _data;
+class CustomersDataTableSource extends DataTableSource {
+  final List<Customer> _data;
   final Function(int id) onDelete;
 
-  ClientsDataTableSource({
-    List<Client>? data,
+  CustomersDataTableSource({
+    List<Customer>? data,
     required this.onDelete,
-  }) : _data = data ?? <Client>[];
+  }) : _data = data ?? <Customer>[];
 
   @override
   int get rowCount => _data.length;

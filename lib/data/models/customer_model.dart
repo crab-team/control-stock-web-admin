@@ -1,4 +1,4 @@
-class ClientModel {
+class CustomerModel {
   final int? id;
   final String? name;
   final String? lastName;
@@ -6,7 +6,7 @@ class ClientModel {
   final String? phone;
   final String? address;
 
-  ClientModel({
+  CustomerModel({
     this.id,
     this.name,
     this.lastName,

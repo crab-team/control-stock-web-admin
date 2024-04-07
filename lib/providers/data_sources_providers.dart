@@ -1,7 +1,7 @@
 import 'package:control_stock_web_admin/data/data_sources/categories/categories_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/categories/categories_remote_data_source.dart';
-import 'package:control_stock_web_admin/data/data_sources/clients/clients_api_data_source.dart';
-import 'package:control_stock_web_admin/data/data_sources/clients/clients_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/customers/customers_api_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/customers/customers_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/products/products_api_data_source.dart';
@@ -17,5 +17,5 @@ final categoriesRemoteDataSourcesProvider =
     Provider<CategoriesRemoteDataSource>((ref) => CategoriesApiDataSource(ref.read(apiClientProvider)));
 final commerceRemoteDataSourcesProvider =
     Provider<CommerceRemoteDataSource>((ref) => CommerceApiDataSource(ref.read(apiClientProvider)));
-final clientsRemoteDataSourcesProvider =
-    Provider<ClientsRemoteDataSource>((ref) => ClientsApiDataSource(ref.read(apiClientProvider)));
+final customersRemoteDataSourcesProvider =
+    Provider<CustomersRemoteDataSource>((ref) => CustomersApiDataSource(ref.read(apiClientProvider)));

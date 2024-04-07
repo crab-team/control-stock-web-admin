@@ -1,6 +1,6 @@
-import 'package:control_stock_web_admin/data/models/client_model.dart';
+import 'package:control_stock_web_admin/data/models/customer_model.dart';
 
-class Client {
+class Customer {
   final int? id;
   final String name;
   final String lastName;
@@ -8,7 +8,7 @@ class Client {
   final String? phone;
   final String? address;
 
-  Client({
+  Customer({
     this.id,
     required this.name,
     required this.lastName,
@@ -33,8 +33,8 @@ class Client {
     };
   }
 
-  factory Client.fromMap(Map<String, dynamic> map) {
-    return Client(
+  factory Customer.fromMap(Map<String, dynamic> map) {
+    return Customer(
       id: map['id'],
       name: map['name'],
       lastName: map['lastName'],
@@ -52,7 +52,7 @@ class Client {
     String? phone,
     String? address,
   }) {
-    return Client(
+    return Customer(
       id: id ?? this.id,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
@@ -62,8 +62,8 @@ class Client {
     );
   }
 
-  ClientModel toModel() {
-    return ClientModel(
+  CustomerModel toModel() {
+    return CustomerModel(
       id: id,
       name: name,
       lastName: lastName,

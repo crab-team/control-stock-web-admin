@@ -5,7 +5,7 @@ import 'package:control_stock_web_admin/presentation/screens/auth/email_link_con
 import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/clients/clients_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
@@ -30,7 +30,7 @@ class Routes {
   static const String productsUploadCsv = 'uploadCsv';
   static const String categories = '/categories';
   static const String commerce = '/commerce';
-  static const String clients = '/clients';
+  static const String customers = '/customers';
 
   static const Map<String, String> names = {
     home: 'Inicio',
@@ -42,7 +42,7 @@ class Routes {
     emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
     commerce: 'Comercio',
-    clients: 'Clientes',
+    customers: 'Clientes',
   };
 }
 
@@ -127,12 +127,12 @@ class NavigationService {
               ],
             ),
             StatefulShellBranch(
-              initialLocation: Routes.clients,
+              initialLocation: Routes.customers,
               routes: [
                 GoRoute(
-                  path: Routes.clients,
-                  name: Routes.names[Routes.clients]!,
-                  builder: (context, state) => const ClientsScreen(),
+                  path: Routes.customers,
+                  name: Routes.names[Routes.customers]!,
+                  builder: (context, state) => const CustomersScreen(),
                 ),
               ],
             ),
@@ -170,7 +170,7 @@ class NavigationService {
         Routes.signIn: Icons.login,
         Routes.products: PhosphorIcons.shopping_bag,
         Routes.categories: PhosphorIcons.tag,
-        Routes.clients: PhosphorIcons.users,
+        Routes.customers: PhosphorIcons.users,
         Routes.commerce: PhosphorIcons.house,
       };
 
