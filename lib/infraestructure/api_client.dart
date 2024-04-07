@@ -146,8 +146,6 @@ class APIClient {
     try {
       var response = await function();
 
-      logger.d('-- RESPONSE: $response');
-
       if (!_isResponseOk(response)) {
         throw Exception('Error: ${response.statusCode}');
       }

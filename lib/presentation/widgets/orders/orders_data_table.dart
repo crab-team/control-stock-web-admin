@@ -1,42 +1,32 @@
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/domain/entities/order.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/customers/customer_drawer.dart';
-import 'package:control_stock_web_admin/presentation/widgets/customers/clients_data_table_source.dart';
+import 'package:control_stock_web_admin/presentation/widgets/orders/order_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/orders/orders_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomersDataTable extends ConsumerStatefulWidget {
-  const CustomersDataTable({super.key});
+class OrdersDataTable extends ConsumerStatefulWidget {
+  const OrdersDataTable({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomersDataTableState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _OrdersDataTableState();
 }
 
-class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
+class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(customersControllerProvider);
-
-    return state.when(
-      data: (data) {
-        return _buildDataTable(data);
-      },
-      loading: () {
-        return const Center(child: CircularProgressIndicator());
-      },
-      error: (error, stackTrace) {
-        return Center(child: Text('Error: $error'));
-      },
-    );
+    final data = ref.watch(ordersControllerProvider);
+    return _buildDataTable(data);
   }
 
-  _buildDataTable(List<Customer> data) {
+  _buildDataTable(List<Order> data) {
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,
@@ -55,7 +45,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
             const LinearBorder(),
           ),
           leading: const Icon(PhosphorIcons.magnifying_glass),
-          hintText: Texts.searchCustomer,
+          hintText: Texts.searchOrder,
           onChanged: (value) => _search(value),
         ),
         const VerticalDivider(
@@ -63,41 +53,44 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
           endIndent: 8,
         ),
         const Gap.medium(isHorizontal: true),
-        _buildAddClient(),
+        _buildAddOrder(),
       ],
       header: Text(
-        Texts.customers,
+        Texts.orders,
         style: Theme.of(context).textTheme.headlineSmall,
       ),
-      empty: const Center(child: Text(Texts.noCustomer)),
+      empty: const Center(child: Text(Texts.noOrders)),
       columns: const [
         DataColumn2(
-          label: Text(Texts.name),
+          fixedWidth: 100,
+          label: Text(Texts.code),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
+          label: Text(Texts.customer),
           size: ColumnSize.L,
         ),
         DataColumn2(
-          label: Text(Texts.lastName),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.email),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.phone),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.address),
+          label: Text(Texts.products),
           size: ColumnSize.L,
         ),
         DataColumn2(
           fixedWidth: 150,
-          label: Text('Acciones'),
+          label: Text(Texts.quantity),
           size: ColumnSize.S,
         ),
+        DataColumn2(
+          fixedWidth: 200,
+          label: Text(Texts.price),
+          size: ColumnSize.M,
+        ),
+        DataColumn2(
+          fixedWidth: 300,
+          label: Text(Texts.actions),
+          size: ColumnSize.L,
+        ),
       ],
-      source: CustomersDataTableSource(data: data, onDelete: _delete),
+      source: OrdersDataTableSource(data: data, onDelete: _delete),
     );
   }
 
@@ -109,15 +102,15 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
     ref.read(customersControllerProvider.notifier).delete(id);
   }
 
-  Widget _buildAddClient() {
+  Widget _buildAddOrder() {
     return ElevatedButton.icon(
       icon: const Icon(PhosphorIcons.plus),
       onPressed: () => _openDrawer(context, ref),
-      label: const Text(Texts.addCustomer),
+      label: const Text(Texts.addOrder),
     );
   }
 
   _openDrawer(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const ClientDrawer();
+    ref.read(drawerController.notifier).state = const OrderDrawer();
   }
 }

@@ -25,6 +25,10 @@ class Texts {
   static const String noImage = 'Sin imagen';
   static const String noData = 'No hay datos';
   static const String saved = 'Guardado';
+  static const String quantity = 'Cantidad';
+  static const String total = 'Total';
+  static const String actions = 'Acciones';
+  static const String resume = 'Resumen';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -49,6 +53,7 @@ class Texts {
   static const String searchProduct = 'Buscar producto';
   static const String uploadCsvProductsScreenTitle = 'Subir productos desde CSV';
   static const String uploadCsv = 'Subir CSV';
+  static const String addProduct = 'Agregar producto';
 
   // Categories
   static const String categories = 'Categorías';
@@ -60,16 +65,27 @@ class Texts {
   static const String searchCategory = 'Buscar categoría';
   static const String percentageProfit = 'Porcentaje de ganancia';
 
-  // Clients
-  static const String clients = 'Clientes';
-  static const String createClient = 'Crear cliente';
-  static const String updateClient = 'Actualizar cliente';
-  static const String deleteClient = 'Eliminar cliente';
-  static const String deleteClientConfirmation = '¿Está seguro que desea eliminar este cliente?';
-  static const String noClients = 'No hay clientes';
-  static const String searchClient = 'Buscar cliente';
-  static const String addClient = 'Agregar cliente';
-  static const String editClient = 'Editar cliente';
+  // Customers
+  static const String customer = 'Cliente';
+  static const String customers = 'Clientes';
+  static const String createCustomer = 'Crear cliente';
+  static const String noCustomer = 'No hay clientes';
+  static const String searchCustomer = 'Buscar cliente';
+  static const String addCustomer = 'Agregar cliente';
+  static const String editCustomer = 'Editar cliente';
+
+  // Orders
+  static const String orders = 'Órdenes';
+  static const String createOrder = 'Crear orden';
+  static const String updateOrder = 'Actualizar orden';
+  static const String deleteOrder = 'Eliminar orden';
+  static const String deleteOrderConfirmation = '¿Está seguro que desea eliminar esta orden?';
+  static const String noOrders = 'No hay órdenes';
+  static const String searchOrder = 'Buscar orden';
+  static const String addOrder = 'Agregar orden';
+  static const String editOrder = 'Editar orden';
+  static const String orderDetails = 'Detalles de la orden';
+  static const String confirmOrder = 'Confirmar orden';
 
   // Errors
   static const String error = 'Error';

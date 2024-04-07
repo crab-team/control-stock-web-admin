@@ -7,6 +7,7 @@ import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_s
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String categories = '/categories';
   static const String commerce = '/commerce';
   static const String customers = '/customers';
+  static const String orders = '/ordenes';
 
   static const Map<String, String> names = {
     home: 'Inicio',
@@ -43,6 +45,7 @@ class Routes {
     categories: 'Categorías',
     commerce: 'Comercio',
     customers: 'Clientes',
+    orders: 'Órdenes',
   };
 }
 
@@ -83,69 +86,11 @@ class NavigationService {
             return DashboardWidget(page: child);
           },
           branches: [
-            StatefulShellBranch(
-              initialLocation: Routes.products,
-              routes: [
-                GoRoute(
-                  path: Routes.products,
-                  name: Routes.names[Routes.products]!,
-                  builder: (context, state) {
-                    return const ProductsScreen();
-                  },
-                  routes: [
-                    GoRoute(
-                      path: '${Routes.productAnalitycs}/:id',
-                      name: Routes.names[Routes.productAnalitycs]!,
-                      builder: (context, state) {
-                        if (state.extra == null) {
-                          goToProducts(context);
-                        }
-
-                        Product product = state.extra as Product;
-                        return ProductDrawer(product: product);
-                      },
-                    ),
-                    GoRoute(
-                      path: Routes.productsUploadCsv,
-                      name: Routes.names[Routes.productsUploadCsv]!,
-                      builder: (context, state) {
-                        return const UploadCsvProductsScreen();
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              initialLocation: Routes.categories,
-              routes: [
-                GoRoute(
-                  path: Routes.categories,
-                  name: Routes.names[Routes.categories]!,
-                  builder: (context, state) => const CategoriesScreen(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              initialLocation: Routes.customers,
-              routes: [
-                GoRoute(
-                  path: Routes.customers,
-                  name: Routes.names[Routes.customers]!,
-                  builder: (context, state) => const CustomersScreen(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              initialLocation: Routes.commerce,
-              routes: [
-                GoRoute(
-                  path: Routes.commerce,
-                  name: Routes.names[Routes.commerce]!,
-                  builder: (context, state) => const CommerceScreen(),
-                ),
-              ],
-            ),
+            _productsBranch(),
+            _ordersBranch(),
+            _customersBranch(),
+            _categoriesBranch(),
+            _commerceBranch(),
           ],
         ),
       ],
@@ -165,6 +110,94 @@ class NavigationService {
     );
   }
 
+  StatefulShellBranch _ordersBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.orders,
+      routes: [
+        GoRoute(
+          path: Routes.orders,
+          name: Routes.names[Routes.orders]!,
+          builder: (context, state) => const OrdersScreen(),
+        ),
+      ],
+    );
+  }
+
+  StatefulShellBranch _commerceBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.commerce,
+      routes: [
+        GoRoute(
+          path: Routes.commerce,
+          name: Routes.names[Routes.commerce]!,
+          builder: (context, state) => const CommerceScreen(),
+        ),
+      ],
+    );
+  }
+
+  StatefulShellBranch _customersBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.customers,
+      routes: [
+        GoRoute(
+          path: Routes.customers,
+          name: Routes.names[Routes.customers]!,
+          builder: (context, state) => const CustomersScreen(),
+        ),
+      ],
+    );
+  }
+
+  StatefulShellBranch _categoriesBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.categories,
+      routes: [
+        GoRoute(
+          path: Routes.categories,
+          name: Routes.names[Routes.categories]!,
+          builder: (context, state) => const CategoriesScreen(),
+        ),
+      ],
+    );
+  }
+
+  StatefulShellBranch _productsBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.products,
+      routes: [
+        GoRoute(
+          path: Routes.products,
+          name: Routes.names[Routes.products]!,
+          builder: (context, state) {
+            return const ProductsScreen();
+          },
+          routes: [
+            GoRoute(
+              path: '${Routes.productAnalitycs}/:id',
+              name: Routes.names[Routes.productAnalitycs]!,
+              builder: (context, state) {
+                if (state.extra == null) {
+                  goToProducts(context);
+                }
+
+                Product product = state.extra as Product;
+                return ProductDrawer(product: product);
+              },
+            ),
+            GoRoute(
+              path: Routes.productsUploadCsv,
+              name: Routes.names[Routes.productsUploadCsv]!,
+              builder: (context, state) {
+                return const UploadCsvProductsScreen();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Map<String, IconData> get routesIcon => {
         Routes.home: Icons.home,
         Routes.signIn: Icons.login,
@@ -172,6 +205,7 @@ class NavigationService {
         Routes.categories: PhosphorIcons.tag,
         Routes.customers: PhosphorIcons.users,
         Routes.commerce: PhosphorIcons.house,
+        Routes.orders: PhosphorIcons.shopping_cart,
       };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);

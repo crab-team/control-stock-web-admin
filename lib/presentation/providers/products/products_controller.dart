@@ -12,7 +12,9 @@ class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
 
   @override
   FutureOr<List<Product>> build() async {
-    await getAll();
+    if (products.isEmpty) {
+      await getAll();
+    }
     return products;
   }
 

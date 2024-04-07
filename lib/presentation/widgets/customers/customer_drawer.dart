@@ -44,7 +44,7 @@ class _ProductDrawerState extends ConsumerState<ClientDrawer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.client != null ? Texts.editClient : Texts.addClient,
+          widget.client != null ? Texts.editCustomer : Texts.addCustomer,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const Gap.medium(),

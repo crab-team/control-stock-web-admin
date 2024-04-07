@@ -21,6 +21,17 @@ const inputDataTableDecoration = InputDecoration(
   hoverColor: Colors.transparent,
 );
 
+const dropdownAsFilterDecoration = InputDecoration(
+  border: OutlineInputBorder(borderSide: BorderSide.none),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+  errorBorder: OutlineInputBorder(borderSide: BorderSide.none),
+  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide.none),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+  disabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+  contentPadding: EdgeInsets.zero,
+  fillColor: Colors.transparent,
+);
+
 final dataTableDecoration = {
   'border': TableBorder(
     horizontalInside: BorderSide(color: colorScheme.primaryContainer),

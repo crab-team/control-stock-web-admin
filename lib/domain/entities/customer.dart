@@ -72,4 +72,6 @@ class Customer {
       address: address,
     );
   }
+
+  String get fullName => '$name $lastName';
 }
