@@ -1,18 +1,19 @@
-import 'package:control_stock_web_admin/domain/entities/order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/orders/confirm_purchase_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
 class OrdersDataTableSource extends DataTableSource {
-  final List<Order> _data;
+  final List<PurcharseOrder> _data;
   final Function(int id) onDelete;
 
   OrdersDataTableSource({
-    List<Order>? data,
+    List<PurcharseOrder>? data,
     required this.onDelete,
-  }) : _data = data ?? <Order>[];
+  }) : _data = data ?? <PurcharseOrder>[];
 
   @override
   int get rowCount => _data.length;
@@ -25,7 +26,8 @@ class OrdersDataTableSource extends DataTableSource {
 
     final order = _data[index];
     List<String> productsCodes = order.products.map((e) => e.code).toSet().toList();
-    double total = order.products.map((e) => e.price * e.quantity).fold(0, (p0, p1) => p0 + p1);
+    int quantity = order.products.fold(0, (p0, p1) => p0 + p1.quantity);
+    double total = order.products.map((e) => e.price).fold(0, (p0, p1) => p0 + p1);
 
     return DataRow.byIndex(
       index: index,
@@ -33,14 +35,11 @@ class OrdersDataTableSource extends DataTableSource {
         DataCell(Text(order.id!.toString())),
         DataCell(Text(order.customer.fullName)),
         DataCell(Text(productsCodes.join(' - '))),
-        DataCell(Text(order.products.length.toString())),
+        DataCell(Text(quantity.toString())),
         DataCell(Text(CurrencyFormatter.format(total, arsSettings))),
         DataCell(Row(
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text(Texts.confirmOrder),
-            ),
+            ConfirmPurchaseOrderButton(order: order),
             const Gap.small(isHorizontal: true),
             ButtonWithConfirmation(
               onConfirm: () => onDelete(order.id!),

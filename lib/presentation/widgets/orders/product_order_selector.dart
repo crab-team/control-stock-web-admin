@@ -39,13 +39,8 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
             label: Texts.quantity,
             initialValue: _quantity,
             maxValue: _selectedProduct?.stock ?? 0,
-            onChanged: (p0) {
-              if (p0 < _quantity) {
-                return _removeProduct();
-              }
-              _quantity = p0;
-              priceController.text = ((_selectedProduct?.publicPrice ?? 0) * _quantity).toStringAsFixed(2);
-              _confirmSelection();
+            onChanged: (quantity) {
+              _updateProductOrder(quantity);
               setState(() {});
             }),
         const Gap.small(isHorizontal: true),
@@ -61,9 +56,7 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
         const Gap.small(isHorizontal: true),
         IconButton(
           icon: const Icon(PhosphorIcons.trash),
-          onPressed: () {
-            ref.read(orderProductsControllerProvider.notifier).removeProduct(_selectedProduct!.id!);
-          },
+          onPressed: () {},
         ),
       ],
     );
@@ -76,18 +69,28 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
     setState(() {});
   }
 
-  void _confirmSelection() {
+  void _updateProductOrder(int newQuantity) {
+    _quantity = newQuantity;
+    if (_selectedProduct == null) {
+      return;
+    }
+
+    priceController.text = ((_selectedProduct!.publicPrice ?? 0) * _quantity).toStringAsFixed(2);
     double price = double.parse(priceController.text);
+    final productOrderPurchase = ProductPurchaseOrder(
+      id: _selectedProduct!.id!,
+      code: _selectedProduct!.code,
+      quantity: _quantity,
+      price: price,
+    );
 
-    ref.read(orderProductsControllerProvider.notifier).addProduct(ProductOrder(
-          id: _selectedProduct!.id!,
-          code: _selectedProduct!.code,
-          quantity: _quantity,
-          price: price,
-        ));
-  }
+    ref.read(orderProductsControllerProvider.notifier).setProduct(productOrderPurchase);
 
-  void _removeProduct() {
-    ref.read(orderProductsControllerProvider.notifier).removeProduct(_selectedProduct!.id!);
+    if (_quantity == 0) {
+      ref.read(orderProductsControllerProvider.notifier).removeProduct(_selectedProduct!.id!);
+      return;
+    }
+
+    setState(() {});
   }
 }

@@ -12,7 +12,7 @@ class OrderSummary extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(orderProductsControllerProvider);
 
-    int quantity = products.length;
+    int quantity = products.fold(0, (p0, p1) => p0 + p1.quantity);
     double total = products.map((e) => e.price).fold(0, (p0, p1) => p0 + p1);
 
     return Column(

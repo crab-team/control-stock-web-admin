@@ -1,7 +1,7 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
-import 'package:control_stock_web_admin/domain/entities/order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/entities/product_order.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDrawer extends ConsumerStatefulWidget {
-  final Order? order;
+  final PurcharseOrder? order;
   const OrderDrawer({super.key, this.order});
 
   @override
@@ -42,7 +42,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
           widget.order != null ? Texts.editCustomer : Texts.createOrder,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Gap.medium(),
+        const Gap.small(),
         const Divider(),
         const Gap.medium(),
         Expanded(
@@ -122,10 +122,10 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   }
 
   void _onSubmit() {
-    List<ProductOrder> productsSelected = ref.read(orderProductsControllerProvider);
+    List<ProductPurchaseOrder> productsSelected = ref.read(orderProductsControllerProvider);
     if (productsSelected.isEmpty || customer == null) return;
 
-    Order order = Order(
+    PurcharseOrder order = PurcharseOrder(
       customer: customer!,
       products: productsSelected,
       paymentMethod: 'Contado',

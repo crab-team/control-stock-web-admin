@@ -29,6 +29,7 @@ class Texts {
   static const String total = 'Total';
   static const String actions = 'Acciones';
   static const String resume = 'Resumen';
+  static const String confirming = 'Confirmando...';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -75,7 +76,8 @@ class Texts {
   static const String editCustomer = 'Editar cliente';
 
   // Orders
-  static const String orders = 'Órdenes';
+  static const String shopping = 'Compras';
+  static const String orders = 'Órdenes de compra';
   static const String createOrder = 'Crear orden';
   static const String updateOrder = 'Actualizar orden';
   static const String deleteOrder = 'Eliminar orden';
@@ -86,6 +88,12 @@ class Texts {
   static const String editOrder = 'Editar orden';
   static const String orderDetails = 'Detalles de la orden';
   static const String confirmOrder = 'Confirmar orden';
+  static const String orderSummary = 'Resumen de la orden';
+  static const String orderProducts = 'Productos de la orden';
+  static const String orderProductsManager = 'Gestor de productos de la orden';
+  static const String confirmPurchase = 'Confirmar compra';
+  static const String orderPurchaseConfrimated = 'Compra confirmada';
+  static const String orderPurchaseConfrimatedMessage = 'La compra ha sido confirmada';
 
   // Errors
   static const String error = 'Error';

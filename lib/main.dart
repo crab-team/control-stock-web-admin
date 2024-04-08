@@ -5,10 +5,12 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 Future<void> main() async => runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
+        setUrlStrategy(PathUrlStrategy());
         runApp(const ProviderScope(child: App()));
       },
       (error, stackTrace) {

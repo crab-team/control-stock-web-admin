@@ -31,7 +31,11 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
         if (value.isEmpty) {
           productsFiltered = [];
         }
-        productsFiltered = products.where((element) => element.code.contains(value)).toList();
+        productsFiltered = products.where((element) {
+          final byCode = element.code.toLowerCase().contains(value.toLowerCase());
+          final byName = element.name.toLowerCase().contains(value.toLowerCase());
+          return byCode || byName;
+        }).toList();
       },
       viewBackgroundColor: colorScheme.background,
       viewSurfaceTintColor: colorScheme.background,

@@ -8,6 +8,7 @@ enum ToastType {
   error,
   warning,
   info,
+  loading,
 }
 
 class ToastUtils {
@@ -91,6 +92,32 @@ class ToastUtils {
       ElegantNotification.info(
         width: 600,
         showProgressIndicator: false,
+        animationCurve: Curves.ease,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
+        title: Text(title),
+        description: Text(message),
+        shadow: BoxShadow(
+          color: colorScheme.secondary.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 4), // changes position of shadow
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(kRadiusCornerInside),
+        ),
+        border: Border(
+          bottom: BorderSide(
+            color: colorScheme.secondary,
+            width: 2,
+          ),
+        ),
+      ).show(context);
+    }
+    if (type == ToastType.loading) {
+      ElegantNotification.info(
+        width: 600,
+        showProgressIndicator: true,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
         animation: AnimationType.fromRight,

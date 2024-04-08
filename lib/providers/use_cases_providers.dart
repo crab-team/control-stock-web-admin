@@ -109,7 +109,6 @@ final updateCommerceUseCaseProvider = Provider<UpdateCommerce>((ref) {
 // --------------------//
 // ---- Customers ---- //
 // --------------------//
-
 final getCustomersUseCaseProvider = Provider<GetCustomers>((ref) {
   return GetCustomers(ref.read(customersRepositoryProvider));
 });

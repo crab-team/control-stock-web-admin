@@ -1,5 +1,5 @@
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
@@ -26,7 +26,7 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
     return _buildDataTable(data);
   }
 
-  _buildDataTable(List<Order> data) {
+  _buildDataTable(List<PurcharseOrder> data) {
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,

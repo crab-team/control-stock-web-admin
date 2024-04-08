@@ -2,13 +2,14 @@ import 'package:control_stock_web_admin/domain/entities/commerce.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final commerceController = AsyncNotifierProvider<CommerceController, Commerce?>(CommerceController.new);
+final commerceControllerProvider = AsyncNotifierProvider<CommerceController, Commerce?>(CommerceController.new);
 
 class CommerceController extends AsyncNotifier<Commerce?> {
   @override
   build() async {
-    const id = '1';
-    await getById(id);
+    if (state.asData?.value == null) {
+      await getById('1');
+    }
     return state.asData?.value;
   }
 

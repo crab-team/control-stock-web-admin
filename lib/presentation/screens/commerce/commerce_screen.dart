@@ -12,7 +12,7 @@ class CommerceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(commerceController);
+    final state = ref.watch(commerceControllerProvider);
     return state.when(
       data: (value) => _buildScreen(context, value!),
       loading: () => const Center(child: CircularProgressIndicator()),

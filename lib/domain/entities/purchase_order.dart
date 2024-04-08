@@ -1,13 +1,13 @@
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/domain/entities/product_order.dart';
 
-class Order {
+class PurcharseOrder {
   final int? id;
   final Customer customer;
-  final List<ProductOrder> products;
+  final List<ProductPurchaseOrder> products;
   final String paymentMethod;
 
-  Order({
+  PurcharseOrder({
     this.id,
     required this.customer,
     required this.products,
@@ -17,14 +17,23 @@ class Order {
   copyWith({
     int? id,
     Customer? customer,
-    List<ProductOrder>? products,
+    List<ProductPurchaseOrder>? products,
     String? paymentMethod,
   }) {
-    return Order(
+    return PurcharseOrder(
       id: id ?? this.id,
       customer: customer ?? this.customer,
       products: products ?? this.products,
       paymentMethod: paymentMethod ?? this.paymentMethod,
     );
+  }
+
+  toJson() {
+    return {
+      'id': id,
+      'customer': customer.toJson(),
+      'products': products.map((e) => e.toJson()).toList(),
+      'paymentMethod': paymentMethod,
+    };
   }
 }

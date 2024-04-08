@@ -11,6 +11,7 @@ import 'package:control_stock_web_admin/presentation/screens/orders/orders_scree
 import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/splash/splash_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -45,7 +46,7 @@ class Routes {
     categories: 'Categorías',
     commerce: 'Comercio',
     customers: 'Clientes',
-    orders: 'Órdenes',
+    orders: 'Órdenes de compra',
   };
 }
 
@@ -58,7 +59,7 @@ class NavigationService {
   GoRouter get appRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation: Routes.signIn,
+      initialLocation: Routes.home,
       routes: [
         GoRoute(
           path: Routes.emailLinkConfirmation,
@@ -80,6 +81,13 @@ class NavigationService {
                 },
               ),
             ]),
+        GoRoute(
+          path: Routes.home,
+          name: Routes.names[Routes.home]!,
+          builder: (context, state) {
+            return const SplashScreen();
+          },
+        ),
         StatefulShellRoute.indexedStack(
           parentNavigatorKey: navigatorKey,
           builder: (context, state, child) {
@@ -95,15 +103,15 @@ class NavigationService {
         ),
       ],
       redirect: (context, state) async {
-        final token = state.pathParameters['token'];
-        User? user = await ref.watch(userControllerProvider.future);
-        bool hasSavedUser = user != null;
-        bool isSignInScreen = state.uri.path == Routes.signIn;
-        bool isSignInConfirmed = state.uri.path == Routes.verifyEmail;
+        // final token = state.pathParameters['token'];
+        // User? user = await ref.watch(userControllerProvider.future);
+        // bool hasSavedUser = user != null;
+        // bool isSignInScreen = state.uri.path == Routes.signIn;
+        // bool isSignInConfirmed = state.uri.path == Routes.verifyEmail;
 
-        if (!hasSavedUser && !isSignInScreen && !isSignInConfirmed) {
-          return Routes.signIn;
-        }
+        // if (!hasSavedUser && !isSignInScreen && !isSignInConfirmed) {
+        //   return Routes.signIn;
+        // }
 
         return null;
       },
@@ -213,10 +221,10 @@ class NavigationService {
 
   goToHome(BuildContext context) => context.go(Routes.home);
 
-  goToProducts(BuildContext context) => context.pushReplacement(Routes.products);
+  goToProducts(BuildContext context) => context.go(Routes.products);
   goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
 
-  goToCategories(BuildContext context) => context.pushReplacement(Routes.categories);
+  goToCategories(BuildContext context) => context.go(Routes.categories);
 
   void goBack(BuildContext context) => context.pop();
 }

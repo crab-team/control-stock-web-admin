@@ -94,13 +94,11 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           indent: 8,
           endIndent: 8,
         ),
-        Expanded(
-          child: SearchBar(
-            leading: const Icon(PhosphorIcons.magnifying_glass),
-            hintText: Texts.searchProduct,
-            onChanged: (value) => _search(ref, value),
-            shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
-          ),
+        SearchBar(
+          leading: const Icon(PhosphorIcons.magnifying_glass),
+          hintText: Texts.searchProduct,
+          onChanged: (value) => _search(ref, value),
+          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
         ),
         const VerticalDivider(
           indent: 8,

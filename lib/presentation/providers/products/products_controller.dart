@@ -4,10 +4,9 @@ import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final productsControllerProvider =
-    AutoDisposeAsyncNotifierProvider<ProductsController, List<Product>>(ProductsController.new);
+final productsControllerProvider = AsyncNotifierProvider<ProductsController, List<Product>>(ProductsController.new);
 
-class ProductsController extends AutoDisposeAsyncNotifier<List<Product>> {
+class ProductsController extends AsyncNotifier<List<Product>> {
   List<Product> products = [];
 
   @override

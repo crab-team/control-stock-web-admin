@@ -1,10 +1,10 @@
-class ProductOrder {
+class ProductPurchaseOrder {
   final int id;
   final String code;
   final int quantity;
   final double price;
 
-  ProductOrder({
+  ProductPurchaseOrder({
     required this.id,
     required this.code,
     required this.quantity,
@@ -17,11 +17,20 @@ class ProductOrder {
     int? quantity,
     double? price,
   }) {
-    return ProductOrder(
+    return ProductPurchaseOrder(
       id: id ?? this.id,
       code: code ?? this.code,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
     );
+  }
+
+  toJson() {
+    return {
+      'id': id,
+      'code': code,
+      'quantity': quantity,
+      'price': price,
+    };
   }
 }

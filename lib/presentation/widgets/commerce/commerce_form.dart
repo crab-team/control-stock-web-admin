@@ -26,7 +26,7 @@ class _CommerceFormState extends ConsumerState<CommerceForm> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(commerceController);
+    final state = ref.watch(commerceControllerProvider);
     Commerce commerce = state.asData!.value!;
     nameController.text = commerce.name;
     addressController.text = commerce.address;
@@ -90,7 +90,7 @@ class _CommerceFormState extends ConsumerState<CommerceForm> {
         imageUrl: commerce.imageUrl,
       );
 
-      ref.read(commerceController.notifier).updateData(commerceUpdated);
+      ref.read(commerceControllerProvider.notifier).updateData(commerceUpdated);
     }
   }
 }

@@ -6,14 +6,16 @@ import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoriesControllerProvider =
-    AutoDisposeAsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
+    AsyncNotifierProvider<CategoriesController, List<Category>>(CategoriesController.new);
 
-class CategoriesController extends AutoDisposeAsyncNotifier<List<Category>> {
+class CategoriesController extends AsyncNotifier<List<Category>> {
   List<Category> categories = [];
 
   @override
   FutureOr<List<Category>> build() async {
-    await getAll();
+    if (categories.isEmpty) {
+      await getAll();
+    }
     return categories;
   }
 
