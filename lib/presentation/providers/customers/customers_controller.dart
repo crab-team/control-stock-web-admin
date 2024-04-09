@@ -7,6 +7,7 @@ final customersControllerProvider = AsyncNotifierProvider<CustomersController, L
 class CustomersController extends AsyncNotifier<List<Customer>> {
   @override
   build() async {
+    if (state.asData != null) return state.asData!.value;
     await getClients();
     return state.asData!.value;
   }

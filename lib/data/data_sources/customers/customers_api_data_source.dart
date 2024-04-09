@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/data/data_sources/customers/customers_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/models/customer_model.dart';
+import 'package:control_stock_web_admin/data/responses/customer_record_response.dart';
 import 'package:control_stock_web_admin/data/responses/customer_response.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
@@ -54,6 +55,31 @@ class CustomersApiDataSource implements CustomersRemoteDataSource {
   Future<void> delete(int id) async {
     try {
       await apiClient.sendDelete('$path/$id');
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  //Records
+  @override
+  Future<void> createRecord(int customerId, String record) {
+    // TODO: implement createRecord
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteRecord(int recordId) {
+    // TODO: implement deleteRecord
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<CustomerRecordResponse>> getRecords(int customerId) async {
+    try {
+      final response = await apiClient.sendGet('$path/$customerId/records');
+      final records = response.map<CustomerRecordResponse>((e) => CustomerRecordResponse.fromJson(e)).toList();
+      return records;
     } catch (e) {
       logger.e(e);
       rethrow;

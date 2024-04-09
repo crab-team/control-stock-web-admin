@@ -5,6 +5,7 @@ import 'package:control_stock_web_admin/presentation/screens/auth/email_link_con
 import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/customers/customer_records_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
@@ -33,6 +34,7 @@ class Routes {
   static const String categories = '/categories';
   static const String commerce = '/commerce';
   static const String customers = '/customers';
+  static const String customerRecords = 'records';
   static const String orders = '/ordenes';
 
   static const Map<String, String> names = {
@@ -46,6 +48,7 @@ class Routes {
     categories: 'Categorías',
     commerce: 'Comercio',
     customers: 'Clientes',
+    customerRecords: 'Registros de cliente',
     orders: 'Órdenes de compra',
   };
 }
@@ -152,6 +155,16 @@ class NavigationService {
           path: Routes.customers,
           name: Routes.names[Routes.customers]!,
           builder: (context, state) => const CustomersScreen(),
+          routes: [
+            GoRoute(
+              path: '${Routes.customerRecords}/:id',
+              name: Routes.names[Routes.customerRecords]!,
+              builder: (context, state) {
+                int customerId = int.parse(state.pathParameters['id']!);
+                return CustomerRecordsScreen(customerId: customerId);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -225,6 +238,12 @@ class NavigationService {
   goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
 
   goToCategories(BuildContext context) => context.go(Routes.categories);
+
+  goToCommerce(BuildContext context) => context.go(Routes.commerce);
+
+  goToCustomers(BuildContext context) => context.go(Routes.customers);
+  goToCustomerRecords(BuildContext context, int customerId) =>
+      context.go('${Routes.customers}/${Routes.customerRecords}/$customerId');
 
   void goBack(BuildContext context) => context.pop();
 }

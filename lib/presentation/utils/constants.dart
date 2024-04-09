@@ -30,6 +30,11 @@ class Texts {
   static const String actions = 'Acciones';
   static const String resume = 'Resumen';
   static const String confirming = 'Confirmando...';
+  static const String record = 'Ficha';
+  static const String paymentStatus = 'Estado de pago';
+  static const String paymentMethod = 'Método de pago';
+  static const String surcharge = 'Recargo';
+  static const String unitPrice = 'Precio unitario';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -55,6 +60,7 @@ class Texts {
   static const String uploadCsvProductsScreenTitle = 'Subir productos desde CSV';
   static const String uploadCsv = 'Subir CSV';
   static const String addProduct = 'Agregar producto';
+  static const String productName = 'Nombre del producto';
 
   // Categories
   static const String categories = 'Categorías';
@@ -74,6 +80,9 @@ class Texts {
   static const String searchCustomer = 'Buscar cliente';
   static const String addCustomer = 'Agregar cliente';
   static const String editCustomer = 'Editar cliente';
+  static const String noRecords = 'No hay registros';
+  static const String records = 'Ficha';
+  static const String searchRecord = 'Buscar registro';
 
   // Orders
   static const String shopping = 'Compras';

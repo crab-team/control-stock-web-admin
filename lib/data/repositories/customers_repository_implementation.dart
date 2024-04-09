@@ -1,6 +1,7 @@
 import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
 import 'package:control_stock_web_admin/data/data_sources/customers/customers_remote_data_source.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/domain/entities/customer_record.dart';
 import 'package:control_stock_web_admin/domain/repositories/customers_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -48,6 +49,29 @@ class CustomersRepositoryImplementation implements CustomersRepository {
       final customerParams = customer.toModel();
       await remoteDataSource.update(customerParams);
       return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createRecord(int customerId, String record) {
+    // TODO: implement createRecord
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteRecord(int recordId) {
+    // TODO: implement deleteRecord
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<CustomerRecord>>> getRecords(int customerId) async {
+    try {
+      final response = await remoteDataSource.getRecords(customerId);
+      final records = response.map<CustomerRecord>((e) => e.toDomain()).toList();
+      return Right(records);
     } catch (e) {
       return Left(ServerFailure());
     }
