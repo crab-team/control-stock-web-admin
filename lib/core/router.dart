@@ -157,7 +157,7 @@ class NavigationService {
           builder: (context, state) => const CustomersScreen(),
           routes: [
             GoRoute(
-              path: '${Routes.customerRecords}/:id',
+              path: ':id/${Routes.customerRecords}',
               name: Routes.names[Routes.customerRecords]!,
               builder: (context, state) {
                 int customerId = int.parse(state.pathParameters['id']!);
@@ -243,7 +243,7 @@ class NavigationService {
 
   goToCustomers(BuildContext context) => context.go(Routes.customers);
   goToCustomerRecords(BuildContext context, int customerId) =>
-      context.go('${Routes.customers}/${Routes.customerRecords}/$customerId');
+      context.go('${Routes.customers}/$customerId/${Routes.customerRecords}');
 
   void goBack(BuildContext context) => context.pop();
 }

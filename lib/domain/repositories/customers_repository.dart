@@ -10,7 +10,8 @@ abstract class CustomersRepository {
   Future<Either<Failure, List<Customer>>> getAll();
 
   //Records
-  Future<Either<Failure, void>> createRecord(int customerId, String record);
+  Future<Either<Failure, CustomerRecord>> createRecord(int customerId, String record);
+  Future<Either<Failure, List<CustomerRecord>>> createRecords(int customerId, List<CustomerRecord> record);
   Future<Either<Failure, void>> deleteRecord(int recordId);
   Future<Either<Failure, List<CustomerRecord>>> getRecords(int customerId);
 }

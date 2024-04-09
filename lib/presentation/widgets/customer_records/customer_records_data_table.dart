@@ -8,6 +8,7 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/customer_records/customer_records_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/customers/customer_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -48,6 +49,8 @@ class _CustomersDataTableState extends ConsumerState<CustomerRecordsDataTable> {
   }
 
   _buildDataTable(List<CustomerRecord> data) {
+    double debt = getTotalDebt(data);
+
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,
@@ -57,46 +60,36 @@ class _CustomersDataTableState extends ConsumerState<CustomerRecordsDataTable> {
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
       headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       actions: [
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            const LinearBorder(),
-          ),
+          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
-          hintText: Texts.searchCustomer,
+          hintText: Texts.searchRecord,
           onChanged: (value) => _search(value),
         ),
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         const Gap.medium(isHorizontal: true),
-        _buildAddClient(),
+        _buildAddRecord(),
       ],
-      header: Text(
-        widget.customer.fullName,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
+      header: _buildHeader(debt),
       empty: const Center(child: Text(Texts.noRecords)),
       columns: const [
         DataColumn2(
           label: Text(Texts.code),
-          size: ColumnSize.L,
+          size: ColumnSize.S,
         ),
         DataColumn2(
+          fixedWidth: 300,
           label: Text(Texts.productName),
           size: ColumnSize.L,
         ),
         DataColumn2(
           label: Text(Texts.unitPrice),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
         ),
         DataColumn2(
           label: Text(Texts.quantity),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
         ),
         DataColumn2(
           label: Text(Texts.total),
@@ -112,7 +105,7 @@ class _CustomersDataTableState extends ConsumerState<CustomerRecordsDataTable> {
         ),
         DataColumn2(
           label: Text(Texts.surcharge),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
         ),
         DataColumn2(
           fixedWidth: 150,
@@ -124,23 +117,50 @@ class _CustomersDataTableState extends ConsumerState<CustomerRecordsDataTable> {
     );
   }
 
+  Widget _buildHeader(double debt) {
+    return Row(
+      children: [
+        Text(
+          widget.customer.fullName,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        const Spacer(),
+        const VerticalDivider(indent: 8, endIndent: 8),
+        const Gap.small(isHorizontal: true),
+        Text('${Texts.debt} ${CurrencyFormatter.format(debt, arsSettings)}',
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: colorScheme.tertiary)),
+        const Spacer(),
+      ],
+    );
+  }
+
   void _search(String value) {
-    ref.read(customersControllerProvider.notifier).search(value);
+    ref.read(customerRecordsControllerProvider.notifier).search(value);
   }
 
   void _delete(int id) {
     ref.read(customersControllerProvider.notifier).delete(id);
   }
 
-  Widget _buildAddClient() {
+  Widget _buildAddRecord() {
     return ElevatedButton.icon(
       icon: const Icon(PhosphorIcons.plus),
       onPressed: () => _openDrawer(context, ref),
-      label: const Text(Texts.addCustomer),
+      label: const Text(Texts.addRecord),
     );
   }
 
   _openDrawer(BuildContext context, WidgetRef ref) {
     ref.read(drawerController.notifier).state = const CustomerDrawer();
+  }
+
+  double getTotalDebt(List<CustomerRecord> data) {
+    double total = 0;
+    for (var record in data) {
+      if (record.paymentStatus == PaymentStatus.pending) {
+        total += record.unitPrice * record.quantity;
+      }
+    }
+    return total;
   }
 }

@@ -44,6 +44,7 @@ class _ConfirmPurchaseOrderButtonState extends ConsumerState<ConfirmPurchaseOrde
       }).toList();
 
       await ref.read(productsControllerProvider.notifier).updateProducts(orderProducts);
+      // await ref.read(customerRecordsControllerProvider.notifier).createRecords();
       ref.read(ordersControllerProvider.notifier).removeOrder(widget.order);
       ToastUtils.showToast(
           context, Texts.orderPurchaseConfrimated, Texts.orderPurchaseConfrimatedMessage, ToastType.success);

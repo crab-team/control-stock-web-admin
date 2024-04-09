@@ -2,19 +2,21 @@ import 'package:control_stock_web_admin/domain/entities/customer_record.dart';
 
 class CustomerRecordResponse {
   int id;
+  int productId;
   String productCode;
   String customerId;
   String paymentStatus;
   int quantity;
-  int unitPrice;
-  int shoppingTotal;
+  double unitPrice;
+  double shoppingTotal;
   String productName;
-  int productPrice;
+  double productPrice;
   String paymentMethod;
   int surchargePercentage;
 
   CustomerRecordResponse({
     required this.id,
+    required this.productId,
     required this.productCode,
     required this.customerId,
     required this.paymentStatus,
@@ -30,6 +32,7 @@ class CustomerRecordResponse {
   factory CustomerRecordResponse.fromJson(Map<String, dynamic> json) {
     return CustomerRecordResponse(
       id: json['id'],
+      productId: json['productId'],
       productCode: json['productCode'],
       customerId: json['customerId'],
       paymentStatus: json['paymentStatus'],
@@ -46,16 +49,47 @@ class CustomerRecordResponse {
   CustomerRecord toDomain() {
     return CustomerRecord(
       id: id,
+      productId: productId,
       productCode: productCode,
       customerId: customerId,
-      paymentStatus: paymentStatus,
+      paymentStatus: paymentStatusEnum,
       quantity: quantity,
       unitPrice: unitPrice,
       shoppingTotal: shoppingTotal,
       productName: productName,
       productPrice: productPrice,
-      paymentMethod: paymentMethod,
+      paymentMethod: paymentMethodEnum,
       surchargePercentage: surchargePercentage,
     );
+  }
+
+  PaymentStatus get paymentStatusEnum {
+    switch (paymentStatus) {
+      case 'CANCELED':
+        return PaymentStatus.canceled;
+      case 'PENDING':
+        return PaymentStatus.pending;
+      case 'PAID':
+        return PaymentStatus.paid;
+      default:
+        return PaymentStatus.none;
+    }
+  }
+
+  PaymentMethod get paymentMethodEnum {
+    switch (paymentMethod) {
+      case 'CASH':
+        return PaymentMethod.cash;
+      case 'DEBIT':
+        return PaymentMethod.debit;
+      case 'THREE_CUOTES':
+        return PaymentMethod.threeCuotes;
+      case 'SIX_CUOTES':
+        return PaymentMethod.sixCuotes;
+      case 'TWELVE_CUOTES':
+        return PaymentMethod.twelveCuotes;
+      default:
+        return PaymentMethod.cash;
+    }
   }
 }
