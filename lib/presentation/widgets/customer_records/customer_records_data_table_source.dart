@@ -33,7 +33,7 @@ class CustomerRecordsDataTableSource extends DataTableSource {
         DataCell(Text(record.quantity.toString())),
         DataCell(Text(CurrencyFormatter.format(record.shoppingTotal, arsSettings))),
         DataCell(Text(record.paymentStatus.label)),
-        DataCell(Text(record.paymentMethod.label)),
+        DataCell(Text(record.paymentMethodId.toString())),
         DataCell(Text('${record.surchargePercentage}%')),
         DataCell(ButtonWithConfirmation(
           onConfirm: () => onDelete(record.id!),

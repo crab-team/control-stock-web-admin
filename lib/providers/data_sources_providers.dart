@@ -4,6 +4,8 @@ import 'package:control_stock_web_admin/data/data_sources/customers/customers_ap
 import 'package:control_stock_web_admin/data/data_sources/customers/customers_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/payment_methods/payment_methods_api_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/payment_methods/payment_methods_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/products/products_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/products/products_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/users/users_share_preferences.dart';
@@ -19,3 +21,5 @@ final commerceRemoteDataSourcesProvider =
     Provider<CommerceRemoteDataSource>((ref) => CommerceApiDataSource(ref.read(apiClientProvider)));
 final customersRemoteDataSourcesProvider =
     Provider<CustomersRemoteDataSource>((ref) => CustomersApiDataSource(ref.read(apiClientProvider)));
+final paymentMethodsRemoteDataSourcesProvider =
+    Provider<PaymentMethodsRemoteDataSource>((ref) => PaymentMethodsApiDataSource(ref.read(apiClientProvider)));

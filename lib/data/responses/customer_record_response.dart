@@ -11,7 +11,7 @@ class CustomerRecordResponse {
   double shoppingTotal;
   String productName;
   double productPrice;
-  String paymentMethod;
+  int paymentMethodId;
   int surchargePercentage;
 
   CustomerRecordResponse({
@@ -25,7 +25,7 @@ class CustomerRecordResponse {
     required this.shoppingTotal,
     required this.productName,
     required this.productPrice,
-    required this.paymentMethod,
+    required this.paymentMethodId,
     required this.surchargePercentage,
   });
 
@@ -41,7 +41,7 @@ class CustomerRecordResponse {
       shoppingTotal: json['shoppingTotal'],
       productName: json['productName'],
       productPrice: json['productPrice'],
-      paymentMethod: json['paymentMethod'],
+      paymentMethodId: json['paymentMethod'],
       surchargePercentage: json['surchargePercentage'],
     );
   }
@@ -58,7 +58,7 @@ class CustomerRecordResponse {
       shoppingTotal: shoppingTotal,
       productName: productName,
       productPrice: productPrice,
-      paymentMethod: paymentMethodEnum,
+      paymentMethodId: paymentMethodId,
       surchargePercentage: surchargePercentage,
     );
   }
@@ -73,23 +73,6 @@ class CustomerRecordResponse {
         return PaymentStatus.paid;
       default:
         return PaymentStatus.none;
-    }
-  }
-
-  PaymentMethod get paymentMethodEnum {
-    switch (paymentMethod) {
-      case 'CASH':
-        return PaymentMethod.cash;
-      case 'DEBIT':
-        return PaymentMethod.debit;
-      case 'THREE_CUOTES':
-        return PaymentMethod.threeCuotes;
-      case 'SIX_CUOTES':
-        return PaymentMethod.sixCuotes;
-      case 'TWELVE_CUOTES':
-        return PaymentMethod.twelveCuotes;
-      default:
-        return PaymentMethod.cash;
     }
   }
 }

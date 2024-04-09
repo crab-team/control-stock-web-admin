@@ -11,7 +11,7 @@ class CustomerRecord {
   double shoppingTotal;
   String productName;
   double productPrice;
-  PaymentMethod paymentMethod;
+  int paymentMethodId;
   int surchargePercentage;
 
   CustomerRecord({
@@ -25,7 +25,7 @@ class CustomerRecord {
     required this.shoppingTotal,
     required this.productName,
     required this.productPrice,
-    required this.paymentMethod,
+    required this.paymentMethodId,
     required this.surchargePercentage,
   });
 
@@ -40,7 +40,7 @@ class CustomerRecord {
     double? shoppingTotal,
     String? productName,
     double? productPrice,
-    PaymentMethod? paymentMethod,
+    int? paymentMethodId,
     int? surchargePercentage,
   }) {
     return CustomerRecord(
@@ -54,7 +54,7 @@ class CustomerRecord {
       shoppingTotal: shoppingTotal ?? this.shoppingTotal,
       productName: productName ?? this.productName,
       productPrice: productPrice ?? this.productPrice,
-      paymentMethod: paymentMethod ?? this.paymentMethod,
+      paymentMethodId: paymentMethodId ?? this.paymentMethodId,
       surchargePercentage: surchargePercentage ?? this.surchargePercentage,
     );
   }
@@ -65,7 +65,7 @@ class CustomerRecord {
       paymentStatus: paymentStatus.label,
       quantity: quantity,
       unitPrice: unitPrice,
-      paymentMethodId: paymentMethod.index,
+      paymentMethodId: paymentMethodId,
     );
   }
 }
@@ -88,31 +88,6 @@ extension PaymentStatusExtension on PaymentStatus {
         return 'Cancelado';
       case PaymentStatus.none:
         return '-';
-    }
-  }
-}
-
-enum PaymentMethod {
-  cash,
-  debit,
-  threeCuotes,
-  sixCuotes,
-  twelveCuotes,
-}
-
-extension PaymentMethodExtension on PaymentMethod {
-  String get label {
-    switch (this) {
-      case PaymentMethod.cash:
-        return 'Efectivo';
-      case PaymentMethod.debit:
-        return 'Débito';
-      case PaymentMethod.threeCuotes:
-        return '3 Cuotas';
-      case PaymentMethod.sixCuotes:
-        return '6 Cuotas';
-      case PaymentMethod.twelveCuotes:
-        return '12 Cuotas';
     }
   }
 }

@@ -107,6 +107,19 @@ class Texts {
   static const String orderPurchaseConfrimated = 'Compra confirmada';
   static const String orderPurchaseConfrimatedMessage = 'La compra ha sido confirmada';
 
+  // Payment methods
+  static const String paymentMethods = 'Métodos de pago';
+  static const String createPaymentMethod = 'Crear método de pago';
+  static const String updatePaymentMethod = 'Actualizar método de pago';
+  static const String deletePaymentMethod = 'Eliminar método de pago';
+  static const String deletePaymentMethodConfirmation = '¿Está seguro que desea eliminar este método de pago?';
+  static const String noPaymentMethods = 'No hay métodos de pago';
+  static const String searchPaymentMethod = 'Buscar método de pago';
+  static const String addPaymentMethod = 'Agregar método de pago';
+  static const String editPaymentMethod = 'Editar método de pago';
+  static const String installments = 'Cuotas';
+  static const String surchargePercentage = 'Porcentaje de recargo';
+
   // Errors
   static const String error = 'Error';
   static const String errorOccurred = 'Ocurrió un error';

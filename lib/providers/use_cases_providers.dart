@@ -15,6 +15,10 @@ import 'package:control_stock_web_admin/domain/use_cases/customers/update_custom
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
+import 'package:control_stock_web_admin/domain/use_cases/payment_methods/create_payment_method.dart';
+import 'package:control_stock_web_admin/domain/use_cases/payment_methods/delete_payment_method.dart';
+import 'package:control_stock_web_admin/domain/use_cases/payment_methods/get_payment_methods.dart';
+import 'package:control_stock_web_admin/domain/use_cases/payment_methods/update_payment_method.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/delete_product.dart';
@@ -136,4 +140,23 @@ final getCustomerRecordsUseCaseProvider = Provider<GetCustomerRecords>((ref) {
 
 final createCustomerRecordsUseCaseProvider = Provider<CreateCustomerRecords>((ref) {
   return CreateCustomerRecords(ref.read(customersRepositoryProvider));
+});
+
+// ----------------------------//
+// ----- Payment methods ----- //
+// ----------------------------//
+final getPaymentMethodsUseCaseProvider = Provider<GetPaymentMethods>((ref) {
+  return GetPaymentMethods(ref.read(paymentMethodsRepositoryProvider));
+});
+
+final deletePaymentMethodUseCaseProvider = Provider<DeletePaymentMethod>((ref) {
+  return DeletePaymentMethod(ref.read(paymentMethodsRepositoryProvider));
+});
+
+final createPaymentMethodUseCaseProvider = Provider<CreatePaymentMethod>((ref) {
+  return CreatePaymentMethod(ref.read(paymentMethodsRepositoryProvider));
+});
+
+final updatePaymentMethodUseCaseProvider = Provider<UpdatePaymentMethod>((ref) {
+  return UpdatePaymentMethod(ref.read(paymentMethodsRepositoryProvider));
 });
