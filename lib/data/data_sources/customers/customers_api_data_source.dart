@@ -10,7 +10,7 @@ class CustomersApiDataSource implements CustomersRemoteDataSource {
   final APIClient apiClient;
 
   CustomersApiDataSource(this.apiClient);
-  String path = '/customers';
+  String path = 'commerces/3/customers';
 
   @override
   Future<List<CustomerResponse>> get() async {

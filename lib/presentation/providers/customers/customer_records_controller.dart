@@ -49,8 +49,7 @@ class CustomerRecordsController extends AutoDisposeAsyncNotifier<List<CustomerRe
       final byName = element.productName.toLowerCase().contains(query.toLowerCase());
       final byCode = element.productCode.toLowerCase().contains(query.toLowerCase());
       final byPaymentStatus = element.paymentStatus.label.toLowerCase().contains(query.toLowerCase());
-      final byPaymentPayemntMethod = element.paymentMethodId.label.toLowerCase().contains(query.toLowerCase());
-      return byName || byCode || byPaymentStatus || byPaymentPayemntMethod;
+      return byName || byCode || byPaymentStatus;
     }).toList());
   }
 }

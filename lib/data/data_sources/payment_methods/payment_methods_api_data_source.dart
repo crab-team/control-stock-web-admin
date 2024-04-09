@@ -12,7 +12,7 @@ class PaymentMethodsApiDataSource implements PaymentMethodsRemoteDataSource {
   @override
   Future<PaymentMethodResponse> create(PaymentMethodModel paymentMethod) async {
     try {
-      final body = paymentMethod.toCreatePaymentMethodJson();
+      final body = paymentMethod.toCreatePaymentMethod();
       final res = await apiClient.sendPost(path, body: body);
       return PaymentMethodResponse.fromJson(res);
     } catch (e) {
@@ -21,7 +21,7 @@ class PaymentMethodsApiDataSource implements PaymentMethodsRemoteDataSource {
   }
 
   @override
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     try {
       return await apiClient.sendDelete('$path/$id');
     } catch (e) {
@@ -42,7 +42,7 @@ class PaymentMethodsApiDataSource implements PaymentMethodsRemoteDataSource {
   @override
   Future<void> update(PaymentMethodModel paymentMethod) async {
     try {
-      final body = paymentMethod.toUpdatePaymentMethodJson();
+      final body = paymentMethod.toUpdatePaymentMethod();
       await apiClient.sendPut('$path/${paymentMethod.id}', body: body);
     } catch (e) {
       rethrow;

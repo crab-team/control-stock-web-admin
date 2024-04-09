@@ -25,7 +25,7 @@ class PaymentMethodModel {
     );
   }
 
-  toCreatePaymentMethodJson() {
+  toCreatePaymentMethod() {
     return {
       'name': name,
       'installments': installments,
@@ -33,7 +33,7 @@ class PaymentMethodModel {
     };
   }
 
-  toUpdatePaymentMethodJson() {
+  toUpdatePaymentMethod() {
     return {
       'id': id,
       'name': name,

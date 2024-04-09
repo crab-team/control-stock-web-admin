@@ -8,7 +8,7 @@ class CategoriesApiDataSource implements CategoriesRemoteDataSource {
   final APIClient apiClient;
 
   CategoriesApiDataSource(this.apiClient);
-  String path = '/categories';
+  String path = 'commerces/3/categories';
 
   @override
   Future<List<CategoryResponse>> getCategories() async {

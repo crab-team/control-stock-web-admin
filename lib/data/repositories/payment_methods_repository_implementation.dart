@@ -23,7 +23,8 @@ class PaymentMethodsRepositoryImplementation implements PaymentMethodsRepository
   @override
   Future<Either<Failure, PaymentMethod>> create(PaymentMethod newPaymentMethod) async {
     try {
-      final response = await _paymentMethodsDataSource.create(newPaymentMethod);
+      final model = newPaymentMethod.toModel();
+      final response = await _paymentMethodsDataSource.create(model);
       return Right(response.toDomain());
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -31,7 +32,7 @@ class PaymentMethodsRepositoryImplementation implements PaymentMethodsRepository
   }
 
   @override
-  Future<Either<Failure, void>> delete(String id) async {
+  Future<Either<Failure, void>> delete(int id) async {
     try {
       await _paymentMethodsDataSource.delete(id);
       return const Right(null);
@@ -43,7 +44,7 @@ class PaymentMethodsRepositoryImplementation implements PaymentMethodsRepository
   @override
   Future<Either<Failure, void>> update(PaymentMethod paymentMethod) async {
     try {
-      await _paymentMethodsDataSource.update(paymentMethod);
+      await _paymentMethodsDataSource.update(paymentMethod.toModel());
       return const Right(null);
     } catch (e) {
       return Left(Failure(e.toString()));
