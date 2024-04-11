@@ -138,8 +138,8 @@ final getPurchasesUseCaseProvider = Provider<GetPurchases>((ref) {
   return GetPurchases(ref.read(purchasesRepositoryProvider));
 });
 
-final confirmPurchaseUseCaseProvider = Provider<ConfirmPurchase>((ref) {
-  return ConfirmPurchase(ref.read(purchasesRepositoryProvider));
+final confirmPurchaseUseCaseProvider = Provider<ConfirmPurchaseOrder>((ref) {
+  return ConfirmPurchaseOrder(ref.read(purchasesRepositoryProvider));
 });
 
 // ----------------------------//

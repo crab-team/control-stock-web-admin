@@ -5,6 +5,7 @@ class CustomerModel {
   final String? email;
   final String? phone;
   final String? address;
+  double? positiveBalance;
 
   CustomerModel({
     this.id,
@@ -13,6 +14,7 @@ class CustomerModel {
     this.email,
     this.phone,
     this.address,
+    this.positiveBalance,
   });
 
   toCreateJson() {
@@ -22,6 +24,7 @@ class CustomerModel {
       'email': email,
       'phone': phone,
       'address': address,
+      'positiveBalance': positiveBalance ?? 0.0,
     };
   }
 
@@ -32,6 +35,7 @@ class CustomerModel {
       'email': email,
       'phone': phone,
       'address': address,
+      'positiveBalance': positiveBalance,
     };
   }
 }

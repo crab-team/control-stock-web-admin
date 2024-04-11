@@ -1,6 +1,6 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
-import 'package:control_stock_web_admin/presentation/providers/customers/customer_records_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +44,6 @@ class _ConfirmPurchaseOrderButtonState extends ConsumerState<ConfirmPurchaseOrde
   }
 
   Future<void> _confirmPurchase() async {
-    await ref.read(customerRecordsControllerProvider.notifier).confirmPurchase(widget.order);
+    await ref.read(ordersControllerProvider.notifier).confirmOrder(widget.order);
   }
 }

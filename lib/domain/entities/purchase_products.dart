@@ -1,5 +1,3 @@
-import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
-
 class PurchaseProducts {
   final List<PurchaseProduct> products;
   final String paymentStatus;
@@ -25,14 +23,6 @@ class PurchaseProducts {
       'paymentStatus': paymentStatus,
       'paymentMethodId': paymentMethodId,
     };
-  }
-
-  PurchaseProductsModel toModel() {
-    return PurchaseProductsModel(
-      products: products.map((e) => e.toModel()).toList(),
-      paymentStatus: paymentStatus,
-      paymentMethodId: paymentMethodId,
-    );
   }
 }
 
@@ -61,13 +51,5 @@ class PurchaseProduct {
       'quantity': quantity,
       'unitPrice': unitPrice,
     };
-  }
-
-  PurchaseProductModel toModel() {
-    return PurchaseProductModel(
-      id: id,
-      quantity: quantity,
-      unitPrice: unitPrice,
-    );
   }
 }

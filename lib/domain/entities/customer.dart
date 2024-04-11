@@ -7,6 +7,7 @@ class Customer {
   final String? email;
   final String? phone;
   final String? address;
+  final double? positiveBalance;
 
   Customer({
     this.id,
@@ -15,12 +16,8 @@ class Customer {
     this.email,
     this.phone,
     this.address,
+    this.positiveBalance,
   });
-
-  @override
-  String toString() {
-    return 'Client{id: $id, name: $name, lastName: $lastName, email: $email, phone: $phone, address: $address}';
-  }
 
   toJson() {
     return {
@@ -30,6 +27,7 @@ class Customer {
       'email': email,
       'phone': phone,
       'address': address,
+      'positiveBalance': positiveBalance ?? 0.0,
     };
   }
 
@@ -41,6 +39,7 @@ class Customer {
       email: map['email'],
       phone: map['phone'],
       address: map['address'],
+      positiveBalance: map['positiveBalance'],
     );
   }
 
@@ -51,6 +50,7 @@ class Customer {
     String? email,
     String? phone,
     String? address,
+    double? positiveBalance,
   }) {
     return Customer(
       id: id ?? this.id,
@@ -59,6 +59,7 @@ class Customer {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       address: address ?? this.address,
+      positiveBalance: positiveBalance ?? this.positiveBalance,
     );
   }
 
@@ -70,6 +71,7 @@ class Customer {
       email: email,
       phone: phone,
       address: address,
+      positiveBalance: positiveBalance,
     );
   }
 

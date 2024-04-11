@@ -1,3 +1,5 @@
+import 'package:control_stock_web_admin/data/models/purchase_order_product_model.dart';
+
 class PurchaseOrderProduct {
   final int id;
   final String code;
@@ -32,5 +34,13 @@ class PurchaseOrderProduct {
       'quantity': quantity,
       'unitPrice': unitPrice,
     };
+  }
+
+  PurchaseOrderProductModel toModel() {
+    return PurchaseOrderProductModel(
+      id: id,
+      quantity: quantity,
+      unitPrice: unitPrice,
+    );
   }
 }

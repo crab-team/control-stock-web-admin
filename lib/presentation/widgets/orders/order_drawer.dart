@@ -14,6 +14,7 @@ import 'package:control_stock_web_admin/presentation/widgets/orders/order_summar
 import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
+import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,6 +30,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   List<Product> product = [];
   Customer? customer;
   PaymentMethod? paymentMethod;
+  final paidController = TextEditingController();
 
   @override
   void initState() {
@@ -60,6 +62,13 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
               const Divider(),
               const Gap.small(),
               _buildPaymentMethodSelector(),
+              const Gap.small(),
+              TextFormField(
+                controller: paidController,
+                decoration: const InputDecoration(
+                  labelText: Texts.give,
+                ),
+              ),
               const Gap.small(),
               const Divider(),
               const Gap.small(),
@@ -149,11 +158,18 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
   void _onSubmit() {
     List<PurchaseOrderProduct> productsSelected = ref.read(orderProductsControllerProvider);
-    if (productsSelected.isEmpty || customer == null || paymentMethod == null) return;
+    if (productsSelected.isEmpty || customer == null || paymentMethod == null || paidController.text == '') {
+      ToastUtils.showToast(context, Texts.requiredField, Texts.requiredFieldMessage, ToastType.error);
+      return;
+    }
+
+    final double paid = double.parse(paidController.text);
+    final double total = productsSelected.fold(0, (previousValue, element) => previousValue + element.unitPrice);
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,
       products: productsSelected,
+      debt: total - paid,
       paymentMethod: paymentMethod!,
     );
 

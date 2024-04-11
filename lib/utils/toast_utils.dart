@@ -15,7 +15,7 @@ class ToastUtils {
   static showToast(BuildContext context, String title, String message, ToastType type) {
     if (type == ToastType.success) {
       ElegantNotification.success(
-        width: 600,
+        width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -40,7 +40,7 @@ class ToastUtils {
       ).show(context);
     } else if (type == ToastType.error) {
       ElegantNotification.error(
-        width: 600,
+        width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -65,7 +65,7 @@ class ToastUtils {
       ).show(context);
     } else if (type == ToastType.warning) {
       ElegantNotification.info(
-        width: 600,
+        width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -90,7 +90,7 @@ class ToastUtils {
       ).show(context);
     } else if (type == ToastType.info) {
       ElegantNotification.info(
-        width: 600,
+        width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -116,7 +116,7 @@ class ToastUtils {
     }
     if (type == ToastType.loading) {
       ElegantNotification.info(
-        width: 600,
+        width: 400,
         showProgressIndicator: true,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,

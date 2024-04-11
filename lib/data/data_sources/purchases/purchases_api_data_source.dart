@@ -1,5 +1,5 @@
 import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_remote_data_source.dart';
-import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
+import 'package:control_stock_web_admin/data/models/purchase_order_model.dart';
 import 'package:control_stock_web_admin/data/responses/purchase_response.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
@@ -11,9 +11,9 @@ class PurchasesApiDataSource implements PurchasesRemoteDataSource {
   String path = '/commerces/1/purchases';
 
   @override
-  Future<void> createPurchase(int customerId, PurchaseProductsModel purchaseProducts) async {
+  Future<void> createPurchase(int customerId, PurchaseOrderModel purchaseOrderModel) async {
     try {
-      await apiClient.sendPost(path, body: purchaseProducts.toCreateJson());
+      await apiClient.sendPost('$path?customerId=$customerId', body: purchaseOrderModel.toCreateJson());
     } catch (e) {
       logger.e(e);
       rethrow;

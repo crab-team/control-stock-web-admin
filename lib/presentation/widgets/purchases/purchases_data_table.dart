@@ -1,12 +1,9 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
-import 'package:control_stock_web_admin/presentation/providers/customers/customer_records_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
-import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/customer_records/customer_records_data_table_source.dart';
-import 'package:control_stock_web_admin/presentation/widgets/customers/customer_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:currency_formatter/currency_formatter.dart';
@@ -60,8 +57,6 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           onChanged: (value) => _search(value),
         ),
         const VerticalDivider(indent: 8, endIndent: 8),
-        const Gap.medium(isHorizontal: true),
-        _buildAddRecord(),
       ],
       header: _buildHeader(debt),
       empty: const Center(child: Text(Texts.noRecords)),
@@ -81,10 +76,11 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
         ),
         DataColumn2(
           label: Text(Texts.unitPrice),
-          size: ColumnSize.S,
+          size: ColumnSize.M,
         ),
         DataColumn2(
-          label: Text(Texts.quantity),
+          fixedWidth: 90,
+          label: Text(Texts.quantityAbbreviation),
           size: ColumnSize.S,
         ),
         DataColumn2(
@@ -97,7 +93,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
         ),
         DataColumn2(
           label: Text(Texts.debt),
-          size: ColumnSize.S,
+          size: ColumnSize.M,
         ),
         DataColumn2(
           fixedWidth: 150,
@@ -127,31 +123,17 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   void _search(String value) {
-    ref.read(customerRecordsControllerProvider.notifier).search(value);
+    ref.read(ordersControllerProvider.notifier).search(value);
   }
 
   void _delete(int id) {
     ref.read(customersControllerProvider.notifier).delete(id);
   }
 
-  Widget _buildAddRecord() {
-    return ElevatedButton.icon(
-      icon: const Icon(PhosphorIcons.plus),
-      onPressed: () => _openDrawer(context, ref),
-      label: const Text(Texts.addRecord),
-    );
-  }
-
-  _openDrawer(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const CustomerDrawer();
-  }
-
   double getTotalDebt(List<Purchase> data) {
     double total = 0;
     for (var record in data) {
-      if (record.paymentStatus == PaymentStatus.pending) {
-        total += record.unitPrice * record.quantity;
-      }
+      total += record.debt;
     }
     return total;
   }

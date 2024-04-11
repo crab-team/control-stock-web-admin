@@ -1,4 +1,3 @@
-import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 
 class AssetsImages {
@@ -16,6 +15,7 @@ class Texts {
   static const String delete = 'Eliminar';
   static const String update = 'Actualizar';
   static const String requiredField = 'Campo requerido';
+  static const String requiredFieldMessage = 'Recuerda completar todos\nlos campos obligatorios';
   static const String name = 'Nombre';
   static const String lastName = 'Apellido';
   static const String description = 'Descripción';
@@ -27,6 +27,7 @@ class Texts {
   static const String noData = 'No hay datos';
   static const String saved = 'Guardado';
   static const String quantity = 'Cantidad';
+  static const String quantityAbbreviation = 'Cant.';
   static const String total = 'Total';
   static const String actions = 'Acciones';
   static const String resume = 'Resumen';
@@ -37,6 +38,7 @@ class Texts {
   static const String surcharge = 'Recargo';
   static const String unitPrice = 'Precio/u';
   static const String debt = 'Adeuda';
+  static const String give = 'Entrega';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -134,10 +136,3 @@ CurrencyFormat arsSettings = const CurrencyFormat(
   decimalSeparator: ',',
   symbolSeparator: ' ',
 );
-
-Map<PaymentStatus, String> paymentStatusMapper = {
-  PaymentStatus.pending: 'Pendiente',
-  PaymentStatus.paid: 'Pagado',
-  PaymentStatus.canceled: 'Cancelado',
-  PaymentStatus.none: '-',
-};

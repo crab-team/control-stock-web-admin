@@ -1,10 +1,10 @@
 import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
 import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_remote_data_source.dart';
-import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
+import 'package:control_stock_web_admin/data/models/purchase_order_model.dart';
 import 'package:control_stock_web_admin/data/responses/purchase_response.dart';
-import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
-import 'package:control_stock_web_admin/domain/repositories/shopping_repository.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
+import 'package:control_stock_web_admin/domain/repositories/purchases_repository.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:dartz/dartz.dart';
 
@@ -23,7 +23,6 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
   Future<Either<Failure, List<Purchase>>> getAll() async {
     try {
       List<PurchaseResponse> response = await purchasesRemoteDataSource.getAll();
-      print(response);
       final purchases = response.map<Purchase>((e) => e.toDomain()).toList();
       return Right(purchases);
     } catch (e) {
@@ -40,10 +39,10 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
   }
 
   @override
-  Future<Either<Failure, void>> purchaseProducts(int customerId, PurchaseProducts purchaseProducts) async {
+  Future<Either<Failure, void>> purchaseOrder(PurchaseOrder purchaseOrder) async {
     try {
-      PurchaseProductsModel model = purchaseProducts.toModel();
-      await purchasesRemoteDataSource.createPurchase(customerId, model);
+      PurchaseOrderModel model = purchaseOrder.toModel();
+      await purchasesRemoteDataSource.createPurchase(purchaseOrder.customer!.id!, model);
       return const Right(null);
     } catch (e) {
       return Left(Failure(e.toString()));
