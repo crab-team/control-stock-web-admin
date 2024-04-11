@@ -31,4 +31,20 @@ class PurchasesApiDataSource implements PurchasesRemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> delete(int customerId, int purchaseId) {
+    try {
+      return apiClient.sendDelete('$path/$purchaseId?customerId=$customerId');
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updatePurchase(int customerId, int purchaseId, PurchaseOrderModel purchaseOrderModel) {
+    // TODO: implement updatePurchase
+    throw UnimplementedError();
+  }
 }

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class PurchasesDataTableSource extends DataTableSource {
   final List<Purchase> _data;
-  final Function(int id) onDelete;
+  final Function(int customerId, int id) onDelete;
 
   PurchasesDataTableSource({
     List<Purchase>? data,
@@ -36,7 +36,7 @@ class PurchasesDataTableSource extends DataTableSource {
         DataCell(Text(purchase.paymentMethodName.toString())),
         DataCell(Text(CurrencyFormatter.format(purchase.debt, arsSettings))),
         DataCell(ButtonWithConfirmation(
-          onConfirm: () => onDelete(purchase.id!),
+          onConfirm: () => onDelete(purchase.customerId!, purchase.id!),
         )),
       ],
     );

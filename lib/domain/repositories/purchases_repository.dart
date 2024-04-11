@@ -6,6 +6,6 @@ import 'package:dartz/dartz.dart';
 abstract class PurchasesRepository {
   Future<Either<Failure, List<Purchase>>> getAll();
   Future<Either<Failure, void>> purchaseOrder(PurchaseOrder purchaseOrder);
-  Future<Either<Failure, void>> deletePurchase(int recordId);
+  Future<Either<Failure, void>> delete(int customerId, int purchaseId);
   Future<Either<Failure, List<Purchase>>> getByCustomerId(int customerId);
 }

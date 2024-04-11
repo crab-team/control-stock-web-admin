@@ -1,6 +1,7 @@
 class Purchase {
   final int? id;
   final int productId;
+  final int? customerId;
   final String customerName;
   final String customerLastName;
   final int quantity;
@@ -16,6 +17,7 @@ class Purchase {
 
   Purchase({
     this.id,
+    this.customerId,
     required this.productId,
     required this.customerName,
     required this.customerLastName,
@@ -33,6 +35,7 @@ class Purchase {
 
   Purchase copyWith({
     int? id,
+    int? customerId,
     int? productId,
     String? customerName,
     String? customerLastName,
@@ -49,6 +52,7 @@ class Purchase {
   }) {
     return Purchase(
       id: id ?? this.id,
+      customerId: customerId ?? this.customerId,
       productId: productId ?? this.productId,
       customerName: customerName ?? this.customerName,
       customerLastName: customerLastName ?? this.customerLastName,

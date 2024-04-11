@@ -1,7 +1,5 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
-import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
-import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_data_table_source.dart';
@@ -123,11 +121,11 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   void _search(String value) {
-    ref.read(ordersControllerProvider.notifier).search(value);
+    ref.read(purchasesControllerProvider.notifier).search(value);
   }
 
-  void _delete(int id) {
-    ref.read(customersControllerProvider.notifier).delete(id);
+  void _delete(int customerId, int id) {
+    ref.read(purchasesControllerProvider.notifier).delete(customerId, id);
   }
 
   double getTotalDebt(List<Purchase> data) {

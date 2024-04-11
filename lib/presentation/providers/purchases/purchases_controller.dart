@@ -26,4 +26,32 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
 
     purchases = state.asData?.value ?? [];
   }
+
+  search(String query) async {
+    if (query.isEmpty) {
+      state = AsyncValue.data(purchases);
+      return;
+    }
+
+    state = const AsyncValue.loading();
+    state = AsyncValue.data(
+      purchases.where((element) {
+        final byCustomer = element.fullName.toLowerCase().contains(query.toLowerCase());
+        final byCode = element.productCode!.toLowerCase().contains(query.toLowerCase());
+
+        return byCustomer || byCode;
+      }).toList(),
+    );
+  }
+
+  delete(int id, int customerId) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final either = await ref.read(deletePurchaseUseCaseProvider).execute(customerId, id);
+      return either.fold((l) => throw l, (_) {
+        purchases.removeWhere((element) => element.id == id);
+        return purchases;
+      });
+    });
+  }
 }
