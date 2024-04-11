@@ -5,7 +5,7 @@ class CustomerModel {
   final String? email;
   final String? phone;
   final String? address;
-  double? positiveBalance;
+  final double? positiveBalance;
 
   CustomerModel({
     this.id,

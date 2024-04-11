@@ -88,6 +88,7 @@ class Texts {
   static const String records = 'Ficha';
   static const String searchRecord = 'Buscar registro';
   static const String addRecord = 'Agregar registro';
+  static const String positiveBalance = 'Saldo positivo';
 
   // Orders
   static const String shopping = 'Compras';

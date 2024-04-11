@@ -94,6 +94,10 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
           size: ColumnSize.L,
         ),
         DataColumn2(
+          label: Text(Texts.positiveBalance),
+          size: ColumnSize.L,
+        ),
+        DataColumn2(
           fixedWidth: 300,
           label: Text('Acciones'),
           size: ColumnSize.S,

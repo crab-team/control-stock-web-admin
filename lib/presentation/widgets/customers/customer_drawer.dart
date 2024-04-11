@@ -6,6 +6,7 @@ import 'package:control_stock_web_admin/presentation/providers/customers/custome
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomerDrawer extends ConsumerStatefulWidget {
@@ -24,6 +25,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController positiveBalanceController = TextEditingController();
   Category? category;
 
   @override
@@ -35,6 +37,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
       emailController.text = widget.customer!.email ?? '';
       phoneController.text = widget.customer!.phone ?? '';
       addressController.text = widget.customer!.address ?? '';
+      positiveBalanceController.text = widget.customer!.positiveBalance.toString();
     }
   }
 
@@ -96,6 +99,13 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
                       textCapitalization: TextCapitalization.words,
                       decoration: const InputDecoration(labelText: Texts.address),
                     ),
+                    const Gap.small(),
+                    TextFormField(
+                      controller: positiveBalanceController,
+                      decoration: const InputDecoration(
+                          labelText: Texts.positiveBalance, prefixIcon: Icon(PhosphorIcons.currency_dollar)),
+                      keyboardType: TextInputType.number,
+                    ),
                     const Gap.medium(),
                     const Divider(),
                     const Gap.medium(),
@@ -139,6 +149,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
+        positiveBalance: double.parse(positiveBalanceController.text),
       );
 
       if (widget.customer != null) {

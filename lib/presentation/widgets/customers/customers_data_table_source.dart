@@ -2,6 +2,7 @@ import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
@@ -35,6 +36,7 @@ class CustomersDataTableSource extends DataTableSource {
         DataCell(Text(customer.email ?? '-')),
         DataCell(Text(customer.phone ?? '-')),
         DataCell(Text(customer.address ?? '-')),
+        DataCell(Text(CurrencyFormatter.format(customer.positiveBalance, arsSettings))),
         DataCell(Row(
           children: [
             ElevatedButton.icon(

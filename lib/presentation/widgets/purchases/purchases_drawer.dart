@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PurchasesDrawer extends ConsumerStatefulWidget {
-  final Customer? client;
-  const PurchasesDrawer({super.key, this.client});
+  final Customer? customer;
+  const PurchasesDrawer({super.key, this.customer});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DrawerState();
@@ -29,12 +29,12 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
   @override
   void initState() {
     super.initState();
-    if (widget.client != null) {
-      nameController.text = widget.client!.name;
-      lastNameController.text = widget.client!.lastName;
-      emailController.text = widget.client!.email ?? '';
-      phoneController.text = widget.client!.phone ?? '';
-      addressController.text = widget.client!.address ?? '';
+    if (widget.customer != null) {
+      nameController.text = widget.customer!.name;
+      lastNameController.text = widget.customer!.lastName;
+      emailController.text = widget.customer!.email ?? '';
+      phoneController.text = widget.customer!.phone ?? '';
+      addressController.text = widget.customer!.address ?? '';
     }
   }
 
@@ -44,7 +44,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.client != null ? Texts.editCustomer : Texts.addCustomer,
+          widget.customer != null ? Texts.editCustomer : Texts.addCustomer,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const Gap.medium(),
@@ -115,7 +115,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
                             style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
                             icon: const Icon(Icons.save),
                             onPressed: () => _onSubmit(),
-                            label: Text(widget.client != null ? Texts.edit : Texts.add),
+                            label: Text(widget.customer != null ? Texts.edit : Texts.add),
                           ),
                         ],
                       ),
@@ -132,19 +132,20 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
 
   void _onSubmit() {
     if (formKey.currentState!.validate()) {
-      final client = Customer(
-        id: widget.client?.id,
+      final customer = Customer(
+        id: widget.customer?.id,
         name: nameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
+        positiveBalance: widget.customer!.positiveBalance,
       );
 
-      if (widget.client != null) {
-        ref.read(customersControllerProvider.notifier).updateClient(client);
+      if (widget.customer != null) {
+        ref.read(customersControllerProvider.notifier).updateClient(customer);
       } else {
-        ref.read(customersControllerProvider.notifier).create(client);
+        ref.read(customersControllerProvider.notifier).create(customer);
       }
       ref.read(navigationServiceProvider).goBack(context);
     }

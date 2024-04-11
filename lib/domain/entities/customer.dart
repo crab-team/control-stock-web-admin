@@ -7,7 +7,7 @@ class Customer {
   final String? email;
   final String? phone;
   final String? address;
-  final double? positiveBalance;
+  final double positiveBalance;
 
   Customer({
     this.id,
@@ -16,7 +16,7 @@ class Customer {
     this.email,
     this.phone,
     this.address,
-    this.positiveBalance,
+    required this.positiveBalance,
   });
 
   toJson() {
@@ -27,7 +27,7 @@ class Customer {
       'email': email,
       'phone': phone,
       'address': address,
-      'positiveBalance': positiveBalance ?? 0.0,
+      'positiveBalance': positiveBalance,
     };
   }
 
