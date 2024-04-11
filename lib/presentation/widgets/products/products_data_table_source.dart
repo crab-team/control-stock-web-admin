@@ -74,7 +74,6 @@ class ProductDataTableSource extends DataTableSource {
         DataCell(Text(product.name.toUpperCase())),
         DataCell(Text(CurrencyFormatter.format(product.costPrice, arsSettings))),
         DataCell(Text(CurrencyFormatter.format(product.publicPrice!, arsSettings))),
-        DataCell(Text(CurrencyFormatter.format(product.cashPurchasePrice!, arsSettings))),
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(Text(product.stock.toString())),
         DataCell(Icon(

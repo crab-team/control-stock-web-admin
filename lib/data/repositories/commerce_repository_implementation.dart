@@ -10,16 +10,6 @@ class CommerceRepositoryImplementation implements CommerceRepository {
   CommerceRepositoryImplementation(this.commerceRemoteDataSource);
 
   @override
-  Future<Either<Failure, void>> updateDiscountCashPercentage(String commerceId, double cashPaymentPercentage) async {
-    try {
-      await commerceRemoteDataSource.updateDiscountCashPercentage(commerceId, cashPaymentPercentage);
-      return const Right(null);
-    } catch (e) {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, Commerce>> getById(String id) async {
     try {
       final response = await commerceRemoteDataSource.getById(id);

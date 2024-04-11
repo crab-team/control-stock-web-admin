@@ -30,6 +30,8 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   List<Product> product = [];
   Customer? customer;
   PaymentMethod? paymentMethod;
+
+  final globalKey = GlobalKey<FormState>();
   final paidController = TextEditingController();
 
   @override
@@ -40,71 +42,92 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.order != null ? Texts.editCustomer : Texts.createOrder,
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        const Gap.small(),
-        const Divider(),
-        const Gap.medium(),
-        Expanded(
-          child: ListView(
-            children: [
-              _buildCustomerSelector(),
-              const Gap.small(),
-              const Divider(),
-              const Gap.small(),
-              const SizedBox(height: 400, child: ProductsManager()),
-              const Gap.small(),
-              const Divider(),
-              const Gap.small(),
-              _buildPaymentMethodSelector(),
-              const Gap.small(),
-              TextFormField(
-                controller: paidController,
-                decoration: const InputDecoration(
-                  labelText: Texts.give,
-                ),
-              ),
-              const Gap.small(),
-              const Divider(),
-              const Gap.small(),
-              const OrderSummary(),
-              Column(
-                children: [
-                  const Gap.medium(),
-                  const Divider(),
-                  const Gap.medium(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
-                          icon: const Icon(Icons.cancel),
-                          onPressed: () => ref.read(navigationServiceProvider).goBack(context),
-                          label: const Text(Texts.cancel),
-                        ),
-                        const Gap.small(isHorizontal: true),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
-                          icon: const Icon(Icons.save),
-                          onPressed: () => _onSubmit(),
-                          label: Text(widget.order != null ? Texts.edit : Texts.add),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+    return Form(
+      key: globalKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.order != null ? Texts.editCustomer : Texts.createOrder,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
-        ),
-      ],
+          const Gap.small(),
+          const Divider(),
+          const Gap.medium(),
+          Expanded(
+            child: ListView(
+              children: [
+                _buildCustomerSelector(),
+                const Gap.small(),
+                const Divider(),
+                const Gap.small(),
+                const SizedBox(height: 400, child: ProductsManager()),
+                const Gap.small(),
+                const Divider(),
+                const Gap.small(),
+                _buildPaymentMethodSelector(),
+                const Gap.small(),
+                _buildGivenAmount(),
+                const Gap.small(),
+                const Divider(),
+                const Gap.small(),
+                const OrderSummary(),
+                Column(
+                  children: [
+                    const Gap.medium(),
+                    const Divider(),
+                    const Gap.medium(),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
+                            icon: const Icon(Icons.cancel),
+                            onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+                            label: const Text(Texts.cancel),
+                          ),
+                          const Gap.small(isHorizontal: true),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
+                            icon: const Icon(Icons.save),
+                            onPressed: () => _onSubmit(),
+                            label: Text(widget.order != null ? Texts.edit : Texts.add),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGivenAmount() {
+    final products = ref.watch(orderProductsControllerProvider);
+    double total = products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
+    paidController.text = total.toString();
+
+    return TextFormField(
+      controller: paidController,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(labelText: Texts.give),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return Texts.requiredField;
+        }
+
+        if (double.parse(value) > total) {
+          return 'El monto no puede ser mayor al total de la compra.';
+        }
+
+        return null;
+      },
     );
   }
 
@@ -158,6 +181,11 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
   void _onSubmit() {
     List<PurchaseOrderProduct> productsSelected = ref.read(orderProductsControllerProvider);
+
+    if (!globalKey.currentState!.validate()) {
+      return;
+    }
+
     if (productsSelected.isEmpty || customer == null || paymentMethod == null || paidController.text == '') {
       ToastUtils.showToast(context, Texts.requiredField, Texts.requiredFieldMessage, ToastType.error);
       return;

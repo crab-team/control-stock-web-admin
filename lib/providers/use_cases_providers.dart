@@ -11,7 +11,6 @@ import 'package:control_stock_web_admin/domain/use_cases/customers/delete_custom
 import 'package:control_stock_web_admin/domain/use_cases/customers/get_customers.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/update_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
-import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/create_payment_method.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/delete_payment_method.dart';
@@ -104,9 +103,6 @@ final deleteCategoryUseCaseProvider = Provider<DeleteCategory>((ref) {
 // -------------------//
 final getCommerceByIdUseCaseProvider = Provider<GetCommerceById>((ref) {
   return GetCommerceById(ref.read(commerceRepositoryProvider));
-});
-final updateCashPaymentPercentageUseCaseProvider = Provider<UpdateCashPaymentPercentage>((ref) {
-  return UpdateCashPaymentPercentage(ref.read(commerceRepositoryProvider));
 });
 
 final updateCommerceUseCaseProvider = Provider<UpdateCommerce>((ref) {

@@ -44,7 +44,6 @@ class Texts {
   static const String email = 'Correo electrónico';
   static const String address = 'Dirección';
   static const String phone = 'Teléfono';
-  static const String discountCashPercentage = 'Descuento en efectivo';
   static const String commerce = 'Comercio';
   static const String commerceName = 'Nombre del comercio';
   static const String accountingData = 'Datos contables';

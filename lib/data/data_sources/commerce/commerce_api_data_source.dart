@@ -11,16 +11,6 @@ class CommerceApiDataSource implements CommerceRemoteDataSource {
   String path = '/commerces';
 
   @override
-  Future<void> updateDiscountCashPercentage(String commerceId, double value) async {
-    try {
-      final body = {'discountCashPercentage': value};
-      return await apiClient.sendPatch('$path/accounting/$commerceId', body: body);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Future<CommerceResponse> getById(String id) async {
     try {
       final res = await apiClient.sendGet('$path/$id');

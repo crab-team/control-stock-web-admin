@@ -64,11 +64,6 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
           size: ColumnSize.S,
           fixedWidth: 150,
         ),
-        const DataColumn2(
-          label: Text('Precio contado'),
-          size: ColumnSize.S,
-          fixedWidth: 150,
-        ),
         DataColumn2(
           label: CategorySelector.asFilter(onCategorySelected: (category) {
             ref.read(productsControllerProvider.notifier).search(category?.name ?? '');
