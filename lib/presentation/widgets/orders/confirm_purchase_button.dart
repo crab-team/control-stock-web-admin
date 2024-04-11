@@ -1,15 +1,13 @@
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
-import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
-import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/customers/customer_records_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ConfirmPurchaseOrderButton extends ConsumerStatefulWidget {
-  final PurcharseOrder order;
+  final PurchaseOrder order;
   const ConfirmPurchaseOrderButton({super.key, required this.order});
 
   @override
@@ -36,21 +34,16 @@ class _ConfirmPurchaseOrderButtonState extends ConsumerState<ConfirmPurchaseOrde
     isLoading = true;
     setState(() {});
     try {
-      final products = ref.read(productsControllerProvider.notifier).products;
-      List<Product> orderProducts = widget.order.products.map((p) {
-        final product = products.firstWhere((element) => element.id == p.id);
-        final newProduct = product.copyWith(stock: product.stock - p.quantity);
-        return newProduct as Product;
-      }).toList();
-
-      await ref.read(productsControllerProvider.notifier).updateProducts(orderProducts);
-      // await ref.read(customerRecordsControllerProvider.notifier).createRecords();
-      ref.read(ordersControllerProvider.notifier).removeOrder(widget.order);
+      await _confirmPurchase();
       ToastUtils.showToast(
           context, Texts.orderPurchaseConfrimated, Texts.orderPurchaseConfrimatedMessage, ToastType.success);
       setState(() {});
     } catch (e) {
       return ToastUtils.showToast(context, Texts.errorOccurred, Texts.errorOccurredTryAgain, ToastType.error);
     }
+  }
+
+  Future<void> _confirmPurchase() async {
+    await ref.read(customerRecordsControllerProvider.notifier).confirmPurchase(widget.order);
   }
 }

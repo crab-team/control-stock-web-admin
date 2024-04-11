@@ -21,9 +21,10 @@ class CommerceApiDataSource implements CommerceRemoteDataSource {
   }
 
   @override
-  Future<CommerceResponse> getById(String id) {
+  Future<CommerceResponse> getById(String id) async {
     try {
-      return apiClient.sendGet('$path/$id').then((response) => CommerceResponse.fromJson(response));
+      final res = await apiClient.sendGet('$path/$id');
+      return CommerceResponse.fromJson(res);
     } catch (e) {
       rethrow;
     }

@@ -8,6 +8,7 @@ import 'package:control_stock_web_admin/data/data_sources/payment_methods/paymen
 import 'package:control_stock_web_admin/data/data_sources/payment_methods/payment_methods_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/products/products_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/products/products_remote_data_source.dart';
+import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_api_data_source.dart';
 import 'package:control_stock_web_admin/data/data_sources/users/users_share_preferences.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,3 +24,4 @@ final customersRemoteDataSourcesProvider =
     Provider<CustomersRemoteDataSource>((ref) => CustomersApiDataSource(ref.read(apiClientProvider)));
 final paymentMethodsRemoteDataSourcesProvider =
     Provider<PaymentMethodsRemoteDataSource>((ref) => PaymentMethodsApiDataSource(ref.read(apiClientProvider)));
+final purchasesRemoteDataSourcesProvider = Provider((ref) => PurchasesApiDataSource(ref.read(apiClientProvider)));

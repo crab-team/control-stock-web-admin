@@ -9,8 +9,6 @@ import 'package:control_stock_web_admin/domain/use_cases/categories/update_categ
 import 'package:control_stock_web_admin/domain/use_cases/customers/create_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/delete_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/get_customers.dart';
-import 'package:control_stock_web_admin/domain/use_cases/customers/records/create_records.dart';
-import 'package:control_stock_web_admin/domain/use_cases/customers/records/get_records.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/update_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
 import 'package:control_stock_web_admin/domain/use_cases/commerce/update_cash_payment_percentage.dart';
@@ -26,6 +24,8 @@ import 'package:control_stock_web_admin/domain/use_cases/products/get_product.da
 import 'package:control_stock_web_admin/domain/use_cases/products/get_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_products.dart';
+import 'package:control_stock_web_admin/domain/use_cases/purchases/confirm_purchase.dart';
+import 'package:control_stock_web_admin/domain/use_cases/purchases/get_purchases.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/get_user.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/store_user.dart';
 import 'package:control_stock_web_admin/providers/repositories_providers.dart';
@@ -132,14 +132,14 @@ final deleteCustomerUseCaseProvider = Provider<DeleteCustomer>((ref) {
 });
 
 // ----------------------------//
-// ---- Customers Records ---- //
+// -------- Purchases  -------- //
 // ----------------------------//
-final getCustomerRecordsUseCaseProvider = Provider<GetCustomerRecords>((ref) {
-  return GetCustomerRecords(ref.read(customersRepositoryProvider));
+final getPurchasesUseCaseProvider = Provider<GetPurchases>((ref) {
+  return GetPurchases(ref.read(purchasesRepositoryProvider));
 });
 
-final createCustomerRecordsUseCaseProvider = Provider<CreateCustomerRecords>((ref) {
-  return CreateCustomerRecords(ref.read(customersRepositoryProvider));
+final confirmPurchaseUseCaseProvider = Provider<ConfirmPurchase>((ref) {
+  return ConfirmPurchase(ref.read(purchasesRepositoryProvider));
 });
 
 // ----------------------------//

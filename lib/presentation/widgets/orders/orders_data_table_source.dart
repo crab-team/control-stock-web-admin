@@ -7,13 +7,13 @@ import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
 class OrdersDataTableSource extends DataTableSource {
-  final List<PurcharseOrder> _data;
+  final List<PurchaseOrder> _data;
   final Function(int id) onDelete;
 
   OrdersDataTableSource({
-    List<PurcharseOrder>? data,
+    List<PurchaseOrder>? data,
     required this.onDelete,
-  }) : _data = data ?? <PurcharseOrder>[];
+  }) : _data = data ?? <PurchaseOrder>[];
 
   @override
   int get rowCount => _data.length;
@@ -27,7 +27,7 @@ class OrdersDataTableSource extends DataTableSource {
     final order = _data[index];
     List<String> productsCodes = order.products.map((e) => e.code).toSet().toList();
     int quantity = order.products.fold(0, (p0, p1) => p0 + p1.quantity);
-    double total = order.products.map((e) => e.price).fold(0, (p0, p1) => p0 + p1);
+    double total = order.products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
 
     return DataRow.byIndex(
       index: index,
@@ -37,6 +37,7 @@ class OrdersDataTableSource extends DataTableSource {
         DataCell(Text(productsCodes.join(' - '))),
         DataCell(Text(quantity.toString())),
         DataCell(Text(CurrencyFormatter.format(total, arsSettings))),
+        DataCell(Text(order.paymentMethod.name)),
         DataCell(Row(
           children: [
             ConfirmPurchaseOrderButton(order: order),

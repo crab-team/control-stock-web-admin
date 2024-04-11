@@ -1,4 +1,4 @@
-import 'package:control_stock_web_admin/domain/entities/customer_record.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 
 class AssetsImages {
@@ -35,7 +35,7 @@ class Texts {
   static const String paymentStatus = 'Estado de pago';
   static const String paymentMethod = 'Método de pago';
   static const String surcharge = 'Recargo';
-  static const String unitPrice = 'Precio unitario';
+  static const String unitPrice = 'Precio/u';
   static const String debt = 'Adeuda';
 
   // Commerce

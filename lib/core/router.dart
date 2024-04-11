@@ -1,17 +1,16 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
-import 'package:control_stock_web_admin/domain/entities/user.dart';
-import 'package:control_stock_web_admin/presentation/providers/users/user_controller.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/email_link_confirmation_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customer_records_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
+import 'package:control_stock_web_admin/presentation/screens/purchases/purchases_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/splash/splash_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +23,12 @@ final navigationServiceProvider = Provider<NavigationService>((ref) {
 });
 
 class Routes {
-  static const String home = '/';
+  static const String splash = '/';
   static const String signIn = '/signIn';
   static const String verifyEmail = 'verifyEmail';
   static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
+  static const String home = '/home';
+  static const String purchases = '/purchases';
   static const String products = '/products';
   static const String productAnalitycs = 'product/analytics';
   static const String productsUploadCsv = 'uploadCsv';
@@ -38,7 +39,9 @@ class Routes {
   static const String orders = '/ordenes';
 
   static const Map<String, String> names = {
+    splash: 'Splash',
     home: 'Inicio',
+    purchases: 'Compras',
     signIn: 'Iniciar sesión',
     products: 'Productos',
     productAnalitycs: 'Análisis de producto',
@@ -62,7 +65,7 @@ class NavigationService {
   GoRouter get appRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation: Routes.home,
+      initialLocation: Routes.splash,
       routes: [
         GoRoute(
           path: Routes.emailLinkConfirmation,
@@ -85,8 +88,8 @@ class NavigationService {
               ),
             ]),
         GoRoute(
-          path: Routes.home,
-          name: Routes.names[Routes.home]!,
+          path: Routes.splash,
+          name: Routes.names[Routes.splash]!,
           builder: (context, state) {
             return const SplashScreen();
           },
@@ -97,6 +100,7 @@ class NavigationService {
             return DashboardWidget(page: child);
           },
           branches: [
+            _shoppingBranch(),
             _productsBranch(),
             _ordersBranch(),
             _customersBranch(),
@@ -118,6 +122,19 @@ class NavigationService {
 
         return null;
       },
+    );
+  }
+
+  StatefulShellBranch _shoppingBranch() {
+    return StatefulShellBranch(
+      initialLocation: Routes.purchases,
+      routes: [
+        GoRoute(
+          path: Routes.purchases,
+          name: Routes.names[Routes.purchases]!,
+          builder: (context, state) => const PurchasesScreen(),
+        ),
+      ],
     );
   }
 
@@ -161,7 +178,8 @@ class NavigationService {
               name: Routes.names[Routes.customerRecords]!,
               builder: (context, state) {
                 int customerId = int.parse(state.pathParameters['id']!);
-                return CustomerRecordsScreen(customerId: customerId);
+                return Container();
+                // return CustomerRecordsScreen(customerId: customerId);
               },
             ),
           ],
@@ -220,19 +238,22 @@ class NavigationService {
   }
 
   Map<String, IconData> get routesIcon => {
-        Routes.home: Icons.home,
+        Routes.splash: Icons.home,
         Routes.signIn: Icons.login,
         Routes.products: PhosphorIcons.shopping_bag,
         Routes.categories: PhosphorIcons.tag,
         Routes.customers: PhosphorIcons.users,
         Routes.commerce: PhosphorIcons.house,
         Routes.orders: PhosphorIcons.shopping_cart,
+        Routes.purchases: PhosphorIcons.currency_circle_dollar,
       };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);
   goToVerifyEmail(BuildContext context) => context.go('${Routes.signIn}/${Routes.verifyEmail}');
 
-  goToHome(BuildContext context) => context.go(Routes.home);
+  goToHome(BuildContext context) => context.go(Routes.splash);
+
+  goToPurchases(BuildContext context) => context.go(Routes.purchases);
 
   goToProducts(BuildContext context) => context.go(Routes.products);
   goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');

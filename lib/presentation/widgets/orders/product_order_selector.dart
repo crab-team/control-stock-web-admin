@@ -1,5 +1,5 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
-import 'package:control_stock_web_admin/domain/entities/product_order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order_product.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/order_products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -77,11 +77,11 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
 
     priceController.text = ((_selectedProduct!.publicPrice ?? 0) * _quantity).toStringAsFixed(2);
     double price = double.parse(priceController.text);
-    final productOrderPurchase = ProductPurchaseOrder(
+    final productOrderPurchase = PurchaseOrderProduct(
       id: _selectedProduct!.id!,
       code: _selectedProduct!.code,
       quantity: _quantity,
-      price: price,
+      unitPrice: price,
     );
 
     ref.read(orderProductsControllerProvider.notifier).setProduct(productOrderPurchase);

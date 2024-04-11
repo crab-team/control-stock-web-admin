@@ -9,7 +9,7 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
 
   ProductsApiDataSource(this.apiClient);
 
-  String path = 'commerces/3/products';
+  String path = '/commerces/1/products';
 
   @override
   Future<ProductResponse> add(ProductModel product) async {

@@ -1,27 +1,27 @@
-class ProductPurchaseOrder {
+class PurchaseOrderProduct {
   final int id;
   final String code;
   final int quantity;
-  final double price;
+  final double unitPrice;
 
-  ProductPurchaseOrder({
+  PurchaseOrderProduct({
     required this.id,
     required this.code,
     required this.quantity,
-    required this.price,
+    required this.unitPrice,
   });
 
   copyWith({
     int? id,
     String? code,
     int? quantity,
-    double? price,
+    double? unitPrice,
   }) {
-    return ProductPurchaseOrder(
+    return PurchaseOrderProduct(
       id: id ?? this.id,
       code: code ?? this.code,
       quantity: quantity ?? this.quantity,
-      price: price ?? this.price,
+      unitPrice: unitPrice ?? this.unitPrice,
     );
   }
 
@@ -30,7 +30,7 @@ class ProductPurchaseOrder {
       'id': id,
       'code': code,
       'quantity': quantity,
-      'price': price,
+      'unitPrice': unitPrice,
     };
   }
 }

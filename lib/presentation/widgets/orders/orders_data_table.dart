@@ -26,7 +26,7 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
     return _buildDataTable(data);
   }
 
-  _buildDataTable(List<PurcharseOrder> data) {
+  _buildDataTable(List<PurchaseOrder> data) {
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,
@@ -82,6 +82,11 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
         DataColumn2(
           fixedWidth: 200,
           label: Text(Texts.price),
+          size: ColumnSize.M,
+        ),
+        DataColumn2(
+          fixedWidth: 200,
+          label: Text(Texts.paymentMethod),
           size: ColumnSize.M,
         ),
         DataColumn2(

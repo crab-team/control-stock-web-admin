@@ -1,73 +1,87 @@
 import 'package:control_stock_web_admin/data/models/customer_record_model.dart';
 
-class CustomerRecord {
-  int? id;
-  int productId;
-  String productCode;
-  String customerId;
-  PaymentStatus paymentStatus;
-  int quantity;
-  double unitPrice;
-  double shoppingTotal;
-  String productName;
-  double productPrice;
-  int paymentMethodId;
-  int surchargePercentage;
+class Purchase {
+  final int? id;
+  final int productId;
+  final String customerName;
+  final String customerLastName;
+  final PaymentStatus paymentStatus;
+  final int quantity;
+  final double unitPrice;
+  final double debt;
+  final int paymentMethodId;
+  final String? paymentMethodName;
+  final int? surchargePercentage;
+  final String? productCode;
+  final double? totalShopping;
+  final String? productName;
+  final double? productPrice;
 
-  CustomerRecord({
-    required this.id,
+  Purchase({
+    this.id,
     required this.productId,
-    required this.productCode,
-    required this.customerId,
+    required this.customerName,
+    required this.customerLastName,
     required this.paymentStatus,
     required this.quantity,
     required this.unitPrice,
-    required this.shoppingTotal,
-    required this.productName,
-    required this.productPrice,
+    required this.debt,
     required this.paymentMethodId,
-    required this.surchargePercentage,
+    this.paymentMethodName,
+    this.surchargePercentage,
+    this.productCode,
+    this.totalShopping,
+    this.productName,
+    this.productPrice,
   });
 
-  CustomerRecord copyWith({
+  Purchase copyWith({
     int? id,
     int? productId,
-    String? productCode,
-    String? customerId,
+    String? customerName,
+    String? customerLastName,
     PaymentStatus? paymentStatus,
     int? quantity,
     double? unitPrice,
-    double? shoppingTotal,
+    double? debt,
+    String? productCode,
+    double? totalShopping,
     String? productName,
     double? productPrice,
     int? paymentMethodId,
+    String? paymentMethodName,
     int? surchargePercentage,
   }) {
-    return CustomerRecord(
+    return Purchase(
       id: id ?? this.id,
       productId: productId ?? this.productId,
-      productCode: productCode ?? this.productCode,
-      customerId: customerId ?? this.customerId,
+      customerName: customerName ?? this.customerName,
+      customerLastName: customerLastName ?? this.customerLastName,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       quantity: quantity ?? this.quantity,
       unitPrice: unitPrice ?? this.unitPrice,
-      shoppingTotal: shoppingTotal ?? this.shoppingTotal,
+      debt: debt ?? this.debt,
+      productCode: productCode ?? this.productCode,
+      totalShopping: totalShopping ?? this.totalShopping,
       productName: productName ?? this.productName,
       productPrice: productPrice ?? this.productPrice,
       paymentMethodId: paymentMethodId ?? this.paymentMethodId,
+      paymentMethodName: paymentMethodName ?? this.paymentMethodName,
       surchargePercentage: surchargePercentage ?? this.surchargePercentage,
     );
   }
 
-  CustomerRecordModel toCreateCustomerRecordModel() {
-    return CustomerRecordModel(
-      productId: int.parse(productCode),
+  PurchaseModel toCreateCustomerRecordModel() {
+    return PurchaseModel(
+      productId: productId,
       paymentStatus: paymentStatus.label,
       quantity: quantity,
       unitPrice: unitPrice,
       paymentMethodId: paymentMethodId,
     );
   }
+
+  String get fullName => '$customerName $customerLastName';
 }
 
 enum PaymentStatus {

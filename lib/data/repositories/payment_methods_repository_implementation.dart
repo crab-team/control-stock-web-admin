@@ -13,7 +13,7 @@ class PaymentMethodsRepositoryImplementation implements PaymentMethodsRepository
   Future<Either<Failure, List<PaymentMethod>>> getAll() async {
     try {
       final response = await _paymentMethodsDataSource.getAll();
-      final paymentMethods = response.map((e) => e.toDomain()).toList();
+      final paymentMethods = response.map<PaymentMethod>((e) => e.toDomain()).toList();
       return Right(paymentMethods);
     } catch (e) {
       return Left(Failure(e.toString()));

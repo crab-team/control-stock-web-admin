@@ -4,6 +4,7 @@ import 'package:control_stock_web_admin/data/repositories/customers_repository_i
 import 'package:control_stock_web_admin/data/repositories/commerce_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/payment_methods_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/products_repository_implementation.dart';
+import 'package:control_stock_web_admin/data/repositories/purchases_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/users_repository_implementation.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client_provider.dart';
 import 'package:control_stock_web_admin/providers/data_sources_providers.dart';
@@ -23,3 +24,5 @@ final customersRepositoryProvider =
     Provider((ref) => CustomersRepositoryImplementation(ref.read(customersRemoteDataSourcesProvider)));
 final paymentMethodsRepositoryProvider =
     Provider((ref) => PaymentMethodsRepositoryImplementation(ref.read(paymentMethodsRemoteDataSourcesProvider)));
+final purchasesRepositoryProvider =
+    Provider((ref) => PurchasesRepositoryImplementation(ref.read(purchasesRemoteDataSourcesProvider)));

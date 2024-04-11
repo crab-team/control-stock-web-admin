@@ -3,7 +3,9 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/commerce/commerce_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/payment_methods/payment_methods_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +21,14 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() async {
-      await ref.read(categoriesControllerProvider.future);
-      await ref.read(productsControllerProvider.future);
-      await ref.read(customersControllerProvider.future);
-      await ref.read(commerceControllerProvider.future);
-      await Future.delayed(const Duration(seconds: 2));
-    }).then((value) => ref.read(navigationServiceProvider).goToProducts(context));
+    Future.wait([
+      ref.read(commerceControllerProvider.future),
+      ref.read(categoriesControllerProvider.future),
+      ref.read(productsControllerProvider.future),
+      ref.read(customersControllerProvider.future),
+      ref.read(paymentMethodsControllerProvider.future),
+      ref.read(purchasesControllerProvider.future),
+    ]).then((value) => ref.read(navigationServiceProvider).goToProducts(context));
 
     return LayoutBuilder(builder: (context, constraints) {
       return Container(

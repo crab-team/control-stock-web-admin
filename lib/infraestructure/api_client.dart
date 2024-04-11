@@ -161,7 +161,7 @@ class APIClient {
 
   bool _isResponseOk(Response response) {
     if (response.statusCode == null) return false;
-    return response.statusCode! >= 200 && response.statusCode! < 300;
+    return response.statusCode! >= 200 && response.statusCode! < 400;
   }
 
   Future<Map<String, String>> _addAuthHeader(Map<String, String> headers) async {

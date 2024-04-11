@@ -13,7 +13,7 @@ class OrderSummary extends ConsumerWidget {
     final products = ref.watch(orderProductsControllerProvider);
 
     int quantity = products.fold(0, (p0, p1) => p0 + p1.quantity);
-    double total = products.map((e) => e.price).fold(0, (p0, p1) => p0 + p1);
+    double total = products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

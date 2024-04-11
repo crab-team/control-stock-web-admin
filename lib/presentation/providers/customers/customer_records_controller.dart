@@ -1,39 +1,49 @@
-import 'package:control_stock_web_admin/domain/entities/customer_record.dart';
-import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
+import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final customerRecordsControllerProvider =
-    AutoDisposeAsyncNotifierProvider<CustomerRecordsController, List<CustomerRecord>>(CustomerRecordsController.new);
+    AutoDisposeAsyncNotifierProvider<CustomerRecordsController, List<Purchase>>(CustomerRecordsController.new);
 
-class CustomerRecordsController extends AutoDisposeAsyncNotifier<List<CustomerRecord>> {
-  List<CustomerRecord> records = [];
+class CustomerRecordsController extends AutoDisposeAsyncNotifier<List<Purchase>> {
+  List<Purchase> records = [];
   @override
   build() {
     return records;
   }
 
-  createRecords(int customerId, List<CustomerRecord> newRecords) async {
-    records = [...records, ...newRecords];
-    state = AsyncData(records);
-    state = await AsyncValue.guard(() async {
-      final response = await ref.read(createCustomerRecordsUseCaseProvider).execute(customerId, newRecords);
-      return response.fold(
-        (l) => throw Exception('Error'),
-        (r) => r,
-      );
-    });
+  confirmPurchase(PurchaseOrder order) async {
+    // records = [...records, ...newRecords];
+
+    // int customerId = order.customer.id!;
+    // state = AsyncData(records);
+    // state = await AsyncValue.guard(() async {
+    //   final response = await ref.read(createCustomerRecordsUseCaseProvider).execute(customerId, newRecords);
+    //   return response.fold(
+    //     (l) => throw Exception('Error'),
+    //     (r) async {
+    //       await _updateProductsStock();
+    //       _removeFromOrder(order);
+    //       return r;
+    //     },
+    //   );
+    // });
+  }
+
+  _removeFromOrder(List<PurchaseOrder> orders) {
+    final ordersController = ref.read(ordersControllerProvider.notifier);
+    for (var order in orders) {
+      ordersController.removeOrder(order.id!);
+    }
+  }
+
+  _updateProductsStock() async {
+    await ref.read(productsControllerProvider.notifier).getAll();
   }
 
   getAllCustomerRecords(int customerId) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final response = await ref.read(getCustomerRecordsUseCaseProvider).execute(customerId);
-      return response.fold(
-        (l) => throw Exception('Error'),
-        (r) => r,
-      );
-    });
-
     records = state.asData!.value;
   }
 
@@ -46,8 +56,8 @@ class CustomerRecordsController extends AutoDisposeAsyncNotifier<List<CustomerRe
     }
 
     state = AsyncData(currentRecords.where((element) {
-      final byName = element.productName.toLowerCase().contains(query.toLowerCase());
-      final byCode = element.productCode.toLowerCase().contains(query.toLowerCase());
+      final byName = element.productName!.toLowerCase().contains(query.toLowerCase());
+      final byCode = element.productCode!.toLowerCase().contains(query.toLowerCase());
       final byPaymentStatus = element.paymentStatus.label.toLowerCase().contains(query.toLowerCase());
       return byName || byCode || byPaymentStatus;
     }).toList());

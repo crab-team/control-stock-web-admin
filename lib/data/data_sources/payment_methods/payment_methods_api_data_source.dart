@@ -7,7 +7,7 @@ class PaymentMethodsApiDataSource implements PaymentMethodsRemoteDataSource {
   final APIClient apiClient;
 
   PaymentMethodsApiDataSource(this.apiClient);
-  String path = 'commerces/3/paymentMethods';
+  String path = '/commerces/1/paymentMethods';
 
   @override
   Future<PaymentMethodResponse> create(PaymentMethodModel paymentMethod) async {

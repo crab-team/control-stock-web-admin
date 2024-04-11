@@ -1,12 +1,14 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
-import 'package:control_stock_web_admin/domain/entities/product_order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order_product.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/order_products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/payment_methods/payment_methods_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/order_summary.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
@@ -16,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDrawer extends ConsumerStatefulWidget {
-  final PurcharseOrder? order;
+  final PurchaseOrder? order;
   const OrderDrawer({super.key, this.order});
 
   @override
@@ -26,6 +28,7 @@ class OrderDrawer extends ConsumerStatefulWidget {
 class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   List<Product> product = [];
   Customer? customer;
+  PaymentMethod? paymentMethod;
 
   @override
   void initState() {
@@ -53,6 +56,10 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
               const Divider(),
               const Gap.small(),
               const SizedBox(height: 400, child: ProductsManager()),
+              const Gap.small(),
+              const Divider(),
+              const Gap.small(),
+              _buildPaymentMethodSelector(),
               const Gap.small(),
               const Divider(),
               const Gap.small(),
@@ -121,14 +128,33 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     );
   }
 
-  void _onSubmit() {
-    List<ProductPurchaseOrder> productsSelected = ref.read(orderProductsControllerProvider);
-    if (productsSelected.isEmpty || customer == null) return;
+  Widget _buildPaymentMethodSelector() {
+    final state = ref.watch(paymentMethodsControllerProvider);
 
-    PurcharseOrder order = PurcharseOrder(
+    return state.when(
+      data: (values) {
+        return SelectorWidget<PaymentMethod>(
+          label: Texts.paymentMethods,
+          initialValue: paymentMethod?.name,
+          items: values,
+          onSelected: (value) {
+            paymentMethod = value;
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(child: Text(error.toString())),
+    );
+  }
+
+  void _onSubmit() {
+    List<PurchaseOrderProduct> productsSelected = ref.read(orderProductsControllerProvider);
+    if (productsSelected.isEmpty || customer == null || paymentMethod == null) return;
+
+    PurchaseOrder order = PurchaseOrder(
       customer: customer!,
       products: productsSelected,
-      paymentMethod: 'Contado',
+      paymentMethod: paymentMethod!,
     );
 
     ref.read(ordersControllerProvider.notifier).addOrder(order);

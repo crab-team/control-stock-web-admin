@@ -1,6 +1,7 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
   bool isCustomer = false;
   bool isProduct = false;
   bool isCategory = false;
+  bool isPaymentMethod = false;
 
   @override
   initState() {
@@ -62,6 +64,11 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
 
     if (items.isNotEmpty && items.first.runtimeType == Category) {
       isCategory = true;
+      setState(() {});
+    }
+
+    if (items.isNotEmpty && items.first.runtimeType == PaymentMethod) {
+      isPaymentMethod = true;
       setState(() {});
     }
   }
@@ -96,12 +103,14 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
       items: items.map<DropdownMenuItem<T>>(
         (value) {
           var text = widget.label;
-          if (value is Customer) {
+          if (isCustomer) {
             text = '${value.name.toUpperCase()} ${value.lastName.toUpperCase()}';
           } else if (isProduct) {
             text = value.code;
           } else if (isCategory) {
             text = value.name.toUpperCase();
+          } else if (isPaymentMethod) {
+            text = value.name.toString();
           } else if (!widget.asFilter) {
             text = 'Seleccionar';
           }

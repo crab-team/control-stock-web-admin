@@ -1,4 +1,4 @@
-class CustomerRecordModel {
+class PurchaseModel {
   int? id;
   int productId;
   String paymentStatus;
@@ -6,7 +6,7 @@ class CustomerRecordModel {
   double unitPrice;
   int paymentMethodId;
 
-  CustomerRecordModel({
+  PurchaseModel({
     this.id,
     required this.productId,
     required this.paymentStatus,
@@ -15,7 +15,7 @@ class CustomerRecordModel {
     required this.paymentMethodId,
   });
 
-  CustomerRecordModel copyWith({
+  PurchaseModel copyWith({
     int? id,
     int? productId,
     String? paymentStatus,
@@ -23,7 +23,7 @@ class CustomerRecordModel {
     double? unitPrice,
     int? paymentMethodId,
   }) {
-    return CustomerRecordModel(
+    return PurchaseModel(
       id: id ?? this.id,
       productId: productId ?? this.productId,
       paymentStatus: paymentStatus ?? this.paymentStatus,
