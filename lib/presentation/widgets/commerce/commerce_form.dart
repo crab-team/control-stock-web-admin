@@ -86,7 +86,6 @@ class _CommerceFormState extends ConsumerState<CommerceForm> {
         address: addressController.text,
         phone: phoneController.text,
         email: emailController.text,
-        discountCashPercentage: commerce.discountCashPercentage,
         imageUrl: commerce.imageUrl,
       );
 

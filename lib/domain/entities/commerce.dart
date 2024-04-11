@@ -4,7 +4,6 @@ class Commerce {
   final int? id;
   final String name;
   final String address;
-  final double discountCashPercentage;
   final String? phone;
   final String? email;
   final String? imageUrl;
@@ -13,7 +12,6 @@ class Commerce {
     this.id,
     required this.name,
     required this.address,
-    required this.discountCashPercentage,
     this.phone,
     this.email,
     this.imageUrl,
@@ -23,7 +21,6 @@ class Commerce {
     int? id,
     String? name,
     String? address,
-    double? discountCashPercentage,
     String? phone,
     String? email,
     String? imageUrl,
@@ -32,7 +29,6 @@ class Commerce {
       id: id ?? this.id,
       name: name ?? this.name,
       address: address ?? this.address,
-      discountCashPercentage: discountCashPercentage ?? this.discountCashPercentage,
       phone: phone ?? this.phone,
       email: email ?? this.email,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -46,7 +42,6 @@ class Commerce {
       address: address,
       phone: phone ?? '',
       email: email ?? '',
-      cashPaymentPercentage: discountCashPercentage,
     );
   }
 }

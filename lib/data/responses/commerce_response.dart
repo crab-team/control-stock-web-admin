@@ -3,7 +3,6 @@ import 'package:control_stock_web_admin/domain/entities/commerce.dart';
 class CommerceResponse {
   final int id;
   final String name;
-  final double discountCashPercentage;
   final String? address;
   final String? phone;
   final String? email;
@@ -14,7 +13,6 @@ class CommerceResponse {
     this.address,
     this.phone,
     this.email,
-    required this.discountCashPercentage,
   });
 
   factory CommerceResponse.fromJson(Map<String, dynamic> json) {
@@ -24,7 +22,6 @@ class CommerceResponse {
       address: json['address'],
       phone: json['phone'],
       email: json['email'],
-      discountCashPercentage: json['discount_cash_percentage'],
     );
   }
 
@@ -35,7 +32,6 @@ class CommerceResponse {
       'address': address,
       'phone': phone,
       'email': email,
-      'discount_cash_percentage': discountCashPercentage,
     };
   }
 
@@ -46,7 +42,6 @@ class CommerceResponse {
       address: address ?? '',
       phone: phone ?? '',
       email: email ?? '',
-      discountCashPercentage: discountCashPercentage,
     );
   }
 }

@@ -4,7 +4,6 @@ class CommerceModel {
   final String address;
   final String phone;
   final String email;
-  final double cashPaymentPercentage;
 
   CommerceModel({
     required this.id,
@@ -12,7 +11,6 @@ class CommerceModel {
     required this.address,
     required this.phone,
     required this.email,
-    required this.cashPaymentPercentage,
   });
 
   factory CommerceModel.fromJson(Map<String, dynamic> json) {
@@ -22,7 +20,6 @@ class CommerceModel {
       address: json['address'],
       phone: json['phone'],
       email: json['email'],
-      cashPaymentPercentage: json['cashPaymentPercentage'],
     );
   }
 
@@ -33,13 +30,6 @@ class CommerceModel {
       'address': address,
       'phone': phone,
       'email': email,
-      'cashPaymentPercentage': cashPaymentPercentage,
-    };
-  }
-
-  toUpdateCashPaymentPercentageJson(double cashPaymentPercentage) {
-    return {
-      'cashPaymentPercentage': cashPaymentPercentage,
     };
   }
 }

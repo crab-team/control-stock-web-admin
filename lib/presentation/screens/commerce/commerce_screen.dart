@@ -1,7 +1,6 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/commerce.dart';
 import 'package:control_stock_web_admin/presentation/providers/commerce/commerce_controller.dart';
-import 'package:control_stock_web_admin/presentation/widgets/commerce/accounting_form.dart';
 import 'package:control_stock_web_admin/presentation/widgets/commerce/commerce_form.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,23 +44,23 @@ class CommerceScreen extends ConsumerWidget {
           const Gap.medium(isHorizontal: true),
           const VerticalDivider(),
           const Gap.medium(isHorizontal: true),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: kPaddingAppSmall,
-                  child: Text(
-                    'Datos de contabilidad',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                ),
-                const Divider(),
-                const Gap.medium(isHorizontal: false),
-                AccountingForm(commerce: commerce),
-              ],
-            ),
-          ),
+          // Expanded(
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: kPaddingAppSmall,
+          //         child: Text(
+          //           'Datos de contabilidad',
+          //           style: Theme.of(context).textTheme.headlineSmall,
+          //         ),
+          //       ),
+          //       const Divider(),
+          //       const Gap.medium(isHorizontal: false),
+          //       const SizedBox()
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
