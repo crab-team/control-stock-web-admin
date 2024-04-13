@@ -10,7 +10,6 @@ class PurchaseResponse {
   final int quantity;
   final double unitPrice;
   final double totalShopping;
-  final double debt;
   final String productName;
   final double productPrice;
   final int paymentMethodId;
@@ -27,7 +26,6 @@ class PurchaseResponse {
     required this.quantity,
     required this.unitPrice,
     required this.totalShopping,
-    required this.debt,
     required this.productName,
     required this.productPrice,
     required this.paymentMethodId,
@@ -46,7 +44,6 @@ class PurchaseResponse {
       quantity: json['quantity'],
       unitPrice: json['unitPrice'],
       totalShopping: json['totalShopping'],
-      debt: json['debt'],
       productName: json['productName'],
       productPrice: json['productPrice'],
       paymentMethodId: json['paymentMethodId'],
@@ -65,7 +62,6 @@ class PurchaseResponse {
       quantity: quantity,
       unitPrice: unitPrice,
       totalShopping: totalShopping,
-      debt: debt,
       productName: productName,
       productPrice: productPrice,
       paymentMethodId: paymentMethodId,

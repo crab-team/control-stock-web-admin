@@ -18,15 +18,15 @@ class ToastUtils {
         width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
-        position: Alignment.bottomRight,
-        animation: AnimationType.fromRight,
+        position: Alignment.bottomCenter,
+        animation: AnimationType.fromBottom,
         title: Text(title),
         description: Text(message),
         shadow: BoxShadow(
           color: colorScheme.primary.withOpacity(0.2),
           spreadRadius: 2,
           blurRadius: 5,
-          offset: const Offset(0, 4), // changes position of shadow
+          offset: const Offset(0, 4),
         ),
         borderRadius: const BorderRadius.all(
           Radius.circular(kRadiusCornerInside),

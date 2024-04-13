@@ -34,7 +34,6 @@ class PurchasesDataTableSource extends DataTableSource {
         DataCell(Text(purchase.quantity.toString())),
         DataCell(Text(CurrencyFormatter.format(purchase.totalShopping, arsSettings))),
         DataCell(Text(purchase.paymentMethodName.toString())),
-        DataCell(Text(CurrencyFormatter.format(purchase.debt, arsSettings))),
         DataCell(ButtonWithConfirmation(
           onConfirm: () => onDelete(purchase.customerId!, purchase.id!),
         )),

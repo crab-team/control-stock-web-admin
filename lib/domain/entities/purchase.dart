@@ -6,7 +6,6 @@ class Purchase {
   final String customerLastName;
   final int quantity;
   final double unitPrice;
-  final double debt;
   final int paymentMethodId;
   final String? paymentMethodName;
   final int? surchargePercentage;
@@ -23,7 +22,6 @@ class Purchase {
     required this.customerLastName,
     required this.quantity,
     required this.unitPrice,
-    required this.debt,
     required this.paymentMethodId,
     this.paymentMethodName,
     this.surchargePercentage,
@@ -41,7 +39,6 @@ class Purchase {
     String? customerLastName,
     int? quantity,
     double? unitPrice,
-    double? debt,
     String? productCode,
     double? totalShopping,
     String? productName,
@@ -58,7 +55,6 @@ class Purchase {
       customerLastName: customerLastName ?? this.customerLastName,
       quantity: quantity ?? this.quantity,
       unitPrice: unitPrice ?? this.unitPrice,
-      debt: debt ?? this.debt,
       productCode: productCode ?? this.productCode,
       totalShopping: totalShopping ?? this.totalShopping,
       productName: productName ?? this.productName,

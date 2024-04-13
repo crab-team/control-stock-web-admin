@@ -183,6 +183,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
         stock: int.parse(stockController.text),
         category: category!,
         imageUrl: '',
+        hasQrPrinted: widget.product?.hasQrPrinted ?? false,
       );
 
       if (widget.product != null) {

@@ -3,8 +3,6 @@ import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_data_table_source.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:currency_formatter/currency_formatter.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -36,8 +34,6 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   _buildDataTable(List<Purchase> data) {
-    double debt = getTotalDebt(data);
-
     return PaginatedDataTable2(
       border: dataTableDecoration['border'] as TableBorder,
       minWidth: dataTableDecoration['minWidth'] as double,
@@ -56,7 +52,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
         ),
         const VerticalDivider(indent: 8, endIndent: 8),
       ],
-      header: _buildHeader(debt),
+      header: _buildHeader(),
       empty: const Center(child: Text(Texts.noRecords)),
       columns: const [
         DataColumn2(
@@ -90,10 +86,6 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.M,
         ),
         DataColumn2(
-          label: Text(Texts.debt),
-          size: ColumnSize.M,
-        ),
-        DataColumn2(
           fixedWidth: 150,
           label: Text('Acciones'),
           size: ColumnSize.S,
@@ -103,20 +95,10 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     );
   }
 
-  Widget _buildHeader(double debt) {
-    return Row(
-      children: [
-        Text(
-          Texts.shopping,
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        const Spacer(),
-        const VerticalDivider(indent: 8, endIndent: 8),
-        const Gap.small(isHorizontal: true),
-        Text('${Texts.debt} ${CurrencyFormatter.format(debt, arsSettings)}',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: colorScheme.tertiary)),
-        const Spacer(),
-      ],
+  Widget _buildHeader() {
+    return Text(
+      Texts.shopping,
+      style: Theme.of(context).textTheme.headlineSmall,
     );
   }
 
@@ -126,13 +108,5 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
 
   void _delete(int customerId, int id) {
     ref.read(purchasesControllerProvider.notifier).delete(customerId, id);
-  }
-
-  double getTotalDebt(List<Purchase> data) {
-    double total = 0;
-    for (var record in data) {
-      total += record.debt;
-    }
-    return total;
   }
 }

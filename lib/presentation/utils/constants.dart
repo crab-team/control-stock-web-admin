@@ -39,6 +39,8 @@ class Texts {
   static const String unitPrice = 'Precio/u';
   static const String debt = 'Adeuda';
   static const String give = 'Entrega';
+  static const String operationSuccess = 'Operación exitosa';
+  static const String operationSuccessMessage = 'La operación ha sido exitosa';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -64,6 +66,7 @@ class Texts {
   static const String uploadCsv = 'Subir CSV';
   static const String addProduct = 'Agregar producto';
   static const String productName = 'Nombre del producto';
+  static const String allProductsUpdated = 'Todos los productos han sido actualizados';
 
   // Categories
   static const String categories = 'Categorías';

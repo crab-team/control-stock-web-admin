@@ -34,7 +34,6 @@ class ProductsController extends AsyncNotifier<List<Product>> {
       return;
     }
 
-    state = const AsyncValue.loading();
     state = AsyncValue.data(
       products.where((element) {
         final byCode = element.code.toLowerCase().contains(query.toLowerCase());
@@ -47,7 +46,6 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   delete(int id) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(deleteProductUseCaseProvider).execute(id);
       return productsEither.fold(
@@ -63,7 +61,6 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   create(Product product) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
       return productsEither.fold((l) => throw l, (r) {
@@ -89,7 +86,6 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   updateProduct(Product product) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductUseCaseProvider).execute(product);
       return productsEither.fold((l) => throw l, (r) {
