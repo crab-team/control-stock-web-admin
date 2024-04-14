@@ -77,10 +77,6 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
           size: ColumnSize.M,
         ),
         DataColumn2(
-          label: Text(Texts.lastName),
-          size: ColumnSize.M,
-        ),
-        DataColumn2(
           fixedWidth: 300,
           label: Text(Texts.email),
           size: ColumnSize.L,
@@ -107,6 +103,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
         data: data,
         onDelete: _delete,
         onGoToRecords: (customerId) => _goToRecords(customerId),
+        onEdit: (customer) => _openDrawer(context, ref, customer),
       ),
     );
   }
@@ -126,12 +123,12 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
   Widget _buildAddClient() {
     return ElevatedButton.icon(
       icon: const Icon(PhosphorIcons.plus),
-      onPressed: () => _openDrawer(context, ref),
+      onPressed: () => _openDrawer(context, ref, null),
       label: const Text(Texts.addCustomer),
     );
   }
 
-  _openDrawer(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const CustomerDrawer();
+  _openDrawer(BuildContext context, WidgetRef ref, Customer? customer) {
+    ref.read(drawerController.notifier).state = CustomerDrawer(customer: customer);
   }
 }

@@ -5,11 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final customersControllerProvider = AsyncNotifierProvider<CustomersController, List<Customer>>(CustomersController.new);
 
 class CustomersController extends AsyncNotifier<List<Customer>> {
+  List<Customer> customers = [];
+
   @override
   build() async {
-    if (state.asData != null) return state.asData!.value;
-    await getClients();
-    return state.asData!.value;
+    if (customers.isEmpty) {
+      await getClients();
+    }
+
+    return customers;
   }
 
   Future<void> getClients() async {
@@ -18,13 +22,12 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
       final response = await ref.read(getCustomersUseCaseProvider).execute();
       return response.fold(
         (l) => throw Exception('Error'),
-        (r) => r,
+        (r) => customers = r,
       );
     });
   }
 
   Future<void> create(Customer customer) async {
-    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(createCustomerUseCaseProvider).execute(customer);
@@ -36,7 +39,6 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
   }
 
   Future<void> updateClient(Customer customer) async {
-    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(updateCustomerUseCaseProvider).execute(customer);
@@ -52,7 +54,6 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
   }
 
   Future<void> delete(int id) async {
-    final customers = state.asData!.value;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(deleteCustomerUseCaseProvider).execute(id);
@@ -67,11 +68,19 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
   }
 
   search(String query) {
-    final customers = state.asData!.value;
-    state = AsyncData(customers.where((element) {
-      final byName = element.name.toLowerCase().contains(query.toLowerCase());
-      final byLastName = element.lastName.toLowerCase().contains(query.toLowerCase());
-      return byName || byLastName;
-    }).toList());
+    if (query.isEmpty) {
+      state = AsyncValue.data(customers);
+      return;
+    }
+
+    state = AsyncValue.data(
+      customers.where((element) {
+        final byName = element.fullName.toLowerCase().contains(query.toLowerCase());
+        final byPhone = element.phone?.contains(query) ?? false;
+        final byEmail = element.email?.contains(query) ?? false;
+
+        return byName || byPhone || byEmail;
+      }).toList(),
+    );
   }
 }

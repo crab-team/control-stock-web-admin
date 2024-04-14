@@ -8,11 +8,13 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class CustomersDataTableSource extends DataTableSource {
   final List<Customer> _data;
+  final Function(Customer customer) onEdit;
   final Function(int id) onDelete;
   final Function(int customerId) onGoToRecords;
 
   CustomersDataTableSource({
     List<Customer>? data,
+    required this.onEdit,
     required this.onDelete,
     required this.onGoToRecords,
   }) : _data = data ?? <Customer>[];
@@ -31,18 +33,21 @@ class CustomersDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(customer.name)),
-        DataCell(Text(customer.lastName)),
+        DataCell(Text(customer.fullName)),
         DataCell(Text(customer.email ?? '-')),
         DataCell(Text(customer.phone ?? '-')),
         DataCell(Text(customer.address ?? '-')),
         DataCell(Text(CurrencyFormatter.format(customer.balance, arsSettings))),
         DataCell(Row(
           children: [
-            ElevatedButton.icon(
-              onPressed: () => onGoToRecords(customer.id!),
-              icon: const Icon(PhosphorIcons.files),
-              label: const Text(Texts.record),
+            // ElevatedButton.icon(
+            //   onPressed: () => onGoToRecords(customer.id!),
+            //   icon: const Icon(PhosphorIcons.files),
+            //   label: const Text(Texts.record),
+            // ),
+            IconButton(
+              onPressed: () => onEdit(customer),
+              icon: const Icon(PhosphorIcons.pencil),
             ),
             const Gap.medium(),
             ButtonWithConfirmation(

@@ -1,16 +1,12 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/category.dart';
-import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
-import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
