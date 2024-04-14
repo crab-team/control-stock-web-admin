@@ -44,6 +44,8 @@ class Texts {
   static const String operationSuccess = 'Operación exitosa';
   static const String operationSuccessMessage = 'La operación ha sido exitosa';
   static const String createdAt = 'Fecha de creación';
+  static const String valueSuperiorToTotal = 'El monto no puede ser mayor al total de la compra.';
+  static const String summary = 'Resumen';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -96,7 +98,7 @@ class Texts {
   static const String balance = 'Saldo';
 
   // Orders
-  static const String shopping = 'Compras';
+  static const String purchases = 'Compras';
   static const String orders = 'Órdenes de compra';
   static const String createOrder = 'Crear orden';
   static const String updateOrder = 'Actualizar orden';

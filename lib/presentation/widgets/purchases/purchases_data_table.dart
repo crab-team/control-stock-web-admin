@@ -1,8 +1,10 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
+import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_data_table_source.dart';
+import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_drawer.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -80,15 +82,19 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.S,
         ),
       ],
-      source: PurchasesDataTableSource(data: data, onDelete: _delete),
+      source: PurchasesDataTableSource(data: data, onEdit: _openDrawer, onDelete: _delete),
     );
   }
 
   Widget _buildHeader() {
     return Text(
-      Texts.shopping,
+      Texts.purchases,
       style: Theme.of(context).textTheme.headlineSmall,
     );
+  }
+
+  void _openDrawer(Purchase purchase) {
+    ref.read(drawerController.notifier).state = PurchasesDrawer(purchase: purchase);
   }
 
   void _search(String value) {

@@ -125,7 +125,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
         }
 
         if (double.parse(value) > total.abs()) {
-          return 'El monto no puede ser mayor al total de la compra.';
+          return Texts.valueSuperiorToTotal;
         }
 
         return null;
