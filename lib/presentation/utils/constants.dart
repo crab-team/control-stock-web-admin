@@ -43,6 +43,7 @@ class Texts {
   static const String give = 'Entrega';
   static const String operationSuccess = 'Operación exitosa';
   static const String operationSuccessMessage = 'La operación ha sido exitosa';
+  static const String createdAt = 'Fecha de creación';
 
   // Commerce
   static const String email = 'Correo electrónico';

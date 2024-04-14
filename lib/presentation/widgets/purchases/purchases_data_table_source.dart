@@ -3,6 +3,7 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PurchasesDataTableSource extends DataTableSource {
   final List<Purchase> _data;
@@ -32,7 +33,7 @@ class PurchasesDataTableSource extends DataTableSource {
         DataCell(Text(purchaseProductsNames)),
         DataCell(Text(CurrencyFormatter.format(purchase.totalShopping!, arsSettings))),
         DataCell(Text(CurrencyFormatter.format(purchase.debt!, arsSettings))),
-        // DataCell(Text('${purchase.createdDate}')),
+        DataCell(Text(DateFormat('dd-MM-yyyy – kk:mm').format(purchase.createdAt!))),
         DataCell(ButtonWithConfirmation(onConfirm: () => onDelete(purchase.customerId!, purchase.id!))),
       ],
     );

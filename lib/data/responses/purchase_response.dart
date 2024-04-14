@@ -12,6 +12,7 @@ class PurchaseResponse {
   final String paymentMethodName;
   final int paymentMethodSurchargePercentage;
   final List<PurchaseProductResponse> purchaseProductsResponses;
+  final String createdAt;
 
   PurchaseResponse({
     required this.id,
@@ -24,6 +25,7 @@ class PurchaseResponse {
     required this.paymentMethodName,
     required this.paymentMethodSurchargePercentage,
     required this.purchaseProductsResponses,
+    required this.createdAt,
   });
 
   factory PurchaseResponse.fromJson(Map<String, dynamic> json) {
@@ -39,10 +41,13 @@ class PurchaseResponse {
       paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
       purchaseProductsResponses:
           List<PurchaseProductResponse>.from(json['purchaseProducts'].map((x) => PurchaseProductResponse.fromJson(x))),
+      createdAt: json['createdAt'],
     );
   }
 
   Purchase toDomain() {
+    var dateLocal = DateTime.parse(createdAt).toLocal();
+
     return Purchase(
       id: id,
       debt: debt,
@@ -53,6 +58,7 @@ class PurchaseResponse {
       paymentMethodName: paymentMethodName,
       paymentMethodSurchargePercentage: paymentMethodSurchargePercentage,
       purchaseProducts: purchaseProductsResponses.map((e) => e.toDomain()).toList(),
+      createdAt: dateLocal,
     );
   }
 }

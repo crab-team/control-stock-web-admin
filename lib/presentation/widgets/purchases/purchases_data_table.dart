@@ -50,14 +50,13 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           hintText: Texts.searchRecord,
           onChanged: (value) => _search(value),
         ),
-        const VerticalDivider(indent: 8, endIndent: 8),
       ],
       header: _buildHeader(),
       empty: const Center(child: Text(Texts.noRecords)),
       columns: const [
         DataColumn2(
           label: Text(Texts.customer),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
         ),
         DataColumn2(
           label: Text(Texts.products),
@@ -65,11 +64,15 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
         ),
         DataColumn2(
           label: Text(Texts.total),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
         ),
         DataColumn2(
           label: Text(Texts.debt),
-          size: ColumnSize.M,
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
+          label: Text(Texts.createdAt),
+          size: ColumnSize.S,
         ),
         DataColumn2(
           fixedWidth: 150,

@@ -11,6 +11,7 @@ class Purchase {
   final int? paymentMethodSurchargePercentage;
   final double? totalShopping;
   final List<PurchaseProduct> purchaseProducts;
+  final DateTime? createdAt;
 
   Purchase({
     this.id,
@@ -23,6 +24,7 @@ class Purchase {
     this.paymentMethodSurchargePercentage,
     this.totalShopping,
     required this.purchaseProducts,
+    this.createdAt,
   });
 
   factory Purchase.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,7 @@ class Purchase {
       paymentMethodName: json['paymentMethodName'],
       paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
       purchaseProducts: List<PurchaseProduct>.from(json['purchaseProducts'].map((x) => PurchaseProduct.fromJson(x))),
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 
