@@ -139,7 +139,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
-        positiveBalance: widget.customer!.positiveBalance,
+        balance: widget.customer!.balance,
       );
 
       if (widget.customer != null) {

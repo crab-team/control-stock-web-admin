@@ -37,9 +37,7 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
     state = AsyncValue.data(
       purchases.where((element) {
         final byCustomer = element.fullName.toLowerCase().contains(query.toLowerCase());
-        final byCode = element.productCode!.toLowerCase().contains(query.toLowerCase());
-
-        return byCustomer || byCode;
+        return byCustomer;
       }).toList(),
     );
   }

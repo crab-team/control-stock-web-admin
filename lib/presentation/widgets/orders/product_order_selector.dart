@@ -4,13 +4,15 @@ import 'package:control_stock_web_admin/presentation/providers/orders/order_prod
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/search_product.dart';
+import 'package:control_stock_web_admin/presentation/widgets/orders/search_product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductOrderSelector extends ConsumerStatefulWidget {
-  const ProductOrderSelector({super.key});
+  final void Function(Key, int?)? onDelete;
+  const ProductOrderSelector({super.key, this.onDelete});
 
   @override
   ConsumerState<ProductOrderSelector> createState() => _ProductOrderSelectorState();
@@ -29,10 +31,13 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final productsSelected = ref.watch(orderProductsControllerProvider);
+    final codes = productsSelected.map((e) => e.code).toList();
+
     return Row(
       children: [
         Expanded(
-          child: SearchProduct(onProductSelected: (product) => _selectProduct(product)),
+          child: SearchProduct(alreadySelectedProducts: codes, onProductSelected: (product) => _selectProduct(product)),
         ),
         const Gap.small(isHorizontal: true),
         NumberInput(
@@ -54,9 +59,12 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
           ),
         ),
         const Gap.small(isHorizontal: true),
-        IconButton(
-          icon: const Icon(PhosphorIcons.trash),
-          onPressed: () {},
+        Visibility(
+          visible: widget.onDelete != null,
+          child: IconButton(
+            icon: const Icon(PhosphorIcons.trash),
+            onPressed: () => widget.onDelete == null ? {} : widget.onDelete!(widget.key!, _selectedProduct?.id),
+          ),
         ),
       ],
     );
@@ -65,6 +73,12 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
   void _selectProduct(Product product) {
     _quantity = 0;
     priceController.text = '0.00';
+
+    // This is because there is a product already selected and the admin wants to change it
+    if (_selectedProduct != null) {
+      ref.read(orderProductsControllerProvider.notifier).removeProduct(_selectedProduct!.id!);
+    }
+
     _selectedProduct = product;
     setState(() {});
   }
@@ -76,21 +90,14 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
     }
 
     priceController.text = ((_selectedProduct!.publicPrice ?? 0) * _quantity).toStringAsFixed(2);
-    double price = double.parse(priceController.text);
     final productOrderPurchase = PurchaseOrderProduct(
       id: _selectedProduct!.id!,
       code: _selectedProduct!.code,
       quantity: _quantity,
-      unitPrice: price,
+      unitPrice: _selectedProduct!.publicPrice!,
     );
 
     ref.read(orderProductsControllerProvider.notifier).setProduct(productOrderPurchase);
-
-    if (_quantity == 0) {
-      ref.read(orderProductsControllerProvider.notifier).removeProduct(_selectedProduct!.id!);
-      return;
-    }
-
     setState(() {});
   }
 }

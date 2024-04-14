@@ -11,9 +11,9 @@ class OrderSummary extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(orderProductsControllerProvider);
-
+    print(products);
     int quantity = products.fold(0, (p0, p1) => p0 + p1.quantity);
-    double total = products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
+    double total = products.map((e) => e.unitPrice * e.quantity).fold(0, (p0, p1) => p0 + p1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

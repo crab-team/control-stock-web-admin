@@ -18,25 +18,22 @@ class PurchasesDataTableSource extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    if (index >= _data.length) {
+    if (index >= _data.length * 2) {
       return null;
     }
 
     final purchase = _data[index];
-
+    final purchaseProducts = purchase.purchaseProducts;
+    final purchaseProductsNames = purchaseProducts.map((e) => e.name).join(', ');
     return DataRow.byIndex(
       index: index,
-      cells: [
+      cells: <DataCell>[
         DataCell(Text(purchase.fullName)),
-        DataCell(Text(purchase.productCode!)),
-        DataCell(Text(purchase.productName!)),
-        DataCell(Text(CurrencyFormatter.format(purchase.unitPrice, arsSettings))),
-        DataCell(Text(purchase.quantity.toString())),
-        DataCell(Text(CurrencyFormatter.format(purchase.totalShopping, arsSettings))),
-        DataCell(Text(purchase.paymentMethodName.toString())),
-        DataCell(ButtonWithConfirmation(
-          onConfirm: () => onDelete(purchase.customerId!, purchase.id!),
-        )),
+        DataCell(Text(purchaseProductsNames)),
+        DataCell(Text(CurrencyFormatter.format(purchase.totalShopping!, arsSettings))),
+        DataCell(Text(CurrencyFormatter.format(purchase.debt!, arsSettings))),
+        // DataCell(Text('${purchase.createdDate}')),
+        DataCell(ButtonWithConfirmation(onConfirm: () => onDelete(purchase.customerId!, purchase.id!))),
       ],
     );
   }

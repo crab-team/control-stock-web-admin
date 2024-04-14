@@ -28,13 +28,17 @@ class PurchaseProducts {
 
 class PurchaseProduct {
   final int id;
+  final String? code;
   final int quantity;
   final double unitPrice;
+  final String? name;
 
   PurchaseProduct({
     required this.id,
     required this.quantity,
     required this.unitPrice,
+    this.code,
+    this.name,
   });
 
   factory PurchaseProduct.fromJson(Map<String, dynamic> json) {
@@ -42,6 +46,8 @@ class PurchaseProduct {
       id: json['id'],
       quantity: json['quantity'],
       unitPrice: json['unitPrice'],
+      code: json['code'],
+      name: json['name'],
     );
   }
 
@@ -50,6 +56,8 @@ class PurchaseProduct {
       'id': id,
       'quantity': quantity,
       'unitPrice': unitPrice,
+      'code': code,
+      'name': name,
     };
   }
 }

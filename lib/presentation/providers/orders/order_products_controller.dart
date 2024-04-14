@@ -17,6 +17,7 @@ class OrderProductsController extends AutoDisposeNotifier<List<PurchaseOrderProd
 
   void removeProduct(int productId) {
     state.removeWhere((element) => element.id == productId);
+    state = [...state];
   }
 
   void clear() {

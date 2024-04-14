@@ -1,3 +1,4 @@
+import 'package:control_stock_web_admin/presentation/providers/orders/order_products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/product_order_selector.dart';
@@ -14,7 +15,7 @@ class ProductsManager extends ConsumerStatefulWidget {
 }
 
 class _ProductsManagerState extends ConsumerState<ProductsManager> {
-  final List<Widget> _productsItems = [];
+  final List<Widget> _productsItems = [const ProductOrderSelector()];
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class _ProductsManagerState extends ConsumerState<ProductsManager> {
                 _buildAddProductButton(),
               ],
             ),
-            const Gap.medium(),
+            const Gap.small(),
             Expanded(
               child: ListView.separated(
                 primary: false,
@@ -58,11 +59,22 @@ class _ProductsManagerState extends ConsumerState<ProductsManager> {
           icon: const Icon(PhosphorIcons.plus),
           label: const Text(Texts.addProduct),
           onPressed: () {
-            _productsItems.add(const ProductOrderSelector());
+            _productsItems.add(ProductOrderSelector(
+              key: UniqueKey(),
+              onDelete: _removeSelector,
+            ));
             setState(() {});
           },
         ),
       ],
     );
+  }
+
+  void _removeSelector(key, productId) {
+    _productsItems.removeWhere((element) => element.key == key);
+    if (productId != null) {
+      ref.read(orderProductsControllerProvider.notifier).removeProduct(productId);
+    }
+    setState(() {});
   }
 }

@@ -57,32 +57,18 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
       columns: const [
         DataColumn2(
           label: Text(Texts.customer),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.code),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          fixedWidth: 300,
-          label: Text(Texts.productName),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.unitPrice),
           size: ColumnSize.M,
         ),
         DataColumn2(
-          fixedWidth: 90,
-          label: Text(Texts.quantityAbbreviation),
-          size: ColumnSize.S,
+          label: Text(Texts.products),
+          size: ColumnSize.L,
         ),
         DataColumn2(
           label: Text(Texts.total),
           size: ColumnSize.M,
         ),
         DataColumn2(
-          label: Text(Texts.paymentMethod),
+          label: Text(Texts.debt),
           size: ColumnSize.M,
         ),
         DataColumn2(

@@ -1,72 +1,58 @@
+import 'package:control_stock_web_admin/data/responses/purchase_product_response.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 
 class PurchaseResponse {
   final int id;
-  final int productId;
-  final String productCode;
+  final double debt;
   final int customerId;
   final String customerName;
   final String customerLastName;
-  final int quantity;
-  final double unitPrice;
   final double totalShopping;
-  final String productName;
-  final double productPrice;
   final int paymentMethodId;
   final String paymentMethodName;
-  final int surchargePercentage;
+  final int paymentMethodSurchargePercentage;
+  final List<PurchaseProductResponse> purchaseProductsResponses;
 
   PurchaseResponse({
     required this.id,
-    required this.productId,
-    required this.productCode,
+    required this.debt,
     required this.customerId,
     required this.customerName,
     required this.customerLastName,
-    required this.quantity,
-    required this.unitPrice,
     required this.totalShopping,
-    required this.productName,
-    required this.productPrice,
     required this.paymentMethodId,
     required this.paymentMethodName,
-    required this.surchargePercentage,
+    required this.paymentMethodSurchargePercentage,
+    required this.purchaseProductsResponses,
   });
 
   factory PurchaseResponse.fromJson(Map<String, dynamic> json) {
     return PurchaseResponse(
       id: json['id'],
-      productId: json['productId'],
-      productCode: json['productCode'],
+      debt: json['debt'],
       customerId: json['customerId'],
       customerName: json['customerName'],
       customerLastName: json['customerLastName'],
-      quantity: json['quantity'],
-      unitPrice: json['unitPrice'],
       totalShopping: json['totalShopping'],
-      productName: json['productName'],
-      productPrice: json['productPrice'],
       paymentMethodId: json['paymentMethodId'],
       paymentMethodName: json['paymentMethodName'],
-      surchargePercentage: json['surchargePercentage'],
+      paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
+      purchaseProductsResponses:
+          List<PurchaseProductResponse>.from(json['purchaseProducts'].map((x) => PurchaseProductResponse.fromJson(x))),
     );
   }
 
   Purchase toDomain() {
     return Purchase(
       id: id,
-      productId: productId,
-      productCode: productCode,
+      debt: debt,
       customerName: customerName,
       customerLastName: customerLastName,
-      quantity: quantity,
-      unitPrice: unitPrice,
       totalShopping: totalShopping,
-      productName: productName,
-      productPrice: productPrice,
       paymentMethodId: paymentMethodId,
       paymentMethodName: paymentMethodName,
-      surchargePercentage: surchargePercentage,
+      paymentMethodSurchargePercentage: paymentMethodSurchargePercentage,
+      purchaseProducts: purchaseProductsResponses.map((e) => e.toDomain()).toList(),
     );
   }
 }

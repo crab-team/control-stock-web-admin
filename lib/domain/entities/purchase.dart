@@ -1,67 +1,42 @@
+import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
+
 class Purchase {
   final int? id;
-  final int productId;
+  final double? debt;
   final int? customerId;
   final String customerName;
   final String customerLastName;
-  final int quantity;
-  final double unitPrice;
   final int paymentMethodId;
   final String? paymentMethodName;
-  final int? surchargePercentage;
-  final String? productCode;
+  final int? paymentMethodSurchargePercentage;
   final double? totalShopping;
-  final String? productName;
-  final double? productPrice;
+  final List<PurchaseProduct> purchaseProducts;
 
   Purchase({
     this.id,
+    this.debt,
     this.customerId,
-    required this.productId,
     required this.customerName,
     required this.customerLastName,
-    required this.quantity,
-    required this.unitPrice,
     required this.paymentMethodId,
     this.paymentMethodName,
-    this.surchargePercentage,
-    this.productCode,
+    this.paymentMethodSurchargePercentage,
     this.totalShopping,
-    this.productName,
-    this.productPrice,
+    required this.purchaseProducts,
   });
 
-  Purchase copyWith({
-    int? id,
-    int? customerId,
-    int? productId,
-    String? customerName,
-    String? customerLastName,
-    int? quantity,
-    double? unitPrice,
-    String? productCode,
-    double? totalShopping,
-    String? productName,
-    double? productPrice,
-    int? paymentMethodId,
-    String? paymentMethodName,
-    int? surchargePercentage,
-  }) {
+  factory Purchase.fromJson(Map<String, dynamic> json) {
     return Purchase(
-      id: id ?? this.id,
-      customerId: customerId ?? this.customerId,
-      productId: productId ?? this.productId,
-      customerName: customerName ?? this.customerName,
-      customerLastName: customerLastName ?? this.customerLastName,
-      quantity: quantity ?? this.quantity,
-      unitPrice: unitPrice ?? this.unitPrice,
-      productCode: productCode ?? this.productCode,
-      totalShopping: totalShopping ?? this.totalShopping,
-      productName: productName ?? this.productName,
-      productPrice: productPrice ?? this.productPrice,
-      paymentMethodId: paymentMethodId ?? this.paymentMethodId,
-      paymentMethodName: paymentMethodName ?? this.paymentMethodName,
-      surchargePercentage: surchargePercentage ?? this.surchargePercentage,
+      id: json['id'],
+      debt: json['debt'],
+      customerId: json['customerId'],
+      customerName: json['customerName'],
+      customerLastName: json['customerLastName'],
+      totalShopping: json['totalShopping'],
+      paymentMethodId: json['paymentMethodId'],
+      paymentMethodName: json['paymentMethodName'],
+      paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
+      purchaseProducts: List<PurchaseProduct>.from(json['purchaseProducts'].map((x) => PurchaseProduct.fromJson(x))),
     );
   }
 

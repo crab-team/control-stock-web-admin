@@ -36,7 +36,7 @@ class CustomersDataTableSource extends DataTableSource {
         DataCell(Text(customer.email ?? '-')),
         DataCell(Text(customer.phone ?? '-')),
         DataCell(Text(customer.address ?? '-')),
-        DataCell(Text(CurrencyFormatter.format(customer.positiveBalance, arsSettings))),
+        DataCell(Text(CurrencyFormatter.format(customer.balance, arsSettings))),
         DataCell(Row(
           children: [
             ElevatedButton.icon(

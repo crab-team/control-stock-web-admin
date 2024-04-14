@@ -37,7 +37,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
       emailController.text = widget.customer!.email ?? '';
       phoneController.text = widget.customer!.phone ?? '';
       addressController.text = widget.customer!.address ?? '';
-      positiveBalanceController.text = widget.customer!.positiveBalance.toString();
+      positiveBalanceController.text = widget.customer!.balance.toString();
     }
   }
 
@@ -103,7 +103,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
                     TextFormField(
                       controller: positiveBalanceController,
                       decoration: const InputDecoration(
-                          labelText: Texts.positiveBalance, prefixIcon: Icon(PhosphorIcons.currency_dollar)),
+                          labelText: Texts.balance, prefixIcon: Icon(PhosphorIcons.currency_dollar)),
                       keyboardType: TextInputType.number,
                     ),
                     const Gap.medium(),
@@ -149,7 +149,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
-        positiveBalance: double.parse(positiveBalanceController.text),
+        balance: double.parse(positiveBalanceController.text),
       );
 
       if (widget.customer != null) {

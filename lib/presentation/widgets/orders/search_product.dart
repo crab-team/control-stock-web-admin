@@ -7,8 +7,10 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchProduct extends ConsumerStatefulWidget {
+  final List<String> alreadySelectedProducts;
   final Function(Product) onProductSelected;
-  const SearchProduct({super.key, required this.onProductSelected});
+
+  const SearchProduct({super.key, required this.alreadySelectedProducts, required this.onProductSelected});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchProductState();
@@ -21,7 +23,10 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
   @override
   void initState() {
     super.initState();
-    products = ref.read(productsControllerProvider.notifier).products.where((element) => element.stock > 0).toList();
+    products = ref.read(productsControllerProvider.notifier).products.where((element) {
+      bool notContains = widget.alreadySelectedProducts.where((selected) => selected == element.code).isEmpty;
+      return notContains && element.stock > 0;
+    }).toList();
   }
 
   @override

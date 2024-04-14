@@ -7,7 +7,7 @@ class Customer {
   final String? email;
   final String? phone;
   final String? address;
-  final double positiveBalance;
+  final double balance;
 
   Customer({
     this.id,
@@ -16,7 +16,7 @@ class Customer {
     this.email,
     this.phone,
     this.address,
-    required this.positiveBalance,
+    required this.balance,
   });
 
   toJson() {
@@ -27,7 +27,7 @@ class Customer {
       'email': email,
       'phone': phone,
       'address': address,
-      'positiveBalance': positiveBalance,
+      'balance': balance,
     };
   }
 
@@ -39,7 +39,7 @@ class Customer {
       email: map['email'],
       phone: map['phone'],
       address: map['address'],
-      positiveBalance: map['positiveBalance'],
+      balance: map['balance'],
     );
   }
 
@@ -50,7 +50,7 @@ class Customer {
     String? email,
     String? phone,
     String? address,
-    double? positiveBalance,
+    double? balance,
   }) {
     return Customer(
       id: id ?? this.id,
@@ -59,7 +59,7 @@ class Customer {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       address: address ?? this.address,
-      positiveBalance: positiveBalance ?? this.positiveBalance,
+      balance: balance ?? this.balance,
     );
   }
 
@@ -71,7 +71,7 @@ class Customer {
       email: email,
       phone: phone,
       address: address,
-      positiveBalance: positiveBalance,
+      balance: balance,
     );
   }
 

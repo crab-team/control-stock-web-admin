@@ -4,7 +4,7 @@ class CustomerResponse {
   final int id;
   final String name;
   final String lastName;
-  final double positiveBalance;
+  final double balance;
   final String? email;
   final String? phone;
   final String? address;
@@ -13,7 +13,7 @@ class CustomerResponse {
     required this.id,
     required this.name,
     required this.lastName,
-    required this.positiveBalance,
+    required this.balance,
     this.email,
     this.phone,
     this.address,
@@ -27,7 +27,7 @@ class CustomerResponse {
       email: json["email"],
       phone: json["phone"],
       address: json["address"],
-      positiveBalance: json["positiveBalance"],
+      balance: json["balance"],
     );
   }
 
@@ -39,7 +39,7 @@ class CustomerResponse {
       email: email ?? '',
       phone: phone ?? '',
       address: address ?? '',
-      positiveBalance: positiveBalance,
+      balance: balance,
     );
   }
 }

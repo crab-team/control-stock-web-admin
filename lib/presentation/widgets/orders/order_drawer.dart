@@ -2,8 +2,8 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
-import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order_product.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/order_products_controller.dart';
@@ -15,7 +15,9 @@ import 'package:control_stock_web_admin/presentation/widgets/orders/products_ord
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDrawer extends ConsumerStatefulWidget {
@@ -61,7 +63,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
                 const Gap.small(),
                 const Divider(),
                 const Gap.small(),
-                const SizedBox(height: 400, child: ProductsManager()),
+                const SizedBox(height: 300, child: ProductsManager()),
                 const Gap.small(),
                 const Divider(),
                 const Gap.small(),
@@ -110,13 +112,14 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
   Widget _buildGivenAmount() {
     final products = ref.watch(orderProductsControllerProvider);
-    double total = products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
-    paidController.text = total.toString();
+    double total = calculateTotal(products);
+    paidController.text = total.toStringAsFixed(2);
 
     return TextFormField(
       controller: paidController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(labelText: Texts.give),
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) {
         if (value!.isEmpty) {
           return Texts.requiredField;
@@ -150,12 +153,31 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
               items: values,
               onSelected: (value) {
                 customer = value;
+                setState(() {});
               },
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, _) => Center(child: Text(error.toString())),
         ),
+        const Gap.small(),
+        if (customer != null) ...[
+          Row(
+            children: [
+              Text(
+                '${Texts.balance}: ',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Text(
+                CurrencyFormatter.format(customer!.balance, arsSettings),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: customer?.balance == 0 ? Colors.green : Colors.red),
+              ),
+            ],
+          )
+        ],
       ],
     );
   }
@@ -192,7 +214,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     }
 
     final double paid = double.parse(paidController.text);
-    final double total = productsSelected.fold(0, (previousValue, element) => previousValue + element.unitPrice);
+    final double total = calculateTotal(productsSelected);
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,
@@ -203,5 +225,9 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
     ref.read(ordersControllerProvider.notifier).addOrder(order);
     ref.read(navigationServiceProvider).goBack(context);
+  }
+
+  double calculateTotal(List<PurchaseOrderProduct> products) {
+    return products.fold(0, (previousValue, element) => previousValue + (element.unitPrice * element.quantity));
   }
 }
