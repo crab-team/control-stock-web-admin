@@ -28,6 +28,7 @@ class Texts {
   static const String saved = 'Guardado';
   static const String quantity = 'Cantidad';
   static const String quantityAbbreviation = 'Cant.';
+  static const String subtotal = 'Subtotal';
   static const String total = 'Total';
   static const String actions = 'Acciones';
   static const String resume = 'Resumen';
@@ -36,6 +37,7 @@ class Texts {
   static const String paymentStatus = 'Estado de pago';
   static const String paymentMethod = 'Método de pago';
   static const String surcharge = 'Recargo';
+  static const String discount = 'Descuento';
   static const String unitPrice = 'Precio/u';
   static const String debt = 'Adeuda';
   static const String give = 'Entrega';

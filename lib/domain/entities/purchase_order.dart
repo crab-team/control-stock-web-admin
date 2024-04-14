@@ -7,6 +7,7 @@ class PurchaseOrder {
   final int? id;
   final Customer? customer;
   final List<PurchaseOrderProduct> products;
+  final double total;
   final double debt;
   final PaymentMethod paymentMethod;
 
@@ -14,6 +15,7 @@ class PurchaseOrder {
     this.id,
     required this.customer,
     required this.products,
+    required this.total,
     required this.debt,
     required this.paymentMethod,
   });
@@ -23,12 +25,14 @@ class PurchaseOrder {
     Customer? customer,
     double? debt,
     List<PurchaseOrderProduct>? products,
+    double? total,
     PaymentMethod? paymentMethod,
   }) {
     return PurchaseOrder(
       id: id ?? this.id,
       customer: customer ?? this.customer,
       products: products ?? this.products,
+      total: total ?? this.total,
       debt: debt ?? this.debt,
       paymentMethod: paymentMethod ?? this.paymentMethod,
     );
@@ -39,6 +43,7 @@ class PurchaseOrder {
       'id': id,
       'customer': customer?.toJson(),
       'debt': debt,
+      'total': total,
       'products': products.map((e) => e.toJson()).toList(),
       'paymentMethodId': paymentMethod,
     };

@@ -27,7 +27,6 @@ class OrdersDataTableSource extends DataTableSource {
     final order = _data[index];
     List<String> productsCodes = order.products.map((e) => e.code).toSet().toList();
     int quantity = order.products.fold(0, (p0, p1) => p0 + p1.quantity);
-    double total = order.products.map((e) => e.unitPrice).fold(0, (p0, p1) => p0 + p1);
 
     return DataRow.byIndex(
       index: index,
@@ -36,7 +35,7 @@ class OrdersDataTableSource extends DataTableSource {
         DataCell(Text(order.customer!.fullName)),
         DataCell(Text(productsCodes.join(' - '))),
         DataCell(Text(quantity.toString())),
-        DataCell(Text(CurrencyFormatter.format(total, arsSettings))),
+        DataCell(Text(CurrencyFormatter.format(order.total, arsSettings))),
         DataCell(Text(order.paymentMethod.name)),
         DataCell(Text(CurrencyFormatter.format(order.debt, arsSettings))),
         DataCell(Row(

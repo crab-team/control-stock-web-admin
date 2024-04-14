@@ -73,7 +73,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
                 const Gap.small(),
                 const Divider(),
                 const Gap.small(),
-                const OrderSummary(),
+                OrderSummary(paymentMethod: paymentMethod),
                 Column(
                   children: [
                     const Gap.medium(),
@@ -111,8 +111,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   }
 
   Widget _buildGivenAmount() {
-    final products = ref.watch(orderProductsControllerProvider);
-    double total = calculateTotal(products);
+    double total = calculateTotal();
     paidController.text = total.toStringAsFixed(2);
 
     return TextFormField(
@@ -125,7 +124,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
           return Texts.requiredField;
         }
 
-        if (double.parse(value) > total) {
+        if (double.parse(value) > total.abs()) {
           return 'El monto no puede ser mayor al total de la compra.';
         }
 
@@ -193,6 +192,8 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
           items: values,
           onSelected: (value) {
             paymentMethod = value;
+            ref.read(orderProductsControllerProvider.notifier).applySurchargeToProducts(value!.surchargePercentage);
+            setState(() {});
           },
         );
       },
@@ -214,12 +215,13 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     }
 
     final double paid = double.parse(paidController.text);
-    final double total = calculateTotal(productsSelected);
+    final double total = calculateTotal();
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,
       products: productsSelected,
       debt: total - paid,
+      total: total,
       paymentMethod: paymentMethod!,
     );
 
@@ -227,7 +229,8 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     ref.read(navigationServiceProvider).goBack(context);
   }
 
-  double calculateTotal(List<PurchaseOrderProduct> products) {
+  double calculateTotal() {
+    final products = ref.watch(orderProductsControllerProvider);
     return products.fold(0, (previousValue, element) => previousValue + (element.unitPrice * element.quantity));
   }
 }
