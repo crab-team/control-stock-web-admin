@@ -7,7 +7,7 @@ import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_s
 import 'package:control_stock_web_admin/presentation/screens/customers/customer_records_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/purchases/purchases_screen.dart';

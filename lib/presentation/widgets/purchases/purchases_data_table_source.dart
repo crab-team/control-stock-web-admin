@@ -37,12 +37,15 @@ class PurchasesDataTableSource extends DataTableSource {
         DataCell(Text(purchase.fullName)),
         DataCell(Text(purchaseProductsNames)),
         DataCell(Text(CurrencyFormatter.format(purchase.totalShopping!, arsSettings))),
-        DataCell(Text(DateFormat('dd-MM-yyyy – kk:mm').format(purchase.createdAt!))),
+        DataCell(Text(DateFormat('dd/MM/yyyy – kk:mm').format(purchase.createdAt!))),
         DataCell(Row(
           children: [
             IconButton(onPressed: () => onEdit(purchase), icon: const Icon(PhosphorIcons.pencil)),
             const Gap.small(isHorizontal: true),
-            ButtonWithConfirmation(onConfirm: () => onDelete(purchase.customerId!, purchase.id!)),
+            ButtonWithConfirmation(
+                label: Texts.cancel,
+                icon: PhosphorIcons.arrow_u_left_up,
+                onConfirm: () => onDelete(purchase.customerId!, purchase.id!)),
           ],
         )),
       ],

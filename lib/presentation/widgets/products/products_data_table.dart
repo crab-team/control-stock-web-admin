@@ -3,7 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_data_table_controller.dart';
-import 'package:control_stock_web_admin/presentation/screens/products/product_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';

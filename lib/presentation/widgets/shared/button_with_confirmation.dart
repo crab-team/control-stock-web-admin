@@ -2,8 +2,10 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:flutter/material.dart';
 
 class ButtonWithConfirmation extends StatefulWidget {
+  final String? label;
+  final IconData? icon;
   final void Function() onConfirm;
-  const ButtonWithConfirmation({super.key, required this.onConfirm});
+  const ButtonWithConfirmation({super.key, this.label, this.icon, required this.onConfirm});
 
   @override
   State<ButtonWithConfirmation> createState() => _ButtonWithConfirmationState();
@@ -50,15 +52,25 @@ class _ButtonWithConfirmationState extends State<ButtonWithConfirmation> {
           ],
         ),
       ),
-      child: IconButton(
-        icon: Icon(
-          Icons.delete,
-          color: colorScheme.primary,
-        ),
-        onPressed: () => setState(() {
-          _showConfirmationState = true;
-        }),
-      ),
+      child: widget.label != null
+          ? ElevatedButton.icon(
+              icon: Icon(
+                widget.icon ?? Icons.delete,
+              ),
+              label: Text(widget.label ?? ''),
+              onPressed: () => setState(() {
+                _showConfirmationState = true;
+              }),
+            )
+          : IconButton(
+              icon: Icon(
+                widget.icon ?? Icons.delete,
+                color: colorScheme.primary,
+              ),
+              onPressed: () => setState(() {
+                _showConfirmationState = true;
+              }),
+            ),
     );
   }
 }

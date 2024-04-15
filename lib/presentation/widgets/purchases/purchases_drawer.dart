@@ -49,7 +49,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
                   children: [
                     Text(Texts.createdAt, style: Theme.of(context).textTheme.bodyMedium),
                     const Spacer(),
-                    Text(DateFormat('dd-MM-yyyy – kk:mm').format(widget.purchase.createdAt!))
+                    Text(DateFormat('dd/MM/yyyy – kk:mm').format(widget.purchase.createdAt!))
                   ],
                 ),
                 const Gap.small(),

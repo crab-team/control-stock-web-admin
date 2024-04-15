@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:control_stock_web_admin/utils/products_csv_loader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,6 +79,8 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => state = const AsyncValue.data([]),
       );
+
+      ref.read(productsControllerProvider.notifier).getAll();
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }

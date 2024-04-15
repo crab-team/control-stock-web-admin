@@ -7,9 +7,8 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/image_picker_widget.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDrawer extends ConsumerStatefulWidget {
@@ -62,6 +61,8 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                 const Divider(),
                 const Gap.medium(),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextFormField(
                       controller: codeController,
@@ -88,16 +89,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                     TextFormField(
                       controller: priceController,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$'),
-                      inputFormatters: [
-                        CurrencyTextInputFormatter(
-                          locale: 'es_AR',
-                          decimalDigits: 2,
-                          symbol: '',
-                          inputDirection: InputDirection.left,
-                          customPattern: '\$####,##',
-                        )
-                      ],
+                      decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$ '),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return Texts.requiredField;
@@ -106,17 +98,10 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       },
                     ),
                     const Gap.small(),
-                    TextFormField(
-                      controller: stockController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: Texts.stock),
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return Texts.requiredField;
-                        }
-                        return null;
-                      },
+                    NumberInput(
+                      initialValue: widget.product?.stock ?? 0,
+                      onChanged: (p0) => stockController.text = p0.toString(),
+                      label: Texts.stock,
                     ),
                     const Gap.small(),
                     FormField<Category>(

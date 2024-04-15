@@ -2,7 +2,6 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CSVDataTableViewSource extends DataTableSource {
   final List<Product> _data;
@@ -42,35 +41,22 @@ class CSVDataTableViewSource extends DataTableSource {
         DataCell(Text(product.code)),
         DataCell(TextFormField(
           controller: nameController,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-          ),
+          decoration: inputDataTableDecoration,
           onFieldSubmitted: (value) {
             onChangeAnyValue(product.code, 'name', value);
           },
         )),
         DataCell(TextFormField(
           controller: priceController,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            prefix: Text('\$ '),
-            border: InputBorder.none,
+          decoration: inputDataTableDecoration.copyWith(
+            prefix: const Text('\$ '),
           ),
           onFieldSubmitted: (value) => onChangeAnyValue(product.code, 'price', value),
         )),
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(
           controller: stockController,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-          ),
+          decoration: inputDataTableDecoration,
           onFieldSubmitted: (value) => onChangeAnyValue(product.code, 'stock', value),
         )),
         DataCell(ButtonWithConfirmation(onConfirm: () {
