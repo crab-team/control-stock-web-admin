@@ -72,6 +72,19 @@ class Texts {
   static const String addProduct = 'Agregar producto';
   static const String productName = 'Nombre del producto';
   static const String allProductsUpdated = 'Todos los productos han sido actualizados';
+  static const String deletingProduct = 'Eliminando producto';
+  static const String errorDeletingProduct = 'Error al eliminar producto';
+  static const String updatingProduct = 'Actualizando producto';
+  static const String errorUpdatingProduct = 'Error al actualizar producto';
+  static const String creatingProduct = 'Creando producto';
+  static const String errorCreatingProduct = 'Error al crear producto';
+  static const String productCreated = 'Producto creado correctamente';
+  static const String productUpdated = 'Producto actualizado correctamente';
+  static const String productDeleted = 'Producto eliminado correctamente';
+  static const String creatingProducts = 'Creando productos';
+  static const String updatingProducts = 'Actualizando productos';
+  static const String errorCreatingProducts = 'Error al crear productos';
+  static const String errorUpdatingProducts = 'Error al actualizar productos';
 
   // Categories
   static const String categories = 'Categorías';
