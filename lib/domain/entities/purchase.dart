@@ -2,7 +2,6 @@ import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 
 class Purchase {
   final int? id;
-  final double? debt;
   final int? customerId;
   final String customerName;
   final String customerLastName;
@@ -15,7 +14,6 @@ class Purchase {
 
   Purchase({
     this.id,
-    this.debt,
     this.customerId,
     required this.customerName,
     required this.customerLastName,
@@ -30,7 +28,6 @@ class Purchase {
   factory Purchase.fromJson(Map<String, dynamic> json) {
     return Purchase(
       id: json['id'],
-      debt: json['debt'],
       customerId: json['customerId'],
       customerName: json['customerName'],
       customerLastName: json['customerLastName'],
@@ -44,4 +41,19 @@ class Purchase {
   }
 
   String get fullName => '$customerName $customerLastName';
+
+  toJson() {
+    return {
+      'id': id,
+      'customerId': customerId,
+      'customerName': customerName,
+      'customerLastName': customerLastName,
+      'totalShopping': totalShopping,
+      'paymentMethodId': paymentMethodId,
+      'paymentMethodName': paymentMethodName,
+      'paymentMethodSurcharge': paymentMethodSurchargePercentage,
+      'purchaseProducts': purchaseProducts.map((e) => e.toJson()).toList(),
+      'createdAt': createdAt,
+    };
+  }
 }

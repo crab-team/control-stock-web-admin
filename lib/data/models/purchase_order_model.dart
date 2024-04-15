@@ -3,35 +3,34 @@ import 'package:control_stock_web_admin/data/models/purchase_order_product_model
 class PurchaseOrderModel {
   final int? id;
   final List<PurchaseOrderProductModel> products;
-  final double debt;
   final int paymentMethodId;
+  final double debt;
 
   PurchaseOrderModel({
     this.id,
     required this.products,
-    required this.debt,
     required this.paymentMethodId,
+    required this.debt,
   });
 
   copyWith({
     int? id,
     int? customerId,
-    double? debt,
     List<PurchaseOrderProductModel>? products,
     int? paymentMethodId,
+    double? debt,
   }) {
     return PurchaseOrderModel(
       id: id ?? this.id,
       products: products ?? this.products,
-      debt: debt ?? this.debt,
       paymentMethodId: paymentMethodId ?? this.paymentMethodId,
+      debt: debt ?? this.debt,
     );
   }
 
   toJson() {
     return {
       'id': id,
-      'debt': debt,
       'products': products.map((e) => e.toJson()).toList(),
       'paymentMethodId': paymentMethodId,
     };
@@ -39,9 +38,9 @@ class PurchaseOrderModel {
 
   toCreateJson() {
     return {
-      'debt': debt,
       'products': products.map((e) => e.toCreateJson()).toList(),
       'paymentMethodId': paymentMethodId,
+      'debt': debt,
     };
   }
 }

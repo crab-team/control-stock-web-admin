@@ -3,7 +3,6 @@ import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 
 class PurchaseResponse {
   final int id;
-  final double debt;
   final int customerId;
   final String customerName;
   final String customerLastName;
@@ -16,7 +15,6 @@ class PurchaseResponse {
 
   PurchaseResponse({
     required this.id,
-    required this.debt,
     required this.customerId,
     required this.customerName,
     required this.customerLastName,
@@ -31,7 +29,6 @@ class PurchaseResponse {
   factory PurchaseResponse.fromJson(Map<String, dynamic> json) {
     return PurchaseResponse(
       id: json['id'],
-      debt: json['debt'],
       customerId: json['customerId'],
       customerName: json['customerName'],
       customerLastName: json['customerLastName'],
@@ -50,7 +47,7 @@ class PurchaseResponse {
 
     return Purchase(
       id: id,
-      debt: debt,
+      customerId: customerId,
       customerName: customerName,
       customerLastName: customerLastName,
       totalShopping: totalShopping,

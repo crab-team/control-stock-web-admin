@@ -11,7 +11,7 @@ class CustomersApiDataSource implements CustomersRemoteDataSource {
   String path = '/commerces/1/customers';
 
   @override
-  Future<List<CustomerResponse>> get() async {
+  Future<List<CustomerResponse>> getAll() async {
     try {
       final response = await apiClient.sendGet(path);
       final List<CustomerResponse> customersResponse =

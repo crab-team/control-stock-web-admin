@@ -34,7 +34,7 @@ class CustomersRepositoryImplementation implements CustomersRepository {
   @override
   Future<Either<Failure, List<Customer>>> getAll() async {
     try {
-      final response = await remoteDataSource.get();
+      final response = await remoteDataSource.getAll();
       final customers = response.map((e) => e.toDomain()).toList();
       return Right(customers);
     } catch (e) {

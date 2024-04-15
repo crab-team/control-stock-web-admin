@@ -30,13 +30,13 @@ class PurchasesDataTableSource extends DataTableSource {
     final purchase = _data[index];
     final purchaseProducts = purchase.purchaseProducts;
     final purchaseProductsNames = purchaseProducts.map((e) => e.name).join(', ');
+
     return DataRow.byIndex(
       index: index,
       cells: <DataCell>[
         DataCell(Text(purchase.fullName)),
         DataCell(Text(purchaseProductsNames)),
         DataCell(Text(CurrencyFormatter.format(purchase.totalShopping!, arsSettings))),
-        DataCell(Text(CurrencyFormatter.format(purchase.debt!, arsSettings))),
         DataCell(Text(DateFormat('dd-MM-yyyy – kk:mm').format(purchase.createdAt!))),
         DataCell(Row(
           children: [

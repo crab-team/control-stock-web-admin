@@ -1,6 +1,5 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
-import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
@@ -19,25 +18,24 @@ class CustomerDrawer extends ConsumerStatefulWidget {
 
 class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
   final formKey = GlobalKey<FormState>();
-  String selectedType = '';
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController positiveBalanceController = TextEditingController();
-  Category? category;
+  TextEditingController balanceController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     if (widget.customer != null) {
-      nameController.text = widget.customer!.name;
-      lastNameController.text = widget.customer!.lastName;
-      emailController.text = widget.customer!.email ?? '';
-      phoneController.text = widget.customer!.phone ?? '';
-      addressController.text = widget.customer!.address ?? '';
-      positiveBalanceController.text = widget.customer!.balance.toString();
+      nameController.text = widget.customer?.name ?? '';
+      lastNameController.text = widget.customer?.lastName ?? '';
+      emailController.text = widget.customer?.email ?? '';
+      phoneController.text = widget.customer?.phone ?? '';
+      addressController.text = widget.customer?.address ?? '';
+      balanceController.text = widget.customer?.balance.toString() ?? '0.0';
+      setState(() {});
     }
   }
 
@@ -101,9 +99,11 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
                     ),
                     const Gap.small(),
                     TextFormField(
-                      controller: positiveBalanceController,
+                      controller: balanceController,
                       decoration: const InputDecoration(
-                          labelText: Texts.balance, prefixIcon: Icon(PhosphorIcons.currency_dollar)),
+                        labelText: Texts.balance,
+                        prefixIcon: Icon(PhosphorIcons.currency_dollar),
+                      ),
                       keyboardType: TextInputType.number,
                     ),
                     const Gap.medium(),
@@ -149,7 +149,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
-        balance: double.parse(positiveBalanceController.text),
+        balance: balanceController.text == '' ? 0 : double.parse(balanceController.text),
       );
 
       if (widget.customer != null) {

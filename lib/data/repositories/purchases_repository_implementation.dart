@@ -14,9 +14,9 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
   PurchasesRepositoryImplementation(this.purchasesRemoteDataSource);
 
   @override
-  Future<Either<Failure, void>> delete(int customerId, int recordId) async {
+  Future<Either<Failure, void>> delete(int customerId, int purchaseId) async {
     try {
-      await purchasesRemoteDataSource.delete(customerId, recordId);
+      await purchasesRemoteDataSource.delete(customerId, purchaseId);
       return const Right(null);
     } catch (e) {
       return Left(Failure(e.toString()));

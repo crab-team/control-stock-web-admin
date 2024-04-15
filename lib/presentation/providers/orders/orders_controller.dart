@@ -1,5 +1,7 @@
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
+import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,8 +45,11 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
       (l) => throw Exception('Error'),
       (r) async {
         removeOrder(order.id!);
-        await ref.read(productsControllerProvider.notifier).getAll();
       },
     );
+
+    await ref.read(productsControllerProvider.notifier).getAll();
+    await ref.read(purchasesControllerProvider.notifier).getAll();
+    await ref.read(customersControllerProvider.notifier).getAll();
   }
 }

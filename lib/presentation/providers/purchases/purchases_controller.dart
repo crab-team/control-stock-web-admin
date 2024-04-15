@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
+import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,10 +23,8 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final either = await ref.read(getPurchasesUseCaseProvider).execute();
-      return either.fold((l) => throw l, (r) => r);
+      return either.fold((l) => throw l, (r) => purchases = r);
     });
-
-    purchases = state.asData?.value ?? [];
   }
 
   search(String query) async {
@@ -50,14 +50,17 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
     );
   }
 
-  delete(int id, int customerId) async {
+  delete(int purchaseId, int customerId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final either = await ref.read(deletePurchaseUseCaseProvider).execute(customerId, id);
+      final either = await ref.read(deletePurchaseUseCaseProvider).execute(customerId, purchaseId);
       return either.fold((l) => throw l, (_) {
-        purchases.removeWhere((element) => element.id == id);
+        purchases.removeWhere((element) => element.id == purchaseId);
         return purchases;
       });
     });
+
+    await ref.read(customersControllerProvider.notifier).getAll();
+    await ref.read(productsControllerProvider.notifier).getAll();
   }
 }

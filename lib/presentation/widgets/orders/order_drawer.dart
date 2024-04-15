@@ -214,15 +214,15 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
       return;
     }
 
-    final double paid = double.parse(paidController.text);
     final double total = calculateTotal();
+    final double debt = total - double.parse(paidController.text);
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,
       products: productsSelected,
-      debt: total - paid,
       total: total,
       paymentMethod: paymentMethod!,
+      debt: debt,
     );
 
     ref.read(ordersControllerProvider.notifier).addOrder(order);

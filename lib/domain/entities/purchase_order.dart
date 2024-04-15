@@ -8,33 +8,33 @@ class PurchaseOrder {
   final Customer? customer;
   final List<PurchaseOrderProduct> products;
   final double total;
-  final double debt;
   final PaymentMethod paymentMethod;
+  final double debt;
 
   PurchaseOrder({
     this.id,
     required this.customer,
     required this.products,
     required this.total,
-    required this.debt,
     required this.paymentMethod,
+    required this.debt,
   });
 
   copyWith({
     int? id,
     Customer? customer,
-    double? debt,
     List<PurchaseOrderProduct>? products,
     double? total,
     PaymentMethod? paymentMethod,
+    double? debt,
   }) {
     return PurchaseOrder(
       id: id ?? this.id,
       customer: customer ?? this.customer,
       products: products ?? this.products,
       total: total ?? this.total,
-      debt: debt ?? this.debt,
       paymentMethod: paymentMethod ?? this.paymentMethod,
+      debt: debt ?? this.debt,
     );
   }
 
@@ -42,19 +42,19 @@ class PurchaseOrder {
     return {
       'id': id,
       'customer': customer?.toJson(),
-      'debt': debt,
       'total': total,
       'products': products.map((e) => e.toJson()).toList(),
       'paymentMethodId': paymentMethod,
+      'debt': debt,
     };
   }
 
   PurchaseOrderModel toModel() {
     return PurchaseOrderModel(
       id: id,
-      debt: debt,
       products: products.map((e) => e.toModel()).toList(),
       paymentMethodId: paymentMethod.id!,
+      debt: debt,
     );
   }
 }

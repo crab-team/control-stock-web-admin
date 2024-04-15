@@ -57,6 +57,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
       empty: const Center(child: Text(Texts.noRecords)),
       columns: const [
         DataColumn2(
+          fixedWidth: 200,
           label: Text(Texts.customer),
           size: ColumnSize.S,
         ),
@@ -65,11 +66,8 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.L,
         ),
         DataColumn2(
+          fixedWidth: 150,
           label: Text(Texts.total),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text(Texts.debt),
           size: ColumnSize.S,
         ),
         DataColumn2(
@@ -77,7 +75,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.S,
         ),
         DataColumn2(
-          fixedWidth: 150,
+          fixedWidth: 200,
           label: Text('Acciones'),
           size: ColumnSize.S,
         ),
@@ -101,7 +99,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     ref.read(purchasesControllerProvider.notifier).search(value);
   }
 
-  void _delete(int customerId, int id) {
-    ref.read(purchasesControllerProvider.notifier).delete(customerId, id);
+  void _delete(int customerId, int purchaseId) {
+    ref.read(purchasesControllerProvider.notifier).delete(purchaseId, customerId);
   }
 }

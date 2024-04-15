@@ -10,13 +10,13 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
   @override
   build() async {
     if (customers.isEmpty) {
-      await getClients();
+      await getAll();
     }
 
     return customers;
   }
 
-  Future<void> getClients() async {
+  Future<void> getAll() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(getCustomersUseCaseProvider).execute();

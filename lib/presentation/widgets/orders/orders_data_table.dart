@@ -83,12 +83,12 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
           size: ColumnSize.S,
         ),
         DataColumn2(
-          label: Text(Texts.paymentMethod),
-          size: ColumnSize.M,
-        ),
-        DataColumn2(
           label: Text(Texts.debt),
           size: ColumnSize.S,
+        ),
+        DataColumn2(
+          label: Text(Texts.paymentMethod),
+          size: ColumnSize.M,
         ),
         DataColumn2(
           fixedWidth: 300,

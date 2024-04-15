@@ -36,8 +36,8 @@ class OrdersDataTableSource extends DataTableSource {
         DataCell(Text(productsCodes.join(' - '))),
         DataCell(Text(quantity.toString())),
         DataCell(Text(CurrencyFormatter.format(order.total, arsSettings))),
-        DataCell(Text(order.paymentMethod.name)),
         DataCell(Text(CurrencyFormatter.format(order.debt, arsSettings))),
+        DataCell(Text(order.paymentMethod.name)),
         DataCell(Row(
           children: [
             ConfirmPurchaseOrderButton(order: order),

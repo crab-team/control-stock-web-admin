@@ -107,13 +107,6 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
         )),
         const Gap.medium(),
         const Divider(),
-        const Gap.small(),
-        Visibility(
-          visible: widget.purchase.debt! > 0,
-          child: Expanded(child: _buildDebtContainer(context)),
-        ),
-        const Gap.medium(),
-        const Divider(),
         const Gap.medium(),
         Align(
           alignment: Alignment.centerRight,
@@ -135,41 +128,6 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDebtContainer(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(Texts.debt, style: Theme.of(context).textTheme.bodyLarge),
-            const Spacer(),
-            Text(
-              CurrencyFormatter.format(widget.purchase.debt!, arsSettings),
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: widget.purchase.debt! > 0 ? colorScheme.onError : null),
-            ),
-          ],
-        ),
-        const Gap.small(),
-        TextFormField(
-          controller: paidController,
-          decoration: const InputDecoration(labelText: Texts.give),
-          textCapitalization: TextCapitalization.words,
-          validator: (value) {
-            if (value == null) return null;
-            if (double.parse(value) > widget.purchase.debt!) {
-              return Texts.valueSuperiorToTotal;
-            }
-            return null;
-          },
         ),
       ],
     );

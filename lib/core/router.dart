@@ -100,9 +100,9 @@ class NavigationService {
             return DashboardWidget(page: child);
           },
           branches: [
+            _ordersBranch(),
             _shoppingBranch(),
             _productsBranch(),
-            _ordersBranch(),
             _customersBranch(),
             _categoriesBranch(),
             _commerceBranch(),
