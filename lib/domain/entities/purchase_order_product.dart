@@ -5,12 +5,14 @@ class PurchaseOrderProduct {
   final String code;
   final int quantity;
   final double unitPrice;
+  final double? ajustedPrice;
 
   PurchaseOrderProduct({
     required this.id,
     required this.code,
     required this.quantity,
     required this.unitPrice,
+    this.ajustedPrice,
   });
 
   copyWith({
@@ -18,12 +20,14 @@ class PurchaseOrderProduct {
     String? code,
     int? quantity,
     double? unitPrice,
+    double? ajustedPrice,
   }) {
     return PurchaseOrderProduct(
       id: id ?? this.id,
       code: code ?? this.code,
       quantity: quantity ?? this.quantity,
       unitPrice: unitPrice ?? this.unitPrice,
+      ajustedPrice: ajustedPrice ?? this.ajustedPrice,
     );
   }
 
@@ -33,6 +37,7 @@ class PurchaseOrderProduct {
       'code': code,
       'quantity': quantity,
       'unitPrice': unitPrice,
+      'ajustedPrice': ajustedPrice,
     };
   }
 
@@ -40,7 +45,7 @@ class PurchaseOrderProduct {
     return PurchaseOrderProductModel(
       id: id,
       quantity: quantity,
-      unitPrice: unitPrice,
+      unitPrice: ajustedPrice ?? unitPrice,
     );
   }
 }

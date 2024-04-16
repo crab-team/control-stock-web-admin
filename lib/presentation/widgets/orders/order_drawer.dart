@@ -2,7 +2,6 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
-import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order_product.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
@@ -10,14 +9,12 @@ import 'package:control_stock_web_admin/presentation/providers/orders/order_prod
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/payment_methods/payment_methods_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/orders/order_summary.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDrawer extends ConsumerStatefulWidget {
@@ -29,9 +26,12 @@ class OrderDrawer extends ConsumerStatefulWidget {
 }
 
 class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
-  List<Product> product = [];
   Customer? customer;
   PaymentMethod? paymentMethod;
+  double subtotal = 0.0;
+  double totalWithSurchargeOrDiscount = 0.0;
+  List<PurchaseOrderProduct> productsSelected = [];
+  int quantity = 0;
 
   final globalKey = GlobalKey<FormState>();
   final paidController = TextEditingController();
@@ -44,6 +44,13 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(orderProductsControllerProvider, (prev, next) {
+      print(next);
+      productsSelected = next;
+      quantity = productsSelected.fold(0, (previousValue, element) => previousValue + element.quantity);
+      setState(() {});
+    });
+
     return Form(
       key: globalKey,
       child: Column(
@@ -55,7 +62,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
           ),
           const Gap.small(),
           const Divider(),
-          const Gap.medium(),
+          const Gap.small(),
           Expanded(
             child: ListView(
               children: [
@@ -73,12 +80,12 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
                 const Gap.small(),
                 const Divider(),
                 const Gap.small(),
-                OrderSummary(paymentMethod: paymentMethod),
+                _buildSummary(),
                 Column(
                   children: [
-                    const Gap.medium(),
+                    const Gap.small(),
                     const Divider(),
-                    const Gap.medium(),
+                    const Gap.small(),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Row(
@@ -111,20 +118,18 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   }
 
   Widget _buildGivenAmount() {
-    double total = calculateTotal();
-    paidController.text = total.toStringAsFixed(2);
+    paidController.text = totalWithSurchargeOrDiscount.toString();
 
     return TextFormField(
       controller: paidController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(labelText: Texts.give),
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) {
         if (value!.isEmpty) {
           return Texts.requiredField;
         }
 
-        if (double.parse(value) > total.abs()) {
+        if (double.parse(value) > totalWithSurchargeOrDiscount) {
           return Texts.valueSuperiorToTotal;
         }
 
@@ -184,27 +189,106 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   Widget _buildPaymentMethodSelector() {
     final state = ref.watch(paymentMethodsControllerProvider);
 
-    return state.when(
-      data: (values) {
-        return SelectorWidget<PaymentMethod>(
-          label: Texts.paymentMethods,
-          initialValue: paymentMethod?.name,
-          items: values,
-          onSelected: (value) {
-            paymentMethod = value;
-            ref.read(orderProductsControllerProvider.notifier).applySurchargeToProducts(value!.surchargePercentage);
-            setState(() {});
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          Texts.paymentMethod,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const Gap.small(),
+        state.when(
+          data: (values) {
+            return SelectorWidget<PaymentMethod>(
+              label: Texts.paymentMethods,
+              initialValue: paymentMethod?.name,
+              items: values,
+              onSelected: (value) {
+                paymentMethod = value;
+                calculateTotal();
+                setState(() {});
+              },
+            );
           },
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(child: Text(error.toString())),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => Center(child: Text(error.toString())),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSummary() {
+    final quantity = productsSelected.fold(0, (previousValue, element) => previousValue + element.quantity);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          Texts.resume,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const Gap.small(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              Texts.quantity,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              quantity.toString(),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+        const Gap.small(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              Texts.subtotal,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              CurrencyFormatter.format(subtotal, arsSettings),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+        const Gap.small(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${Texts.surcharge}/${Texts.discount}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Text(
+              '${paymentMethod?.surchargePercentage ?? 0}%',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+        const Gap.small(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              Texts.total,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            Text(
+              CurrencyFormatter.format(totalWithSurchargeOrDiscount, arsSettings),
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
   void _onSubmit() {
-    List<PurchaseOrderProduct> productsSelected = ref.read(orderProductsControllerProvider);
-
     if (!globalKey.currentState!.validate()) {
       return;
     }
@@ -214,23 +298,30 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
       return;
     }
 
-    final double total = calculateTotal();
-    final double debt = total - double.parse(paidController.text);
+    double debt = totalWithSurchargeOrDiscount - double.parse(paidController.text);
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,
       products: productsSelected,
-      total: total,
+      total: totalWithSurchargeOrDiscount,
       paymentMethod: paymentMethod!,
       debt: debt,
     );
+
+    print(order.toJson());
 
     ref.read(ordersControllerProvider.notifier).addOrder(order);
     ref.read(navigationServiceProvider).goBack(context);
   }
 
-  double calculateTotal() {
-    final products = ref.watch(orderProductsControllerProvider);
-    return products.fold(0, (previousValue, element) => previousValue + (element.unitPrice * element.quantity));
+  void calculateTotal() {
+    subtotal =
+        productsSelected.fold(0, (previousValue, element) => previousValue + (element.unitPrice * element.quantity));
+    productsSelected = productsSelected
+        .map<PurchaseOrderProduct>((product) => product.copyWith(
+            ajustedPrice: (product.unitPrice * (paymentMethod?.surchargePercentage ?? 0) / 100) + product.unitPrice))
+        .toList();
+    totalWithSurchargeOrDiscount = productsSelected.fold(0,
+        (previousValue, element) => previousValue + ((element.ajustedPrice ?? element.unitPrice) * element.quantity));
   }
 }

@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
+import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final purchasesControllerProvider = AsyncNotifierProvider<PurchasesController, List<Purchase>>(PurchasesController.new);
@@ -51,16 +54,24 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
   }
 
   delete(int purchaseId, int customerId) async {
-    state = const AsyncValue.loading();
+    _showToast(ToastController(Texts.purchases, '${Texts.deletingPurchase} $purchaseId', ToastType.info));
     state = await AsyncValue.guard(() async {
       final either = await ref.read(deletePurchaseUseCaseProvider).execute(customerId, purchaseId);
-      return either.fold((l) => throw l, (_) {
+      return either.fold((l) {
+        _showToast(ToastController(Texts.purchases, '${Texts.errorDeletingPurchase} $purchaseId', ToastType.error));
+        throw l;
+      }, (_) {
         purchases.removeWhere((element) => element.id == purchaseId);
+        _showToast(ToastController(Texts.purchases, '${Texts.purchaseDeleted} $purchaseId', ToastType.success));
         return purchases;
       });
     });
 
     await ref.read(customersControllerProvider.notifier).getAll();
     await ref.read(productsControllerProvider.notifier).getAll();
+  }
+
+  _showToast(ToastController toastController) {
+    ref.read(toastsControllerProvider.notifier).showToast(toastController);
   }
 }

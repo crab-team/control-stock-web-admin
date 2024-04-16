@@ -2,7 +2,6 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,14 +32,7 @@ class _ConfirmPurchaseOrderButtonState extends ConsumerState<ConfirmPurchaseOrde
     if (isLoading) return;
     isLoading = true;
     setState(() {});
-    try {
-      await _confirmPurchase();
-      ToastUtils.showToast(
-          context, Texts.orderPurchaseConfrimated, Texts.orderPurchaseConfrimatedMessage, ToastType.success);
-      setState(() {});
-    } catch (e) {
-      return ToastUtils.showToast(context, Texts.errorOccurred, Texts.errorOccurredTryAgain, ToastType.error);
-    }
+    await _confirmPurchase();
   }
 
   Future<void> _confirmPurchase() async {

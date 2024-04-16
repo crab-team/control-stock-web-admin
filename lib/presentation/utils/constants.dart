@@ -129,6 +129,20 @@ class Texts {
   static const String confirmPurchase = 'Confirmar compra';
   static const String orderPurchaseConfrimated = 'Compra confirmada';
   static const String orderPurchaseConfrimatedMessage = 'La compra ha sido confirmada';
+  static const String addingOrder = 'Agregando orden';
+  static const String errorAddingOrder = 'Error al agregar orden';
+  static const String orderAdded = 'Orden agregada';
+  static const String deletingOrder = 'Eliminando orden';
+  static const String errorDeletingOrder = 'Error al eliminar orden';
+  static const String orderDeleted = 'Orden eliminada';
+  static const String updatingOrder = 'Actualizando orden';
+  static const String errorUpdatingOrder = 'Error al actualizar orden';
+  static const String orderUpdated = 'Orden actualizada';
+  static const String confirmingOrder = 'Confirmando orden';
+  static const String errorConfirmingOrder = 'Error al confirmar orden';
+  static const String deletingPurchase = 'Eliminando compra';
+  static const String errorDeletingPurchase = 'Error al eliminar compra';
+  static const String purchaseDeleted = 'Compra eliminada';
 
   // Payment methods
   static const String paymentMethods = 'Métodos de pago';

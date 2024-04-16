@@ -97,7 +97,9 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
                       textCapitalization: TextCapitalization.words,
                       decoration: const InputDecoration(labelText: Texts.address),
                     ),
-                    const Gap.small(),
+                    const Gap.medium(),
+                    const Divider(),
+                    const Gap.medium(),
                     TextFormField(
                       controller: balanceController,
                       decoration: const InputDecoration(

@@ -2,7 +2,10 @@ import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
+import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final ordersControllerProvider = NotifierProvider<OrdersController, List<PurchaseOrder>>(OrdersController.new);
@@ -15,11 +18,32 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
 
   addOrder(PurchaseOrder order) async {
     order = order.copyWith(id: state.length + 1);
+    _showToast(ToastController(Texts.orders, '${Texts.orderAdded} ${order.id}', ToastType.success));
     state = [...state, order];
   }
 
   removeOrder(int orderId) async {
+    _showToast(ToastController(Texts.orders, '${Texts.orderDeleted} $orderId', ToastType.info));
     state = state.where((element) => element.id != orderId).toList();
+  }
+
+  Future<void> confirmOrder(PurchaseOrder order) async {
+    _showToast(ToastController(Texts.orders, '${Texts.confirmingOrder} ${order.id}', ToastType.info));
+    final either = await ref.read(confirmPurchaseUseCaseProvider).execute(order);
+    either.fold(
+      (l) {
+        _showToast(ToastController(Texts.orders, '${Texts.errorConfirmingOrder} ${order.id}', ToastType.error));
+        throw Exception('Error');
+      },
+      (r) async {
+        _showToast(ToastController(Texts.orders, '${Texts.orderPurchaseConfrimated} ${order.id}', ToastType.success));
+        removeOrder(order.id!);
+      },
+    );
+
+    await ref.read(productsControllerProvider.notifier).getAll();
+    await ref.read(purchasesControllerProvider.notifier).getAll();
+    await ref.read(customersControllerProvider.notifier).getAll();
   }
 
   search(String query) {
@@ -39,17 +63,7 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
     }).toList();
   }
 
-  Future<void> confirmOrder(PurchaseOrder order) async {
-    final either = await ref.read(confirmPurchaseUseCaseProvider).execute(order);
-    either.fold(
-      (l) => throw Exception('Error'),
-      (r) async {
-        removeOrder(order.id!);
-      },
-    );
-
-    await ref.read(productsControllerProvider.notifier).getAll();
-    await ref.read(purchasesControllerProvider.notifier).getAll();
-    await ref.read(customersControllerProvider.notifier).getAll();
+  _showToast(ToastController toastController) {
+    ref.read(toastsControllerProvider.notifier).showToast(toastController);
   }
 }

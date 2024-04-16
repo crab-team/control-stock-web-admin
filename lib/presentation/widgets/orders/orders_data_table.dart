@@ -1,6 +1,5 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
-import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
@@ -101,11 +100,11 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
   }
 
   void _search(String value) {
-    ref.read(customersControllerProvider.notifier).search(value);
+    ref.read(ordersControllerProvider.notifier).search(value);
   }
 
   void _delete(int id) {
-    ref.read(customersControllerProvider.notifier).delete(id);
+    ref.read(ordersControllerProvider.notifier).removeOrder(id);
   }
 
   Widget _buildAddOrder() {

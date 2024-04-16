@@ -19,12 +19,12 @@ class ToastUtils {
         width: 400,
         showProgressIndicator: false,
         animationCurve: Curves.ease,
-        position: Alignment.bottomLeft,
-        animation: AnimationType.fromLeft,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
         stackedOptions: StackedOptions(
-          key: 'left',
+          key: 'right',
           type: StackedType.above,
           itemOffset: const Offset(0, 5),
         ),
@@ -48,14 +48,14 @@ class ToastUtils {
       ElegantNotification.error(
         width: 400,
         stackedOptions: StackedOptions(
-          key: 'left',
+          key: 'right',
           type: StackedType.above,
           itemOffset: const Offset(0, 5),
         ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
-        position: Alignment.bottomLeft,
-        animation: AnimationType.fromLeft,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
         shadow: BoxShadow(
@@ -78,14 +78,14 @@ class ToastUtils {
       ElegantNotification.info(
         width: 400,
         stackedOptions: StackedOptions(
-          key: 'left',
+          key: 'right',
           type: StackedType.above,
           itemOffset: const Offset(0, 5),
         ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
-        position: Alignment.bottomLeft,
-        animation: AnimationType.fromLeft,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
         shadow: BoxShadow(
@@ -108,14 +108,14 @@ class ToastUtils {
       ElegantNotification.info(
         width: 400,
         stackedOptions: StackedOptions(
-          key: 'left',
+          key: 'right',
           type: StackedType.above,
           itemOffset: const Offset(0, 5),
         ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
-        position: Alignment.bottomLeft,
-        animation: AnimationType.fromLeft,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
         shadow: BoxShadow(
@@ -139,14 +139,14 @@ class ToastUtils {
       ElegantNotification.info(
         width: 400,
         stackedOptions: StackedOptions(
-          key: 'left',
+          key: 'right',
           type: StackedType.above,
           itemOffset: const Offset(0, 5),
         ),
         showProgressIndicator: true,
         animationCurve: Curves.ease,
-        position: Alignment.bottomLeft,
-        animation: AnimationType.fromLeft,
+        position: Alignment.bottomRight,
+        animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
         shadow: BoxShadow(

@@ -20,10 +20,13 @@ class OrderProductsController extends AutoDisposeNotifier<List<PurchaseOrderProd
     state = [...state];
   }
 
-  void applySurchargeToProducts(int surcharge) {
-    final newState = state.map((e) => e.copyWith(unitPrice: ((e.unitPrice * surcharge) / 100) + e.unitPrice)).toList();
-    state = [...newState];
-  }
+  // void applySurchargeToProducts(int surcharge) {
+  //   List<PurchaseOrderProduct> newState = state
+  //       .map<PurchaseOrderProduct>((e) => e.copyWith(unitPrice: ((e.unitPrice * surcharge) / 100) + e.unitPrice))
+  //       .toList();
+  //   state = newState;
+  //   print(state);
+  // }
 
   void clear() {
     state = [];
