@@ -6,10 +6,15 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async => runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
         setUrlStrategy(PathUrlStrategy());
         runApp(const ProviderScope(child: App()));
       },

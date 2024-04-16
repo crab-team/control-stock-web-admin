@@ -1,13 +1,18 @@
 {
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "us-central1"
-    }
-  }
+	"hosting": {
+		"site": "control-stock-admin",
+		"public": "build/web",
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"frameworksBackend": { "region": "us-central1" }
+	},
+	"flutter": {
+		"platforms": {
+			"dart": {
+				"lib/firebase_options.dart": {
+					"projectId": "control-stock-2e370",
+					"configurations": { "web": "1:486762702322:web:07edc455713fb9a0b1f76b" }
+				}
+			}
+		}
+	}
 }
