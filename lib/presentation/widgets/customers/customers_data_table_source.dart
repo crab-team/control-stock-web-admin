@@ -10,12 +10,14 @@ class CustomersDataTableSource extends DataTableSource {
   final List<Customer> _data;
   final Function(Customer customer) onEdit;
   final Function(int id) onDelete;
+  final Function(Customer customer) onEditBalance;
   final Function(int customerId) onGoToRecords;
 
   CustomersDataTableSource({
     List<Customer>? data,
     required this.onEdit,
     required this.onDelete,
+    required this.onEditBalance,
     required this.onGoToRecords,
   }) : _data = data ?? <Customer>[];
 
@@ -37,7 +39,13 @@ class CustomersDataTableSource extends DataTableSource {
         DataCell(Text(customer.email ?? '-')),
         DataCell(Text(customer.phone ?? '-')),
         DataCell(Text(customer.address ?? '-')),
-        DataCell(Text(CurrencyFormatter.format(customer.balance, arsSettings))),
+        DataCell(Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(CurrencyFormatter.format(customer.balance, arsSettings)),
+            IconButton(onPressed: () => onEditBalance(customer), icon: const Icon(PhosphorIcons.pencil))
+          ],
+        )),
         DataCell(Row(
           children: [
             // ElevatedButton.icon(

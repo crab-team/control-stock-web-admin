@@ -8,7 +8,7 @@ class StoreUser {
 
   StoreUser(this._repository);
 
-  Future<Either<Failure, void>> call(User user) async {
+  Future<Either<Failure, void>> execute(User user) async {
     return await _repository.storeUser(user);
   }
 }

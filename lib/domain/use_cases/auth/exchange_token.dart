@@ -8,7 +8,7 @@ class ExchangeToken {
 
   ExchangeToken(this._authRepository);
 
-  Future<Either<Failure, User>> call(String token) async {
+  Future<Either<Failure, User>> execute(String token) async {
     return await _authRepository.exchangeToken(token);
   }
 }

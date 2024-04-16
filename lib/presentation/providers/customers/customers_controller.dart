@@ -38,7 +38,7 @@ class CustomersController extends AsyncNotifier<List<Customer>> {
     });
   }
 
-  Future<void> updateClient(Customer customer) async {
+  Future<void> updateCustomer(Customer customer) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(updateCustomerUseCaseProvider).execute(customer);

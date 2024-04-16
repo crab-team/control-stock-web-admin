@@ -46,6 +46,7 @@ class Texts {
   static const String createdAt = 'Fecha de creación';
   static const String valueSuperiorToTotal = 'El monto no puede ser mayor al total de la compra.';
   static const String summary = 'Resumen';
+  static const String goToAdmin = 'Ir a administrador';
 
   // Commerce
   static const String email = 'Correo electrónico';

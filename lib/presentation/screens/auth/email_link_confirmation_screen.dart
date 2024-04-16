@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/presentation/providers/sign_in/sign_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +20,7 @@ class EmailLinkConfirmationScreen extends ConsumerWidget {
               return _buildError(context, snapshot.error.toString());
             }
 
-            _goToNextScreen(context, ref);
-            return _buildSuccess(context);
+            return _buildSuccess(context, ref);
           }
           return _buildLoading(context);
         },
@@ -29,18 +29,23 @@ class EmailLinkConfirmationScreen extends ConsumerWidget {
   }
 
   _goToNextScreen(BuildContext context, WidgetRef ref) {
-    ref.read(navigationServiceProvider).goToHome(context);
+    ref.read(navigationServiceProvider).goToPurchases(context);
   }
 
-  _buildSuccess(BuildContext context) {
-    return const Center(
+  _buildSuccess(BuildContext context, WidgetRef ref) {
+    return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.check, color: Colors.green, size: 50),
-          Gap.medium(),
-          Text("Autenticación exitosa"),
+          const Icon(Icons.check, color: Colors.green, size: 50),
+          const Gap.medium(),
+          const Text("Autenticación exitosa"),
+          const Gap.medium(),
+          ElevatedButton(
+            onPressed: () => _goToNextScreen(context, ref),
+            child: const Text(Texts.goToAdmin),
+          ),
         ],
       ),
     );
@@ -55,6 +60,11 @@ class EmailLinkConfirmationScreen extends ConsumerWidget {
           const Icon(Icons.error, color: Colors.red, size: 50),
           const Gap.medium(),
           Text("Error: $error"),
+          const Gap.medium(),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("Volver"),
+          ),
         ],
       ),
     );

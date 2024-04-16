@@ -5,24 +5,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final userControllerProvider = AsyncNotifierProvider<UserController, User?>(UserController.new);
 
 class UserController extends AsyncNotifier<User?> {
+  User? currentUser;
+
   @override
   build() async {
-    final response = await ref.read(getUserUseCase).call();
+    final response = await ref.read(getUserUseCase).execute();
     return response.fold((l) {
       return null;
     }, (user) {
-      return user;
+      return currentUser = user;
     });
   }
 
   void storeUser(User user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final response = await ref.read(storeUserUseCase).call(user);
+      final response = await ref.read(storeUserUseCase).execute(user);
       response.leftMap((l) {
         throw l.message;
       });
-      return null;
+      return currentUser = user;
     });
   }
 }

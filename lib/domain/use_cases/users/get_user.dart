@@ -8,7 +8,7 @@ class GetUser {
 
   GetUser(this._repository);
 
-  Future<Either<Failure, User?>> call() async {
+  Future<Either<Failure, User?>> execute() async {
     return await _repository.getUser();
   }
 }

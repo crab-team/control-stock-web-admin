@@ -1,18 +1,16 @@
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/providers/users/user_controller.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/email_link_confirmation_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/auth/verify_email_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/customers/customer_records_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
-import 'package:control_stock_web_admin/presentation/widgets/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/purchases/purchases_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/splash/splash_screen.dart';
 import 'package:control_stock_web_admin/presentation/widgets/layout/dashboard_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/product_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,11 +21,9 @@ final navigationServiceProvider = Provider<NavigationService>((ref) {
 });
 
 class Routes {
-  static const String splash = '/';
+  static const String home = '/';
   static const String signIn = '/signIn';
-  static const String verifyEmail = 'verifyEmail';
-  static const String emailLinkConfirmation = '/emailLinkConfirmation/:token';
-  static const String home = '/home';
+  static const String emailLinkConfirmation = 'emailLinkConfirmation/:token';
   static const String purchases = '/purchases';
   static const String products = '/products';
   static const String productAnalitycs = 'product/analytics';
@@ -39,14 +35,12 @@ class Routes {
   static const String orders = '/ordenes';
 
   static const Map<String, String> names = {
-    splash: 'Splash',
     home: 'Inicio',
     purchases: 'Compras',
     signIn: 'Iniciar sesión',
     products: 'Productos',
     productAnalitycs: 'Análisis de producto',
     productsUploadCsv: 'Subir productos',
-    verifyEmail: 'Verificar email',
     emailLinkConfirmation: 'Email link confirmation',
     categories: 'Categorías',
     commerce: 'Comercio',
@@ -65,33 +59,22 @@ class NavigationService {
   GoRouter get appRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation: Routes.splash,
+      initialLocation: Routes.signIn,
       routes: [
         GoRoute(
-          path: Routes.emailLinkConfirmation,
-          name: Routes.names[Routes.emailLinkConfirmation]!,
+          path: Routes.signIn,
+          name: Routes.names[Routes.signIn]!,
+          routes: [
+            GoRoute(
+              path: Routes.emailLinkConfirmation,
+              name: Routes.names[Routes.emailLinkConfirmation]!,
+              builder: (context, state) {
+                return EmailLinkConfirmationScreen(token: state.pathParameters['token']!);
+              },
+            ),
+          ],
           builder: (context, state) {
-            return EmailLinkConfirmationScreen(token: state.pathParameters['token']!);
-          },
-        ),
-        GoRoute(
-            path: Routes.signIn,
-            name: Routes.names[Routes.signIn]!,
-            builder: (context, state) => const SignInScreen(),
-            routes: [
-              GoRoute(
-                path: Routes.verifyEmail,
-                name: Routes.names[Routes.verifyEmail]!,
-                builder: (context, state) {
-                  return const VerifyEmailScreen();
-                },
-              ),
-            ]),
-        GoRoute(
-          path: Routes.splash,
-          name: Routes.names[Routes.splash]!,
-          builder: (context, state) {
-            return const SplashScreen();
+            return const SignInScreen();
           },
         ),
         StatefulShellRoute.indexedStack(
@@ -110,15 +93,18 @@ class NavigationService {
         ),
       ],
       redirect: (context, state) async {
-        // final token = state.pathParameters['token'];
-        // User? user = await ref.watch(userControllerProvider.future);
-        // bool hasSavedUser = user != null;
-        // bool isSignInScreen = state.uri.path == Routes.signIn;
-        // bool isSignInConfirmed = state.uri.path == Routes.verifyEmail;
+        final user = ref.watch(userControllerProvider.notifier).currentUser;
+        bool hasAccessToken = user?.accessToken.isNotEmpty ?? false;
+        bool isSignInScreen = state.uri.path == Routes.signIn;
+        bool isEmailLinkConfirmation = state.uri.pathSegments.contains('emailLinkConfirmation');
 
-        // if (!hasSavedUser && !isSignInScreen && !isSignInConfirmed) {
-        //   return Routes.signIn;
-        // }
+        if (isEmailLinkConfirmation && !hasAccessToken) {
+          return null;
+        }
+
+        if (!hasAccessToken && !isSignInScreen) {
+          return Routes.signIn;
+        }
 
         return null;
       },
@@ -177,7 +163,7 @@ class NavigationService {
               path: ':id/${Routes.customerRecords}',
               name: Routes.names[Routes.customerRecords]!,
               builder: (context, state) {
-                int customerId = int.parse(state.pathParameters['id']!);
+                // int customerId = int.parse(state.pathParameters['id']!);
                 return Container();
                 // return CustomerRecordsScreen(customerId: customerId);
               },
@@ -238,7 +224,6 @@ class NavigationService {
   }
 
   Map<String, IconData> get routesIcon => {
-        Routes.splash: Icons.home,
         Routes.signIn: Icons.login,
         Routes.products: PhosphorIcons.shopping_bag,
         Routes.categories: PhosphorIcons.tag,
@@ -249,9 +234,6 @@ class NavigationService {
       };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);
-  goToVerifyEmail(BuildContext context) => context.go('${Routes.signIn}/${Routes.verifyEmail}');
-
-  goToHome(BuildContext context) => context.go(Routes.splash);
 
   goToPurchases(BuildContext context) => context.go(Routes.purchases);
 

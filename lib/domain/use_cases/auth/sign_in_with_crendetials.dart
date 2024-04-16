@@ -9,7 +9,7 @@ class SignInWithCredentials {
 
   SignInWithCredentials(this._authRepository);
 
-  Future<Either<Failure, User>> call(SignInCredentials credentials) async {
+  Future<Either<Failure, User>> execute(SignInCredentials credentials) async {
     return _authRepository.signInWithCredentials(credentials);
   }
 }

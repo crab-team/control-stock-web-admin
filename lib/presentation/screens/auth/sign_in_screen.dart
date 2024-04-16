@@ -1,12 +1,10 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/presentation/providers/sign_in/sign_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:control_stock_web_admin/core/router.dart';
-import 'package:control_stock_web_admin/presentation/hooks/dialogs_hook.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_mtc_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,9 +27,98 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       }
 
       next.maybeWhen(
-        data: (data) => ref.read(navigationServiceProvider).goToVerifyEmail(context),
-        loading: () => useDialogs(context, type: DialogType.loading, content: const Text("Enviando link a su email")),
-        error: (error, _) => useDialogs(context, type: DialogType.error, content: Text(error.toString())),
+        data: (data) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return AlertDialog(
+              contentPadding: kPaddingAppSmall,
+              title: Text(
+                'Email enviado',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+              content: SizedBox(
+                width: 300,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(PhosphorIcons.envelope, color: colorScheme.primary),
+                    const Gap.small(),
+                    Text('Se ha enviado un email a ${_controller.text} con un link de inicio de sesión.'),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        loading: () => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return AlertDialog(
+              contentPadding: kPaddingAppSmall,
+              content: SizedBox(
+                width: 300,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const Gap.small(),
+                    Text('Enviando email a ${_controller.text}...'),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        error: (error, _) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return AlertDialog(
+              contentPadding: kPaddingAppSmall,
+              title: Text(
+                'Error',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              ],
+              content: SizedBox(
+                width: 300,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(PhosphorIcons.warning, color: colorScheme.error),
+                    const Gap.small(),
+                    Text('Ha ocurrido un error al enviar el email a ${_controller.text}.'),
+                    const Gap.small(),
+                    Text(error.toString()),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
         orElse: () {},
       );
     });
@@ -63,7 +150,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 width: 500,
                 child: Card(
                   child: Padding(
-                    padding: kPaddingAppSmall,
+                    padding: kPaddingApp.copyWith(left: 40, right: 40),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
@@ -74,7 +161,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         ),
                         const Gap.medium(),
                         Text("Inicio de sesión", style: Theme.of(context).textTheme.headlineLarge),
-                        const Gap.medium(),
+                        const Gap.small(),
                         Text(
                           "Ingresá tu email y pedí tu link de inicio de sesión, el mismo será enviado a tu cuenta.",
                           style: Theme.of(context).textTheme.bodyMedium,

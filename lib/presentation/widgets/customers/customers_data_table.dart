@@ -4,6 +4,7 @@ import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/customers/customer_balance_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/customers/customer_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/customers/customers_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -64,7 +65,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
           endIndent: 8,
         ),
         const Gap.medium(isHorizontal: true),
-        _buildAddClient(),
+        _buildAddCustomer(),
       ],
       header: Text(
         Texts.customers,
@@ -102,6 +103,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
       source: CustomersDataTableSource(
         data: data,
         onDelete: _delete,
+        onEditBalance: (customer) => _openBalanceDrawer(context, ref, customer),
         onGoToRecords: (customerId) => _goToRecords(customerId),
         onEdit: (customer) => _openDrawer(context, ref, customer),
       ),
@@ -120,7 +122,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
     ref.read(navigationServiceProvider).goToCustomerRecords(context, customerId);
   }
 
-  Widget _buildAddClient() {
+  Widget _buildAddCustomer() {
     return ElevatedButton.icon(
       icon: const Icon(PhosphorIcons.plus),
       onPressed: () => _openDrawer(context, ref, null),
@@ -130,5 +132,9 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
 
   _openDrawer(BuildContext context, WidgetRef ref, Customer? customer) {
     ref.read(drawerController.notifier).state = CustomerDrawer(customer: customer);
+  }
+
+  _openBalanceDrawer(BuildContext context, WidgetRef ref, Customer customer) {
+    ref.read(drawerController.notifier).state = CustomerBalanceDrawer(customer: customer);
   }
 }

@@ -5,7 +5,6 @@ import 'package:control_stock_web_admin/presentation/providers/customers/custome
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomerDrawer extends ConsumerStatefulWidget {
@@ -23,7 +22,6 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController balanceController = TextEditingController();
 
   @override
   void initState() {
@@ -34,7 +32,6 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
       emailController.text = widget.customer?.email ?? '';
       phoneController.text = widget.customer?.phone ?? '';
       addressController.text = widget.customer?.address ?? '';
-      balanceController.text = widget.customer?.balance.toString() ?? '0.0';
       setState(() {});
     }
   }
@@ -48,9 +45,9 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
           widget.customer != null ? Texts.editCustomer : Texts.addCustomer,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Gap.medium(),
+        const Gap.small(),
         const Divider(),
-        const Gap.medium(),
+        const Gap.small(),
         Expanded(
           child: Form(
             key: formKey,
@@ -100,17 +97,6 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
                     const Gap.medium(),
                     const Divider(),
                     const Gap.medium(),
-                    TextFormField(
-                      controller: balanceController,
-                      decoration: const InputDecoration(
-                        labelText: Texts.balance,
-                        prefixIcon: Icon(PhosphorIcons.currency_dollar),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    const Gap.medium(),
-                    const Divider(),
-                    const Gap.medium(),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Row(
@@ -151,11 +137,11 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
         email: emailController.text,
         phone: phoneController.text,
         address: addressController.text,
-        balance: balanceController.text == '' ? 0 : double.parse(balanceController.text),
+        balance: widget.customer?.balance ?? 0,
       );
 
       if (widget.customer != null) {
-        ref.read(customersControllerProvider.notifier).updateClient(client);
+        ref.read(customersControllerProvider.notifier).updateCustomer(client);
       } else {
         ref.read(customersControllerProvider.notifier).create(client);
       }
