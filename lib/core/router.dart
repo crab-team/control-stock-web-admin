@@ -93,7 +93,7 @@ class NavigationService {
         ),
       ],
       redirect: (context, state) async {
-        final user = ref.watch(userControllerProvider.notifier).currentUser;
+        final user = await ref.watch(userControllerProvider.future);
         bool hasAccessToken = user?.accessToken.isNotEmpty ?? false;
         bool isSignInScreen = state.uri.path == Routes.signIn;
         bool isEmailLinkConfirmation = state.uri.pathSegments.contains('emailLinkConfirmation');
