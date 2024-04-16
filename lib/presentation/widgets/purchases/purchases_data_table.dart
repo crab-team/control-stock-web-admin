@@ -71,6 +71,10 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.S,
         ),
         DataColumn2(
+          label: Text(Texts.purchaseStatus),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
           label: Text(Texts.createdAt),
           size: ColumnSize.S,
         ),
@@ -80,7 +84,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
           size: ColumnSize.S,
         ),
       ],
-      source: PurchasesDataTableSource(data: data, onEdit: _openDrawer, onDelete: _delete),
+      source: PurchasesDataTableSource(data: data, onEdit: _openDrawer, onCancel: _cancel),
     );
   }
 
@@ -99,7 +103,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     ref.read(purchasesControllerProvider.notifier).search(value);
   }
 
-  void _delete(int customerId, int purchaseId) {
-    ref.read(purchasesControllerProvider.notifier).delete(purchaseId, customerId);
+  void _cancel(int customerId, int purchaseId) {
+    ref.read(purchasesControllerProvider.notifier).modifyStatus(purchaseId, customerId, PurchaseStatus.canceled);
   }
 }

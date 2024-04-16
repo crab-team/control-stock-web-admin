@@ -8,4 +8,5 @@ abstract class PurchasesRepository {
   Future<Either<Failure, void>> purchaseOrder(PurchaseOrder purchaseOrder);
   Future<Either<Failure, void>> delete(int customerId, int purchaseId);
   Future<Either<Failure, List<Purchase>>> getByCustomerId(int customerId);
+  Future<Either<Failure, void>> modifyStatus(int customerId, int purchaseId, PurchaseStatus purchaseStatus);
 }

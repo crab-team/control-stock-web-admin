@@ -6,4 +6,5 @@ abstract class PurchasesRemoteDataSource {
   Future<void> createPurchase(int customerId, PurchaseOrderModel purchaseOrderModel);
   Future<void> updatePurchase(int customerId, int purchaseId, PurchaseOrderModel purchaseOrderModel);
   Future<void> delete(int customerId, int purchaseId);
+  Future<void> modifyStatus(int customerId, int purchaseId, String purchaseStatus);
 }

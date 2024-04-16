@@ -10,12 +10,12 @@ import 'package:intl/intl.dart';
 class PurchasesDataTableSource extends DataTableSource {
   final List<Purchase> _data;
   final Function(Purchase purchase) onEdit;
-  final Function(int customerId, int id) onDelete;
+  final Function(int customerId, int id) onCancel;
 
   PurchasesDataTableSource({
     List<Purchase>? data,
     required this.onEdit,
-    required this.onDelete,
+    required this.onCancel,
   }) : _data = data ?? <Purchase>[];
 
   @override
@@ -37,15 +37,21 @@ class PurchasesDataTableSource extends DataTableSource {
         DataCell(Text(purchase.fullName)),
         DataCell(Text(purchaseProductsNames)),
         DataCell(Text(CurrencyFormatter.format(purchase.totalShopping!, arsSettings))),
+        DataCell(
+          Text(purchase.status!.name, style: TextStyle(color: Color(int.parse('0xFF${purchase.status!.color}')))),
+        ),
         DataCell(Text(DateFormat('dd/MM/yyyy – kk:mm').format(purchase.createdAt!))),
         DataCell(Row(
           children: [
             IconButton(onPressed: () => onEdit(purchase), icon: const Icon(PhosphorIcons.pencil)),
             const Gap.small(isHorizontal: true),
-            ButtonWithConfirmation(
-                label: Texts.cancel,
-                icon: PhosphorIcons.arrow_u_left_up,
-                onConfirm: () => onDelete(purchase.customerId!, purchase.id!)),
+            Visibility(
+              visible: purchase.status != PurchaseStatus.canceled,
+              child: ButtonWithConfirmation(
+                  label: Texts.cancel,
+                  icon: PhosphorIcons.arrow_u_left_up,
+                  onConfirm: () => onCancel(purchase.customerId!, purchase.id!)),
+            ),
           ],
         )),
       ],

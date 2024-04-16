@@ -110,7 +110,7 @@ class Texts {
   static const String addRecord = 'Agregar registro';
   static const String balance = 'Saldo';
 
-  // Orders
+  // Purchases
   static const String purchases = 'Compras';
   static const String orders = 'Órdenes de compra';
   static const String createOrder = 'Crear orden';
@@ -143,6 +143,10 @@ class Texts {
   static const String deletingPurchase = 'Eliminando compra';
   static const String errorDeletingPurchase = 'Error al eliminar compra';
   static const String purchaseDeleted = 'Compra eliminada';
+  static const String purchaseStatus = 'Estado de la compra';
+  static const String updatingPurchaseStatus = 'Actualizando estado de la compra';
+  static const String errorUpdatingPurchaseStatus = 'Error al actualizar estado de la compra';
+  static const String purchaseStatusUpdated = 'Estado de la compra actualizado';
 
   // Payment methods
   static const String paymentMethods = 'Métodos de pago';

@@ -308,8 +308,6 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
       debt: debt,
     );
 
-    print(order.toJson());
-
     ref.read(ordersControllerProvider.notifier).addOrder(order);
     ref.read(navigationServiceProvider).goBack(context);
   }

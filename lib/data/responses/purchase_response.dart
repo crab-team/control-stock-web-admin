@@ -12,6 +12,7 @@ class PurchaseResponse {
   final int paymentMethodSurchargePercentage;
   final List<PurchaseProductResponse> purchaseProductsResponses;
   final String createdAt;
+  final String status;
 
   PurchaseResponse({
     required this.id,
@@ -24,6 +25,7 @@ class PurchaseResponse {
     required this.paymentMethodSurchargePercentage,
     required this.purchaseProductsResponses,
     required this.createdAt,
+    required this.status,
   });
 
   factory PurchaseResponse.fromJson(Map<String, dynamic> json) {
@@ -39,6 +41,7 @@ class PurchaseResponse {
       purchaseProductsResponses:
           List<PurchaseProductResponse>.from(json['purchaseProducts'].map((x) => PurchaseProductResponse.fromJson(x))),
       createdAt: json['createdAt'],
+      status: json['status'],
     );
   }
 
@@ -56,6 +59,7 @@ class PurchaseResponse {
       paymentMethodSurchargePercentage: paymentMethodSurchargePercentage,
       purchaseProducts: purchaseProductsResponses.map((e) => e.toDomain()).toList(),
       createdAt: dateLocal,
+      status: status.toPurchaseStatus(),
     );
   }
 }

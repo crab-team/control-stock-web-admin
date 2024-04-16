@@ -71,6 +71,28 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
     await ref.read(productsControllerProvider.notifier).getAll();
   }
 
+  modifyStatus(int purchaseId, int customerId, PurchaseStatus newStatus) async {
+    _showToast(ToastController(Texts.purchases, '${Texts.updatingPurchaseStatus} $purchaseId', ToastType.info));
+    state = await AsyncValue.guard(() async {
+      final either = await ref.read(modifyStatusPurchaseUseCaseProvider).execute(customerId, purchaseId, newStatus);
+      return either.fold((l) {
+        _showToast(
+            ToastController(Texts.purchases, '${Texts.errorUpdatingPurchaseStatus} $purchaseId', ToastType.error));
+        throw l;
+      }, (_) {
+        _showToast(ToastController(Texts.purchases, '${Texts.purchaseStatusUpdated} $purchaseId', ToastType.success));
+        Purchase newPurchase = purchases.where((element) => element.id == purchaseId).first;
+        newPurchase = newPurchase.copyWith(status: newStatus);
+        purchases.removeWhere((element) => element.id == purchaseId);
+        purchases.add(newPurchase);
+        return purchases;
+      });
+    });
+
+    await ref.read(customersControllerProvider.notifier).getAll();
+    await ref.read(productsControllerProvider.notifier).getAll();
+  }
+
   _showToast(ToastController toastController) {
     ref.read(toastsControllerProvider.notifier).showToast(toastController);
   }

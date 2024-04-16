@@ -52,4 +52,14 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
       return Left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> modifyStatus(int customerId, int purchaseId, PurchaseStatus purchaseStatus) async {
+    try {
+      await purchasesRemoteDataSource.modifyStatus(customerId, purchaseId, purchaseStatus.string);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
 }

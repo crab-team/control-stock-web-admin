@@ -47,4 +47,14 @@ class PurchasesApiDataSource implements PurchasesRemoteDataSource {
     // TODO: implement updatePurchase
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> modifyStatus(int customerId, int purchaseId, String purchaseStatus) {
+    try {
+      return apiClient.sendPatch('$path/$purchaseId/status?customerId=$customerId', body: {'status': purchaseStatus});
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
 }
