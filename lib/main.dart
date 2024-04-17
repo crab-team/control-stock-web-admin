@@ -33,7 +33,9 @@ class App extends ConsumerWidget {
 
     return MaterialApp.router(
       title: "Control stock",
-      routerConfig: router.appRouter,
+      routeInformationParser: router.appRouter.routeInformationParser,
+      routerDelegate: router.appRouter.routerDelegate,
+      routeInformationProvider: router.appRouter.routeInformationProvider,
       theme: theme,
       debugShowCheckedModeBanner: false,
     );

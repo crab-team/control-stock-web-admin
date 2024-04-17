@@ -111,6 +111,16 @@ class NavigationService {
     );
   }
 
+  Map<String, IconData> get routesIcon => {
+        Routes.signIn: Icons.login,
+        Routes.products: PhosphorIcons.shopping_bag,
+        Routes.categories: PhosphorIcons.tag,
+        Routes.customers: PhosphorIcons.users,
+        Routes.commerce: PhosphorIcons.house,
+        Routes.orders: PhosphorIcons.shopping_cart,
+        Routes.purchases: PhosphorIcons.currency_circle_dollar,
+      };
+
   StatefulShellBranch _shoppingBranch() {
     return StatefulShellBranch(
       initialLocation: Routes.purchases,
@@ -222,16 +232,6 @@ class NavigationService {
       ],
     );
   }
-
-  Map<String, IconData> get routesIcon => {
-        Routes.signIn: Icons.login,
-        Routes.products: PhosphorIcons.shopping_bag,
-        Routes.categories: PhosphorIcons.tag,
-        Routes.customers: PhosphorIcons.users,
-        Routes.commerce: PhosphorIcons.house,
-        Routes.orders: PhosphorIcons.shopping_cart,
-        Routes.purchases: PhosphorIcons.currency_circle_dollar,
-      };
 
   goToSignIn(BuildContext context) => context.go(Routes.signIn);
 
