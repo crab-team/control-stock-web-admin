@@ -5,14 +5,14 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async => runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
-        usePathUrlStrategy();
+        setPathUrlStrategy();
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
