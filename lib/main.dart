@@ -12,10 +12,10 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async => runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
+        usePathUrlStrategy();
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
-        setUrlStrategy(PathUrlStrategy());
         runApp(const ProviderScope(child: App()));
       },
       (error, stackTrace) {

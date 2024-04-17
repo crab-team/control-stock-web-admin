@@ -59,7 +59,7 @@ class NavigationService {
   GoRouter get appRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation: Routes.signIn,
+      initialLocation: Routes.purchases,
       routes: [
         GoRoute(
           path: Routes.signIn,
