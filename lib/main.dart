@@ -34,13 +34,6 @@ class App extends ConsumerWidget {
     return MaterialApp.router(
       title: "Control stock",
       routerConfig: router.appRouter,
-      builder: (context, child) {
-        return Overlay(
-          initialEntries: [
-            OverlayEntry(builder: (context) => child!),
-          ],
-        );
-      },
       theme: theme,
       debugShowCheckedModeBanner: false,
     );
