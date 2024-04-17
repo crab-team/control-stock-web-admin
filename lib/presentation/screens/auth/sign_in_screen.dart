@@ -4,6 +4,7 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_mtc_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/logo_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/version_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -206,7 +207,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           ),
                         ),
                         const Gap.large(),
-                        const LogoMtcWidget()
+                        const LogoMtcWidget(),
+                        const Gap.small(),
+                        const VersionWidget(),
                       ],
                     ),
                   ),
