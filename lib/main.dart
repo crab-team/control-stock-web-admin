@@ -36,6 +36,7 @@ class App extends ConsumerWidget {
       routeInformationParser: router.appRouter.routeInformationParser,
       routerDelegate: router.appRouter.routerDelegate,
       routeInformationProvider: router.appRouter.routeInformationProvider,
+      routerConfig: router.appRouter,
       theme: theme,
       debugShowCheckedModeBanner: false,
     );

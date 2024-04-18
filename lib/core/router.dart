@@ -62,7 +62,6 @@ class NavigationService {
       initialLocation: Routes.purchases,
       routes: [
         GoRoute(
-          parentNavigatorKey: navigatorKey,
           path: Routes.signIn,
           name: Routes.names[Routes.signIn]!,
           routes: [
