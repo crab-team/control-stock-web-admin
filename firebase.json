@@ -8,7 +8,7 @@
 	"rewrites": [
 		{
 			"source": "**",
-			"destination": "/index.html"
+			"destination": "build/web/index.html"
 		}
 	],
 	"flutter": {
