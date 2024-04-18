@@ -8,7 +8,7 @@ class VersionWidget extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'v0.1.0',
+          'v0.1.3',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
