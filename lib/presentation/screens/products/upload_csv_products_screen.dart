@@ -1,3 +1,4 @@
+import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/upload_csv_products_controller.dart';
@@ -22,16 +23,22 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          Texts.uploadCsvProductsScreenTitle,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+        ),
+      ),
       body: Padding(
         padding: kPaddingAppSmall,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              Texts.uploadCsvProductsScreenTitle,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
             Expanded(
               child: Column(
                 children: [

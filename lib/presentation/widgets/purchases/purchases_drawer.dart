@@ -216,7 +216,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
           children: [
             NumberInput(
               label: Texts.quantity,
-              // maxValue: maxQuantity,
+              maxValue: maxQuantity,
               initialValue: product.quantity,
               onChanged: (value) {
                 updatePurchaseProduct(product, value);
