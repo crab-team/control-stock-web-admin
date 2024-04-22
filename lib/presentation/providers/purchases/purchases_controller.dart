@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
@@ -89,6 +90,26 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
       });
     });
 
+    await ref.read(customersControllerProvider.notifier).getAll();
+    await ref.read(productsControllerProvider.notifier).getAll();
+  }
+
+  modifyProductsInPurchase(int customerId, int purchaseId, List<PurchaseProduct> products) async {
+    _showToast(ToastController(Texts.purchases, '${Texts.updatingPurchase} $purchaseId', ToastType.info));
+
+    state = await AsyncValue.guard(() async {
+      final either =
+          await ref.read(modifyProductsInPurchaseUseCaseProvider).execute(1, customerId, purchaseId, products);
+      return either.fold((l) {
+        _showToast(ToastController(Texts.purchases, '${Texts.errorUpdatingPurchase} $purchaseId', ToastType.error));
+        throw l;
+      }, (_) {
+        _showToast(ToastController(Texts.purchases, '${Texts.purchaseUpdated} $purchaseId', ToastType.success));
+        return purchases;
+      });
+    });
+
+    await getAll();
     await ref.read(customersControllerProvider.notifier).getAll();
     await ref.read(productsControllerProvider.notifier).getAll();
   }

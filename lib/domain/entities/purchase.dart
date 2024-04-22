@@ -1,6 +1,6 @@
 import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 
-enum PurchaseStatus { pending, confirmed, canceled }
+enum PurchaseStatus { pending, confirmed, canceled, modified }
 
 extension PurchaseStatusExtension on PurchaseStatus {
   String get name {
@@ -11,6 +11,8 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return 'Confirmada';
       case PurchaseStatus.canceled:
         return 'Cancelada';
+      case PurchaseStatus.modified:
+        return 'Modificada';
     }
   }
 
@@ -22,6 +24,8 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return 'CONFIRMED';
       case PurchaseStatus.canceled:
         return 'CANCELED';
+      case PurchaseStatus.modified:
+        return 'MODIFIED';
     }
   }
 
@@ -33,6 +37,8 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return '008000';
       case PurchaseStatus.canceled:
         return 'FF0000';
+      case PurchaseStatus.modified:
+        return '0000FF';
     }
   }
 }
@@ -46,6 +52,8 @@ extension PurchaseStatusStringExtension on String {
         return PurchaseStatus.confirmed;
       case 'CANCELED':
         return PurchaseStatus.canceled;
+      case 'MODIFIED':
+        return PurchaseStatus.modified;
       default:
         return PurchaseStatus.pending;
     }

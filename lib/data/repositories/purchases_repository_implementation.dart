@@ -1,9 +1,11 @@
 import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
 import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/models/purchase_order_model.dart';
+import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
 import 'package:control_stock_web_admin/data/responses/purchase_response.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/domain/repositories/purchases_repository.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:dartz/dartz.dart';
@@ -57,6 +59,18 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
   Future<Either<Failure, void>> modifyStatus(int customerId, int purchaseId, PurchaseStatus purchaseStatus) async {
     try {
       await purchasesRemoteDataSource.modifyStatus(customerId, purchaseId, purchaseStatus.string);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> modifyProductsInPurchase(
+      int commerceId, int customerId, int purchaseId, List<PurchaseProduct> products) async {
+    try {
+      final List<PurchaseProductModel> productsModel = products.map((e) => e.toModel()).toList();
+      await purchasesRemoteDataSource.modifyProductsInPurchase(commerceId, customerId, purchaseId, productsModel);
       return const Right(null);
     } catch (e) {
       return Left(Failure(e.toString()));

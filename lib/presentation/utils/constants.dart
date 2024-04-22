@@ -41,12 +41,17 @@ class Texts {
   static const String unitPrice = 'Precio/u';
   static const String debt = 'Adeuda';
   static const String give = 'Entrega';
+  static const String returnMoney = 'Devuelve';
   static const String operationSuccess = 'Operación exitosa';
   static const String operationSuccessMessage = 'La operación ha sido exitosa';
   static const String createdAt = 'Fecha de creación';
   static const String valueSuperiorToTotal = 'El monto no puede ser mayor al total de la compra.';
   static const String summary = 'Resumen';
   static const String goToAdmin = 'Ir a administrador';
+  static const String change = 'Cambiar';
+  static const String paid = 'Pagado';
+  static const String customerGiveMoney = 'Cliente entrega dinero';
+  static const String commerceReturnMoney = 'Comercio devuelve dinero';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -148,6 +153,9 @@ class Texts {
   static const String updatingPurchaseStatus = 'Actualizando estado de la compra';
   static const String errorUpdatingPurchaseStatus = 'Error al actualizar estado de la compra';
   static const String purchaseStatusUpdated = 'Estado de la compra actualizado';
+  static const String updatingPurchase = 'Actualizando compra';
+  static const String errorUpdatingPurchase = 'Error al actualizar compra';
+  static const String purchaseUpdated = 'Compra actualizada';
 
   // Payment methods
   static const String paymentMethods = 'Métodos de pago';

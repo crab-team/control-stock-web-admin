@@ -3,6 +3,7 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/presentation/providers/customers/customers_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/customers/toggle_button_action.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
   final formKey = GlobalKey<FormState>();
   TextEditingController balanceController = TextEditingController();
   double balance = 0;
+  ActionOverBalance action = ActionOverBalance.commerceReturnMoney;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +46,24 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
               children: [
                 _buildCustomerResume(),
                 const Gap.medium(),
+                const Divider(),
+                const Gap.small(),
+                ToggleButtonAction(
+                  onChange: (value) => setState(() {
+                    action = value;
+                  }),
+                ),
+                const Gap.small(),
                 TextFormField(
                   controller: balanceController,
-                  decoration:
-                      const InputDecoration(labelText: Texts.give, prefixIcon: Icon(PhosphorIcons.currency_dollar)),
+                  decoration: InputDecoration(
+                    labelText: action == ActionOverBalance.commerceReturnMoney ? Texts.returnMoney : Texts.give,
+                    prefixIcon: const Icon(PhosphorIcons.currency_dollar),
+                  ),
                   onChanged: (value) => setState(() {
-                    final newValue = value == '' ? '0' : value;
-                    balance = double.parse(newValue) + widget.customer.balance;
+                    var newValue = value == '' ? 0 : double.parse(value);
+                    newValue = action == ActionOverBalance.commerceReturnMoney ? newValue * -1 : newValue;
+                    balance = widget.customer.balance + newValue;
                   }),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -59,7 +72,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
                     return null;
                   },
                 ),
-                const Gap.medium(),
+                const Gap.small(),
                 const Divider(),
                 const Gap.medium(),
                 _buildSummary(),

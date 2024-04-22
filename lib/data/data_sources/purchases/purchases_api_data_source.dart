@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_remote_data_source.dart';
 import 'package:control_stock_web_admin/data/models/purchase_order_model.dart';
+import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
 import 'package:control_stock_web_admin/data/responses/purchase_response.dart';
 import 'package:control_stock_web_admin/infraestructure/api_client.dart';
 import 'package:control_stock_web_admin/utils/logger.dart';
@@ -52,6 +53,18 @@ class PurchasesApiDataSource implements PurchasesRemoteDataSource {
   Future<void> modifyStatus(int customerId, int purchaseId, String purchaseStatus) {
     try {
       return apiClient.sendPatch('$path/$purchaseId/status?customerId=$customerId', body: {'status': purchaseStatus});
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> modifyProductsInPurchase(
+      int commerceId, int customerId, int purchaseId, List<PurchaseProductModel> products) {
+    try {
+      final body = products.map((e) => e.toUpdateJson()).toList();
+      return apiClient.sendPatch('$path/$purchaseId/returnProducts?customerId=$customerId', body: {'products': body});
     } catch (e) {
       logger.e(e);
       rethrow;

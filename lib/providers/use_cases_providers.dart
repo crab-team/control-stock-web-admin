@@ -26,6 +26,7 @@ import 'package:control_stock_web_admin/domain/use_cases/products/update_product
 import 'package:control_stock_web_admin/domain/use_cases/purchases/confirm_purchase.dart';
 import 'package:control_stock_web_admin/domain/use_cases/purchases/delete_purchase.dart';
 import 'package:control_stock_web_admin/domain/use_cases/purchases/get_purchases.dart';
+import 'package:control_stock_web_admin/domain/use_cases/purchases/modify_products_in_purchase.dart';
 import 'package:control_stock_web_admin/domain/use_cases/purchases/modify_purchase_status.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/get_user.dart';
 import 'package:control_stock_web_admin/domain/use_cases/users/store_user.dart';
@@ -146,6 +147,10 @@ final deletePurchaseUseCaseProvider = Provider<DeletePurchase>((ref) {
 
 final modifyStatusPurchaseUseCaseProvider = Provider<ModifyStatusPurchaseOrder>((ref) {
   return ModifyStatusPurchaseOrder(ref.read(purchasesRepositoryProvider));
+});
+
+final modifyProductsInPurchaseUseCaseProvider = Provider<ModifyProductsInPurchaseUseCase>((ref) {
+  return ModifyProductsInPurchaseUseCase(ref.read(purchasesRepositoryProvider));
 });
 
 // ----------------------------//

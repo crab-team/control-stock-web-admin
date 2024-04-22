@@ -1,3 +1,5 @@
+import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
+
 class PurchaseProducts {
   final List<PurchaseProduct> products;
   final String paymentStatus;
@@ -51,6 +53,22 @@ class PurchaseProduct {
     );
   }
 
+  copyWith({
+    int? id,
+    int? quantity,
+    double? unitPrice,
+    String? code,
+    String? name,
+  }) {
+    return PurchaseProduct(
+      id: id ?? this.id,
+      quantity: quantity ?? this.quantity,
+      unitPrice: unitPrice ?? this.unitPrice,
+      code: code ?? this.code,
+      name: name ?? this.name,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -59,5 +77,13 @@ class PurchaseProduct {
       'code': code,
       'name': name,
     };
+  }
+
+  PurchaseProductModel toModel() {
+    return PurchaseProductModel(
+      id: id,
+      quantity: quantity,
+      unitPrice: unitPrice,
+    );
   }
 }
