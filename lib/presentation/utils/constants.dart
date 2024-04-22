@@ -91,6 +91,9 @@ class Texts {
   static const String updatingProducts = 'Actualizando productos';
   static const String errorCreatingProducts = 'Error al crear productos';
   static const String errorUpdatingProducts = 'Error al actualizar productos';
+  static const String productsCreated = 'Productos creados correctamente';
+  static const String productsUpdated = 'Productos actualizados correctamente';
+  static const String errorUploadingCsv = 'Error al subir archivo CSV';
 
   // Categories
   static const String categories = 'Categorías';

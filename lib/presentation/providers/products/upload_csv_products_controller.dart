@@ -1,8 +1,11 @@
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:control_stock_web_admin/utils/products_csv_loader.dart';
+import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final uploadCsvProductsControllerProvider =
@@ -76,8 +79,13 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
       state = const AsyncValue.loading();
       final result = await ref.read(createProductsUseCaseProvider).execute(products);
       result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = const AsyncValue.data([]),
+        (l) {
+          _showToast(ToastControllerModel(Texts.products, Texts.errorCreatingProducts, ToastType.error));
+        },
+        (r) {
+          _showToast(ToastControllerModel(Texts.products, Texts.productsCreated, ToastType.success));
+          return state = const AsyncValue.data([]);
+        },
       );
 
       ref.read(productsControllerProvider.notifier).getAll();
@@ -88,5 +96,9 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
 
   clear() {
     state = const AsyncValue.data([]);
+  }
+
+  _showToast(ToastControllerModel toastController) {
+    ref.read(toastsControllerProvider.notifier).showToast(toastController);
   }
 }
