@@ -45,7 +45,6 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   @override
   Widget build(BuildContext context) {
     ref.listen(orderProductsControllerProvider, (prev, next) {
-      print(next);
       productsSelected = next;
       quantity = productsSelected.fold(0, (previousValue, element) => previousValue + element.quantity);
       setState(() {});
