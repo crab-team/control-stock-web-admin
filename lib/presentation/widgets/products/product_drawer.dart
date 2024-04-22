@@ -34,7 +34,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
     if (widget.product != null) {
       codeController.text = widget.product!.code;
       nameController.text = widget.product!.name;
-      priceController.text = widget.product!.costPrice.toString();
+      priceController.text = widget.product!.costPrice.toStringAsFixed(2).replaceAll('.', ',');
       stockController.text = widget.product!.stock.toString();
     }
   }

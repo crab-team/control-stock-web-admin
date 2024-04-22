@@ -122,7 +122,6 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   updateProducts(List<Product> products) async {
-    _showToast(ToastControllerModel(Texts.products, Texts.updatingProducts, ToastType.loading));
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductsUseCaseProvider).execute(products);
       return productsEither.fold((l) {
