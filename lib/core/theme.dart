@@ -93,12 +93,10 @@ final ThemeData theme = ThemeData(
       fontWeight: FontWeight.bold,
     ),
     headlineMedium: TextStyle(
+      fontSize: 24,
       fontWeight: FontWeight.bold,
     ),
-    headlineSmall: TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w700,
-    ),
+    headlineSmall: TextStyle(fontSize: 18),
     labelLarge: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.white,

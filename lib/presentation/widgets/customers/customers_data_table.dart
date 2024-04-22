@@ -48,57 +48,26 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
       headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       actions: [
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            const LinearBorder(),
-          ),
+          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchCustomer,
           onChanged: (value) => _search(value),
         ),
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         const Gap.medium(isHorizontal: true),
         _buildAddCustomer(),
       ],
-      header: Text(
-        Texts.customers,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
+      header: Text(Texts.customers, style: Theme.of(context).textTheme.headlineMedium),
       empty: const Center(child: Text(Texts.noCustomer)),
       columns: const [
-        DataColumn2(
-          label: Text(Texts.name),
-          size: ColumnSize.M,
-        ),
-        DataColumn2(
-          fixedWidth: 300,
-          label: Text(Texts.email),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.phone),
-          size: ColumnSize.M,
-        ),
-        DataColumn2(
-          label: Text(Texts.address),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          label: Text(Texts.balance),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          fixedWidth: 300,
-          label: Text('Acciones'),
-          size: ColumnSize.S,
-        ),
+        DataColumn2(label: Text(Texts.name), size: ColumnSize.M),
+        DataColumn2(fixedWidth: 300, label: Text(Texts.email), size: ColumnSize.L),
+        DataColumn2(label: Text(Texts.phone), size: ColumnSize.M),
+        DataColumn2(label: Text(Texts.address), size: ColumnSize.L),
+        DataColumn2(label: Text(Texts.balance), size: ColumnSize.L),
+        DataColumn2(fixedWidth: 300, label: Text('Acciones'), size: ColumnSize.S),
       ],
       source: CustomersDataTableSource(
         data: data,

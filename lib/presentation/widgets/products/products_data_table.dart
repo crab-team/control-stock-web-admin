@@ -39,66 +39,34 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
       headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       empty: const Center(child: Text(Texts.noProducts)),
-      header: Text(
-        Texts.products,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
+      header: Text(Texts.products, style: Theme.of(context).textTheme.headlineMedium),
       showCheckboxColumn: true,
       columns: [
-        const DataColumn2(
-          fixedWidth: 100,
-          label: Text('Código'),
-          size: ColumnSize.S,
-        ),
-        const DataColumn2(
-          label: Text('Nombre'),
-          size: ColumnSize.L,
-        ),
-        const DataColumn2(
-          label: Text('Precio de costo'),
-          size: ColumnSize.S,
-          fixedWidth: 150,
-        ),
-        const DataColumn2(
-          label: Text('Precio público'),
-          size: ColumnSize.S,
-          fixedWidth: 150,
-        ),
+        const DataColumn2(fixedWidth: 100, label: Text('Código'), size: ColumnSize.S),
+        const DataColumn2(label: Text('Nombre'), size: ColumnSize.L),
+        const DataColumn2(label: Text('Precio de costo'), size: ColumnSize.S, fixedWidth: 150),
+        const DataColumn2(label: Text('Precio público'), size: ColumnSize.S, fixedWidth: 150),
         DataColumn2(
-          label: CategorySelector.asFilter(onCategorySelected: (category) {
-            ref.read(productsControllerProvider.notifier).search(category?.name ?? '');
-          }),
-          size: ColumnSize.S,
-        ),
-        const DataColumn2(
-          label: Text('Cantidad'),
-          size: ColumnSize.S,
-          fixedWidth: 120,
-        ),
-        const DataColumn2(
-          fixedWidth: 80,
-          label: Icon(PhosphorIcons.printer),
-        ),
+            label: CategorySelector.asFilter(onCategorySelected: (category) {
+              ref.read(productsControllerProvider.notifier).search(category?.name ?? '');
+            }),
+            size: ColumnSize.S),
+        const DataColumn2(label: Text('Cantidad'), size: ColumnSize.S, fixedWidth: 120),
+        const DataColumn2(fixedWidth: 80, label: Icon(PhosphorIcons.printer)),
         const DataColumn2(label: Text('Acciones'), size: ColumnSize.S, fixedWidth: 200),
       ],
       onSelectAll: (value) {
         _onSelectAllRows(data, value);
       },
       actions: [
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchProduct,
           onChanged: (value) => _search(ref, value),
           shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
         ),
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         const AddProductButton(),
         const UploadCsvButton(),
         const PrintQrProductsButton(),

@@ -45,45 +45,23 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
       headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       actions: [
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            const LinearBorder(),
-          ),
+          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchCategory,
           onChanged: (value) => _search(value),
         ),
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         const Gap.medium(isHorizontal: true),
         const AddCategoryButton(),
       ],
-      header: Text(
-        Texts.categories,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
+      header: Text(Texts.categories, style: Theme.of(context).textTheme.headlineMedium),
       empty: const Center(child: Text(Texts.noCategories)),
       columns: const [
-        DataColumn2(
-          label: Text('Nombre'),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          fixedWidth: 200,
-          label: Text('Porcentaje de ganancia'),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          fixedWidth: 150,
-          label: Text('Acciones'),
-          size: ColumnSize.S,
-        ),
+        DataColumn2(label: Text('Nombre'), size: ColumnSize.L),
+        DataColumn2(fixedWidth: 200, label: Text('Porcentaje de ganancia'), size: ColumnSize.L),
+        DataColumn2(fixedWidth: 150, label: Text('Acciones'), size: ColumnSize.S),
       ],
       source: CategoriesDataTableSource(
         data: data,

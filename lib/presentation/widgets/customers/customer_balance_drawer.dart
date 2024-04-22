@@ -63,7 +63,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
                   ),
                   inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
                   onChanged: (value) => setState(() {
-                    var newValue = value == '' ? 0 : double.parse(value);
+                    var newValue = value == '' ? 0 : double.parse(value.replaceAll(',', '.'));
                     newValue = action == ActionOverBalance.commerceReturnMoney ? newValue * -1 : newValue;
                     balance = widget.customer.balance + newValue;
                   }),
@@ -129,21 +129,22 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
   }
 
   Widget _buildSummary() {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           Texts.summary,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Gap.small(),
-        Text(
-          CurrencyFormatter.format(
-            balance,
-            arsSettings,
-          ),
-          style: Theme.of(context).textTheme.bodyLarge,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(Texts.total, style: Theme.of(context).textTheme.labelLarge),
+            const Gap.small(),
+            Text(CurrencyFormatter.format(balance, arsSettings), style: Theme.of(context).textTheme.bodyLarge),
+          ],
         ),
       ],
     );

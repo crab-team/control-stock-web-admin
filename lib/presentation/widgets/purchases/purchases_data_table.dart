@@ -56,43 +56,19 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
       header: _buildHeader(),
       empty: const Center(child: Text(Texts.noRecords)),
       columns: const [
-        DataColumn2(
-          fixedWidth: 200,
-          label: Text(Texts.customer),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text(Texts.products),
-          size: ColumnSize.L,
-        ),
-        DataColumn2(
-          fixedWidth: 150,
-          label: Text(Texts.total),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text(Texts.purchaseStatus),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          label: Text(Texts.createdAt),
-          size: ColumnSize.S,
-        ),
-        DataColumn2(
-          fixedWidth: 200,
-          label: Text('Acciones'),
-          size: ColumnSize.S,
-        ),
+        DataColumn2(fixedWidth: 200, label: Text(Texts.customer), size: ColumnSize.S),
+        DataColumn2(label: Text(Texts.products), size: ColumnSize.L),
+        DataColumn2(fixedWidth: 150, label: Text(Texts.total), size: ColumnSize.S),
+        DataColumn2(label: Text(Texts.purchaseStatus), size: ColumnSize.S),
+        DataColumn2(label: Text(Texts.createdAt), size: ColumnSize.S),
+        DataColumn2(fixedWidth: 200, label: Text('Acciones'), size: ColumnSize.S),
       ],
       source: PurchasesDataTableSource(data: data, onEdit: _openDrawer, onCancel: _cancel),
     );
   }
 
   Widget _buildHeader() {
-    return Text(
-      Texts.purchases,
-      style: Theme.of(context).textTheme.headlineSmall,
-    );
+    return Text(Texts.purchases, style: Theme.of(context).textTheme.headlineMedium);
   }
 
   void _openDrawer(Purchase purchase) {

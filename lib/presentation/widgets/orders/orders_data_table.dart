@@ -35,10 +35,7 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
       headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
       actions: [
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
           shape: MaterialStateProperty.all<OutlinedBorder>(
             const LinearBorder(),
@@ -47,16 +44,13 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
           hintText: Texts.searchOrder,
           onChanged: (value) => _search(value),
         ),
-        const VerticalDivider(
-          indent: 8,
-          endIndent: 8,
-        ),
+        const VerticalDivider(indent: 8, endIndent: 8),
         const Gap.medium(isHorizontal: true),
         _buildAddOrder(),
       ],
       header: Text(
         Texts.orders,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
       empty: const Center(child: Text(Texts.noOrders)),
       columns: const [
