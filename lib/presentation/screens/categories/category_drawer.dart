@@ -1,5 +1,6 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,9 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
           Texts.createCategory,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Gap.medium(),
+        const Gap.small(),
         const Divider(),
-        const Gap.medium(),
+        const Gap.small(),
         Expanded(
           child: Form(
             key: formKey,
@@ -83,6 +84,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
             double.parse(percentageProfitController.text),
           );
       ref.read(navigationServiceProvider).goToCategories(context);
+      ref.read(navigationServiceProvider).goBack(context);
     }
   }
 }

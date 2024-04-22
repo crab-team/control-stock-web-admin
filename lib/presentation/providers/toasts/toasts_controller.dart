@@ -1,23 +1,23 @@
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ToastController {
+class ToastControllerModel {
   final String title;
   final String message;
   final ToastType type;
 
-  ToastController(this.title, this.message, this.type);
+  ToastControllerModel(this.title, this.message, this.type);
 }
 
-final toastsControllerProvider = NotifierProvider<ToastsController, ToastController?>(ToastsController.new);
+final toastsControllerProvider = NotifierProvider<ToastsController, ToastControllerModel?>(ToastsController.new);
 
-class ToastsController extends Notifier<ToastController?> {
+class ToastsController extends Notifier<ToastControllerModel?> {
   @override
-  ToastController? build() {
+  ToastControllerModel? build() {
     return null;
   }
 
-  showToast(ToastController toastController) {
+  showToast(ToastControllerModel toastController) {
     state = toastController;
   }
 }

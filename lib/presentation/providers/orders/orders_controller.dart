@@ -18,25 +18,25 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
 
   addOrder(PurchaseOrder order) async {
     order = order.copyWith(id: state.length + 1);
-    _showToast(ToastController(Texts.orders, '${Texts.orderAdded} ${order.id}', ToastType.success));
+    _showToast(ToastControllerModel(Texts.orders, '${Texts.orderAdded} ${order.id}', ToastType.success));
     state = [...state, order];
   }
 
   removeOrder(int orderId) async {
-    _showToast(ToastController(Texts.orders, '${Texts.orderDeleted} $orderId', ToastType.info));
     state = state.where((element) => element.id != orderId).toList();
   }
 
   Future<void> confirmOrder(PurchaseOrder order) async {
-    _showToast(ToastController(Texts.orders, '${Texts.confirmingOrder} ${order.id}', ToastType.info));
+    _showToast(ToastControllerModel(Texts.orders, '${Texts.confirmingOrder} ${order.id}', ToastType.info));
     final either = await ref.read(confirmPurchaseUseCaseProvider).execute(order);
     either.fold(
       (l) {
-        _showToast(ToastController(Texts.orders, '${Texts.errorConfirmingOrder} ${order.id}', ToastType.error));
+        _showToast(ToastControllerModel(Texts.orders, '${Texts.errorConfirmingOrder} ${order.id}', ToastType.error));
         throw Exception('Error');
       },
       (r) async {
-        _showToast(ToastController(Texts.orders, '${Texts.orderPurchaseConfrimated} ${order.id}', ToastType.success));
+        _showToast(
+            ToastControllerModel(Texts.orders, '${Texts.orderPurchaseConfrimated} ${order.id}', ToastType.success));
         removeOrder(order.id!);
       },
     );
@@ -63,7 +63,7 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
     }).toList();
   }
 
-  _showToast(ToastController toastController) {
+  _showToast(ToastControllerModel toastController) {
     ref.read(toastsControllerProvider.notifier).showToast(toastController);
   }
 }

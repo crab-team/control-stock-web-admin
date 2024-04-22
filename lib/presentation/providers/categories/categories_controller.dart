@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,7 +52,6 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
   }
 
   delete(int id) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(deleteCategoryUseCaseProvider).execute(id);
       return categoriesEither.fold(
@@ -105,5 +105,9 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
 
   _refreshProducts() {
     ref.read(productsControllerProvider.notifier).getAll();
+  }
+
+  _showToast(ToastControllerModel toast) {
+    ref.read(toastsControllerProvider.notifier).showToast(toast);
   }
 }

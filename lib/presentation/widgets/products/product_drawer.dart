@@ -48,18 +48,18 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
           widget.product != null ? 'Editar producto' : 'Agregar producto',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Gap.medium(),
+        const Gap.small(),
         const Divider(),
-        const Gap.medium(),
+        const Gap.small(),
         Expanded(
           child: Form(
             key: formKey,
             child: ListView(
               children: [
-                const SizedBox(height: 300, child: ImagePickerWidget()),
-                const Gap.medium(),
-                const Divider(),
-                const Gap.medium(),
+                // const SizedBox(height: 300, child: ImagePickerWidget()),
+                // const Gap.medium(),
+                // const Divider(),
+                // const Gap.medium(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
