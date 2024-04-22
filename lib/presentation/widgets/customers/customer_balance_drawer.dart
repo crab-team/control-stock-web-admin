@@ -7,6 +7,7 @@ import 'package:control_stock_web_admin/presentation/widgets/customers/toggle_bu
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,6 +61,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
                     labelText: action == ActionOverBalance.commerceReturnMoney ? Texts.returnMoney : Texts.give,
                     prefixIcon: const Icon(PhosphorIcons.currency_dollar),
                   ),
+                  inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
                   onChanged: (value) => setState(() {
                     var newValue = value == '' ? 0 : double.parse(value);
                     newValue = action == ActionOverBalance.commerceReturnMoney ? newValue * -1 : newValue;

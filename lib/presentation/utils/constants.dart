@@ -184,3 +184,5 @@ CurrencyFormat arsSettings = const CurrencyFormat(
   decimalSeparator: ',',
   symbolSeparator: ' ',
 );
+
+RegExp currencyInputFormatter = RegExp(r'^\d*[,]?\d*');

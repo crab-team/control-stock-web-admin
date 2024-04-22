@@ -1,7 +1,9 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CSVDataTableViewSource extends DataTableSource {
   final List<Product> _data;
@@ -25,7 +27,7 @@ class CSVDataTableViewSource extends DataTableSource {
     TextEditingController priceController = TextEditingController();
     TextEditingController stockController = TextEditingController();
     nameController.text = product.name;
-    priceController.text = product.costPrice.toString();
+    priceController.text = product.costPrice.toStringAsFixed(2).replaceAll('.', ',');
     stockController.text = product.stock.toString();
 
     bool hasSomeAnomaly = product.name.isEmpty ||
@@ -51,7 +53,11 @@ class CSVDataTableViewSource extends DataTableSource {
           decoration: inputDataTableDecoration.copyWith(
             prefix: const Text('\$ '),
           ),
-          onFieldSubmitted: (value) => onChangeAnyValue(product.code, 'price', value),
+          inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
+          onFieldSubmitted: (value) {
+            final doubleValue = value.replaceAll(',', '.');
+            onChangeAnyValue(product.code, 'price', doubleValue);
+          },
         )),
         DataCell(Text(product.category.name.toUpperCase())),
         DataCell(TextFormField(

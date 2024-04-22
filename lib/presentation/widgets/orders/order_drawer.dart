@@ -11,11 +11,11 @@ import 'package:control_stock_web_admin/presentation/providers/payment_methods/p
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderDrawer extends ConsumerStatefulWidget {
@@ -118,11 +118,26 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   }
 
   Widget _buildGivenAmount() {
-    paidController.text = totalWithSurchargeOrDiscount.toString().replaceAll('.', ',');
+    paidController.text = totalWithSurchargeOrDiscount.toStringAsFixed(2).replaceAll('.', ',');
 
-    return NumberInput(
+    return TextFormField(
       controller: paidController,
-      maxValue: totalWithSurchargeOrDiscount,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(labelText: Texts.give),
+      inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
+      validator: (value) {
+        if (value!.isEmpty) {
+          return Texts.requiredField;
+        }
+
+        double doubleValue = double.parse(value.replaceAll(',', '.'));
+
+        if (doubleValue > totalWithSurchargeOrDiscount) {
+          return Texts.valueSuperiorToTotal;
+        }
+
+        return null;
+      },
     );
   }
 
@@ -212,64 +227,38 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          Texts.resume,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        Text(Texts.resume, style: Theme.of(context).textTheme.bodyLarge),
         const Gap.small(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              Texts.quantity,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            Text(
-              quantity.toString(),
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            Text(Texts.quantity, style: Theme.of(context).textTheme.bodyMedium),
+            Text(quantity.toString(), style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
         const Gap.small(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              Texts.subtotal,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            Text(
-              CurrencyFormatter.format(subtotal, arsSettings),
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            Text(Texts.subtotal, style: Theme.of(context).textTheme.bodyMedium),
+            Text(CurrencyFormatter.format(subtotal, arsSettings), style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
         const Gap.small(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${Texts.surcharge}/${Texts.discount}',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            Text(
-              '${paymentMethod?.surchargePercentage ?? 0}%',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            Text('${Texts.surcharge}/${Texts.discount}', style: Theme.of(context).textTheme.bodyMedium),
+            Text('${paymentMethod?.surchargePercentage ?? 0}%', style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
         const Gap.small(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              Texts.total,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(
-              CurrencyFormatter.format(totalWithSurchargeOrDiscount, arsSettings),
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text(Texts.total, style: Theme.of(context).textTheme.headlineMedium),
+            Text(CurrencyFormatter.format(totalWithSurchargeOrDiscount, arsSettings),
+                style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ],
@@ -286,7 +275,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
       return;
     }
 
-    double debt = totalWithSurchargeOrDiscount - double.parse(paidController.text);
+    double debt = totalWithSurchargeOrDiscount - double.parse(paidController.text.replaceAll(',', '.'));
 
     PurchaseOrder order = PurchaseOrder(
       customer: customer!,

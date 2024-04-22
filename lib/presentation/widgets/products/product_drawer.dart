@@ -6,9 +6,9 @@ import 'package:control_stock_web_admin/presentation/providers/products/products
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/image_picker_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/number_inc_dec.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDrawer extends ConsumerStatefulWidget {
@@ -90,10 +90,14 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       controller: priceController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(labelText: Texts.price, prefixText: '\$ '),
+                      inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return Texts.requiredField;
                         }
+
+                        double doubleValue = double.parse(value.replaceAll(',', '.'));
+                        priceController.text = doubleValue.toStringAsFixed(2);
                         return null;
                       },
                     ),
@@ -158,8 +162,6 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
 
   void _onSubmit() {
     if (formKey.currentState!.validate() && category != null) {
-      priceController.text = priceController.text.replaceAll('.', '').replaceAll(',', '.');
-
       final product = Product(
         id: widget.product?.id,
         code: codeController.text,
