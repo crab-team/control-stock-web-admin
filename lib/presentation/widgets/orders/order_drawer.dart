@@ -177,7 +177,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!
-                    .copyWith(color: customer?.balance == 0 ? Colors.green : Colors.red),
+                    .copyWith(color: (customer?.balance ?? 0) >= 0 ? Colors.green : Colors.red),
               ),
             ],
           )
