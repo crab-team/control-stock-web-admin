@@ -11,6 +11,7 @@ import 'package:control_stock_web_admin/presentation/providers/payment_methods/p
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:currency_formatter/currency_formatter.dart';
@@ -117,23 +118,11 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
   }
 
   Widget _buildGivenAmount() {
-    paidController.text = totalWithSurchargeOrDiscount.toString();
+    paidController.text = totalWithSurchargeOrDiscount.toString().replaceAll('.', ',');
 
-    return TextFormField(
+    return NumberInput(
       controller: paidController,
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(labelText: Texts.give),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return Texts.requiredField;
-        }
-
-        if (double.parse(value) > totalWithSurchargeOrDiscount) {
-          return Texts.valueSuperiorToTotal;
-        }
-
-        return null;
-      },
+      maxValue: totalWithSurchargeOrDiscount,
     );
   }
 

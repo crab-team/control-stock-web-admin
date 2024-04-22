@@ -3,7 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/purchase_order_product.d
 import 'package:control_stock_web_admin/presentation/providers/orders/order_products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/number_inc_dec.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/search_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,7 +40,7 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
           child: SearchProduct(alreadySelectedProducts: codes, onProductSelected: (product) => _selectProduct(product)),
         ),
         const Gap.small(isHorizontal: true),
-        NumberInput(
+        NumberIncDec(
             label: Texts.quantity,
             initialValue: _quantity,
             maxValue: _selectedProduct?.stock ?? 0,

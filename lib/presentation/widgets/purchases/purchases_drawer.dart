@@ -5,7 +5,7 @@ import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/number_inc_dec.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,9 +63,9 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
         )),
         const Gap.medium(),
         const Divider(),
-        const Gap.medium(),
+        const Gap.small(),
         _buildSummary(),
-        const Gap.medium(),
+        const Gap.small(),
         const Divider(),
         const Gap.medium(),
         Align(
@@ -156,23 +156,26 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
       children: [
         Text(Texts.summary, style: Theme.of(context).textTheme.bodyLarge),
         const Gap.small(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text('Cantidad de productos a devolver', style: Theme.of(context).textTheme.bodyMedium),
-            const Gap.small(),
-            ...returnedProducts.map((e) => Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Row(
-                    children: [
-                      Text('${e.code!} - ${e.name!}', style: Theme.of(context).textTheme.bodyMedium),
-                      const Spacer(),
-                      Text(e.quantity.toString()),
-                    ],
-                  ),
-                )),
-          ],
+        Container(
+          constraints: const BoxConstraints(minHeight: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('Cantidad de productos a devolver', style: Theme.of(context).textTheme.bodyMedium),
+              const Gap.small(),
+              ...returnedProducts.map((e) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Text('${e.code!} - ${e.name!}', style: Theme.of(context).textTheme.bodyMedium),
+                        const Spacer(),
+                        Text(e.quantity.toString()),
+                      ],
+                    ),
+                  )),
+            ],
+          ),
         ),
         const Gap.small(),
         const Divider(),
@@ -181,9 +184,10 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Devolucion', style: Theme.of(context).textTheme.bodyMedium),
+            Text('Devolucion', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
             const Spacer(),
-            Text(CurrencyFormatter.format(newReturn, arsSettings)),
+            Text(CurrencyFormatter.format(newReturn, arsSettings),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
         const Gap.small(),
@@ -191,9 +195,10 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Nuevo total', style: Theme.of(context).textTheme.bodyMedium),
+            Text('Nuevo total', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
             const Spacer(),
-            Text(CurrencyFormatter.format(newTotal, arsSettings)),
+            Text(CurrencyFormatter.format(newTotal, arsSettings),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
       ],
@@ -214,7 +219,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
         ),
         Row(
           children: [
-            NumberInput(
+            NumberIncDec(
               label: Texts.quantity,
               maxValue: maxQuantity,
               initialValue: product.quantity,

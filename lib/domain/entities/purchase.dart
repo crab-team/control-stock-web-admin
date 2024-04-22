@@ -67,7 +67,7 @@ class Purchase {
   final String customerLastName;
   final int paymentMethodId;
   final String? paymentMethodName;
-  final int? paymentMethodSurchargePercentage;
+  final double? paymentMethodSurchargePercentage;
   final double? totalShopping;
   final List<PurchaseProduct> purchaseProducts;
   final DateTime? createdAt;
@@ -110,7 +110,7 @@ class Purchase {
     String? customerLastName,
     int? paymentMethodId,
     String? paymentMethodName,
-    int? paymentMethodSurchargePercentage,
+    double? paymentMethodSurchargePercentage,
     double? totalShopping,
     List<PurchaseProduct>? purchaseProducts,
     DateTime? createdAt,

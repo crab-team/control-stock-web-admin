@@ -118,7 +118,7 @@ class _PaymentMethodsDrawerState extends ConsumerState<PaymentMethodsDrawer> {
         id: widget.paymentMethod?.id,
         name: methodController.text,
         installments: int.parse(installmentsController.text),
-        surchargePercentage: int.parse(surchargePercentageController.text),
+        surchargePercentage: double.parse(surchargePercentageController.text),
       );
 
       if (widget.paymentMethod != null) {

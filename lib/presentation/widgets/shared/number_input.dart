@@ -1,68 +1,44 @@
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter/services.dart';
 
 class NumberInput extends StatefulWidget {
-  final int? initialValue;
-  final int? maxValue;
-  final String? label;
-  final void Function(int) onChanged;
+  final double? maxValue;
+  final TextEditingController controller;
 
-  const NumberInput({super.key, this.initialValue, this.maxValue, this.label, required this.onChanged});
+  const NumberInput({super.key, this.maxValue, required this.controller});
 
   @override
   State<NumberInput> createState() => _NumberInputState();
 }
 
 class _NumberInputState extends State<NumberInput> {
-  int value = 0;
-  final controller = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    value = widget.initialValue ?? 0;
-    controller.text = value.toString();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 150,
-      child: TextFormField(
-        readOnly: true,
-        controller: controller,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          label: Text(widget.label ?? ''),
-          prefix: IconButton(
-            padding: EdgeInsets.zero,
-            icon: const Icon(PhosphorIcons.minus, size: 16),
-            onPressed: () {
-              if (value > 0) {
-                value--;
-                controller.text = value.toString();
-                widget.onChanged(value);
-                setState(() {});
-              }
-            },
-          ),
-          suffix: IconButton(
-            padding: EdgeInsets.zero,
-            icon: const Icon(PhosphorIcons.plus, size: 16),
-            onPressed: () {
-              if (widget.maxValue != null && value >= widget.maxValue!) {
-                return;
-              }
+    return TextFormField(
+      controller: widget.controller,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(labelText: Texts.give),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'^\d*[,]?\d*')),
+      ],
+      validator: (value) {
+        if (value!.isEmpty) {
+          return Texts.requiredField;
+        }
 
-              value++;
-              controller.text = value.toString();
-              widget.onChanged(value);
-              setState(() {});
-            },
-          ),
-        ),
-      ),
+        double valueDouble = double.parse(value.replaceAll(',', '.'));
+
+        if (widget.maxValue != null) {
+          if (valueDouble > widget.maxValue!) {
+            return Texts.valueSuperiorToTotal;
+          }
+        }
+
+        widget.controller.text = valueDouble.toStringAsFixed(2);
+
+        return null;
+      },
     );
   }
 }

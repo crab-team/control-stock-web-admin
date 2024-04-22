@@ -7,7 +7,7 @@ import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/image_picker_widget.dart';
-import 'package:control_stock_web_admin/presentation/widgets/shared/number_input.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/number_inc_dec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -98,7 +98,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       },
                     ),
                     const Gap.small(),
-                    NumberInput(
+                    NumberIncDec(
                       initialValue: widget.product?.stock ?? 0,
                       onChanged: (p0) => stockController.text = p0.toString(),
                       label: Texts.stock,

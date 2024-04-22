@@ -9,7 +9,7 @@ class PurchaseResponse {
   final double totalShopping;
   final int paymentMethodId;
   final String paymentMethodName;
-  final int paymentMethodSurchargePercentage;
+  final double paymentMethodSurchargePercentage;
   final List<PurchaseProductResponse> purchaseProductsResponses;
   final String createdAt;
   final String status;

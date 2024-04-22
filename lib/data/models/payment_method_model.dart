@@ -2,7 +2,7 @@ class PaymentMethodModel {
   final int? id;
   final String name;
   final int installments;
-  final int surchargePercentage;
+  final double surchargePercentage;
 
   PaymentMethodModel({
     this.id,
@@ -15,7 +15,7 @@ class PaymentMethodModel {
     int? id,
     String? name,
     int? installments,
-    int? surchargePercentage,
+    double? surchargePercentage,
   }) {
     return PaymentMethodModel(
       id: id ?? this.id,

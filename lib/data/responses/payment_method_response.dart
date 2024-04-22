@@ -4,7 +4,7 @@ class PaymentMethodResponse {
   final int id;
   final String name;
   final int installments;
-  final int surchargePercentage;
+  final double surchargePercentage;
 
   PaymentMethodResponse({
     required this.id,

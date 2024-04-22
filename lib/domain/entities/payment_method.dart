@@ -4,7 +4,7 @@ class PaymentMethod {
   final int? id;
   final String name;
   final int installments;
-  final int surchargePercentage;
+  final double surchargePercentage;
 
   PaymentMethod({
     required this.id,
@@ -17,7 +17,7 @@ class PaymentMethod {
     int? id,
     String? name,
     int? installments,
-    int? surchargePercentage,
+    double? surchargePercentage,
   }) {
     return PaymentMethod(
       id: id ?? this.id,
