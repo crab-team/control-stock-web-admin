@@ -38,7 +38,7 @@ class _PaymentMethodsDrawerState extends ConsumerState<PaymentMethodsDrawer> {
       children: [
         Text(
           widget.paymentMethod != null ? Texts.editCustomer : Texts.addCustomer,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Gap.medium(),
         const Divider(),

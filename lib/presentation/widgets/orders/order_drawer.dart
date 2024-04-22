@@ -58,7 +58,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
         children: [
           Text(
             widget.order != null ? Texts.editCustomer : Texts.createOrder,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
           const Gap.small(),
           const Divider(),

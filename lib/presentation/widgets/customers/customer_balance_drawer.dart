@@ -31,10 +31,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          Texts.balance,
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
+        Text(Texts.balance, style: Theme.of(context).textTheme.headlineMedium),
         const Gap.small(),
         const Divider(),
         const Gap.small(),

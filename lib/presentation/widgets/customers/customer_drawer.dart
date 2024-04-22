@@ -43,7 +43,7 @@ class _ProductDrawerState extends ConsumerState<CustomerDrawer> {
       children: [
         Text(
           widget.customer != null ? Texts.editCustomer : Texts.addCustomer,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Gap.small(),
         const Divider(),

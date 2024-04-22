@@ -37,7 +37,7 @@ class _DrawerState extends ConsumerState<PurchasesDrawer> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Texts.purchases, style: Theme.of(context).textTheme.headlineSmall),
+        Text(Texts.purchases, style: Theme.of(context).textTheme.headlineMedium),
         const Gap.small(),
         const Divider(),
         const Gap.small(),

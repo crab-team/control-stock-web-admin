@@ -1,6 +1,5 @@
 import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
-import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
       children: [
         Text(
           Texts.createCategory,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Gap.small(),
         const Divider(),

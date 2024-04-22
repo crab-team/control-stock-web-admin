@@ -46,7 +46,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
       children: [
         Text(
           widget.product != null ? 'Editar producto' : 'Agregar producto',
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Gap.small(),
         const Divider(),
