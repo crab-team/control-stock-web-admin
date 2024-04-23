@@ -32,7 +32,7 @@ class Routes {
   static const String commerce = '/commerce';
   static const String customers = '/customers';
   static const String customerRecords = 'records';
-  static const String orders = '/ordenes';
+  // static const String orders = '/ordenes';
 
   static const Map<String, String> names = {
     home: 'Inicio',
@@ -46,7 +46,7 @@ class Routes {
     commerce: 'Comercio',
     customers: 'Clientes',
     customerRecords: 'Registros de cliente',
-    orders: 'Órdenes de compra',
+    // orders: 'Órdenes de compra',
   };
 }
 
@@ -83,7 +83,7 @@ class NavigationService {
             return DashboardWidget(page: child);
           },
           branches: [
-            _ordersBranch(),
+            // _ordersBranch(),
             _shoppingBranch(),
             _productsBranch(),
             _customersBranch(),
@@ -117,7 +117,7 @@ class NavigationService {
         Routes.categories: PhosphorIcons.tag,
         Routes.customers: PhosphorIcons.users,
         Routes.commerce: PhosphorIcons.house,
-        Routes.orders: PhosphorIcons.shopping_cart,
+        // Routes.orders: PhosphorIcons.shopping_cart,
         Routes.purchases: PhosphorIcons.currency_circle_dollar,
       };
 
@@ -134,18 +134,18 @@ class NavigationService {
     );
   }
 
-  StatefulShellBranch _ordersBranch() {
-    return StatefulShellBranch(
-      initialLocation: Routes.orders,
-      routes: [
-        GoRoute(
-          path: Routes.orders,
-          name: Routes.names[Routes.orders]!,
-          builder: (context, state) => const OrdersScreen(),
-        ),
-      ],
-    );
-  }
+  // StatefulShellBranch _ordersBranch() {
+  //   return StatefulShellBranch(
+  //     initialLocation: Routes.orders,
+  //     routes: [
+  //       GoRoute(
+  //         path: Routes.orders,
+  //         name: Routes.names[Routes.orders]!,
+  //         builder: (context, state) => const OrdersScreen(),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   StatefulShellBranch _commerceBranch() {
     return StatefulShellBranch(

@@ -16,9 +16,10 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   }
 
   @override
-  Future<Either<Failure, Category>> create(String categoryName, double percentageProfit) async {
+  Future<Either<Failure, Category>> create(String categoryName, double percentageProfit, double extraCosts) async {
     try {
-      final categoriesResponse = await categoriesRemoteDataSource.addCategory(categoryName, percentageProfit);
+      final categoriesResponse =
+          await categoriesRemoteDataSource.addCategory(categoryName, percentageProfit, extraCosts);
       final category = categoriesResponse.toDomain();
       return Right(category);
     } on Exception catch (e) {

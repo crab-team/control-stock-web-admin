@@ -25,9 +25,9 @@ class CategoriesApiDataSource implements CategoriesRemoteDataSource {
   }
 
   @override
-  Future<CategoryResponse> addCategory(String category, double percentageProfit) async {
+  Future<CategoryResponse> addCategory(String category, double percentageProfit, double extraCosts) async {
     try {
-      final body = {"name": category, "percentageProfit": percentageProfit};
+      final body = {"name": category, "percentageProfit": percentageProfit, "extraCosts": extraCosts};
       final response = await apiClient.sendPost(path, body: body);
       final categoryResponse = CategoryResponse.fromJson(response);
       return categoryResponse;

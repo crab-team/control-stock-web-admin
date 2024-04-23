@@ -104,6 +104,7 @@ class Texts {
   static const String noCategories = 'No hay categorías';
   static const String searchCategory = 'Buscar categoría';
   static const String percentageProfit = 'Porcentaje de ganancia';
+  static const String extraCosts = 'Costos extras';
 
   // Customers
   static const String customer = 'Cliente';

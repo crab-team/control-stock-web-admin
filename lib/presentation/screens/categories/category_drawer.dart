@@ -17,6 +17,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController percentageProfitController = TextEditingController();
+  TextEditingController extraCostsController = TextEditingController(text: '0');
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,12 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
                     }
                     return null;
                   },
-                  onFieldSubmitted: (_) => _create(),
+                ),
+                const Gap.small(),
+                TextFormField(
+                  controller: extraCostsController,
+                  decoration: const InputDecoration(labelText: Texts.extraCosts),
+                  inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
                 ),
                 const Gap.medium(),
                 const Divider(),
@@ -81,6 +87,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
       ref.read(categoriesControllerProvider.notifier).create(
             nameController.text,
             double.parse(percentageProfitController.text),
+            double.parse(extraCostsController.text),
           );
       ref.read(navigationServiceProvider).goToCategories(context);
       ref.read(navigationServiceProvider).goBack(context);

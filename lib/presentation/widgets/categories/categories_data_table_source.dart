@@ -1,6 +1,8 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesDataTableSource extends DataTableSource {
@@ -40,6 +42,7 @@ class CategoriesDataTableSource extends DataTableSource {
             category.copyWith(percentageProfit: double.tryParse(value) ?? 0.0),
           ),
         )),
+        DataCell(Text(CurrencyFormatter.format(category.extraCosts, arsSettings))),
         DataCell(ButtonWithConfirmation(
           onConfirm: () => onDelete(category.id),
         )),

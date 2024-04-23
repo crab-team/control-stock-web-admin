@@ -65,10 +65,11 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
     sortByName();
   }
 
-  create(String category, double percentageProfit) async {
+  create(String category, double percentageProfit, double extraCosts) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final categoriesEither = await ref.read(createCategoryUseCaseProvider).execute(category, percentageProfit);
+      final categoriesEither =
+          await ref.read(createCategoryUseCaseProvider).execute(category, percentageProfit, extraCosts);
       return categoriesEither.fold(
         (l) => throw l,
         (r) {

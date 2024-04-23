@@ -61,6 +61,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
       columns: const [
         DataColumn2(label: Text('Nombre'), size: ColumnSize.L),
         DataColumn2(fixedWidth: 200, label: Text('Porcentaje de ganancia'), size: ColumnSize.L),
+        DataColumn2(fixedWidth: 200, label: Text(Texts.extraCosts), size: ColumnSize.L),
         DataColumn2(fixedWidth: 150, label: Text('Acciones'), size: ColumnSize.S),
       ],
       source: CategoriesDataTableSource(

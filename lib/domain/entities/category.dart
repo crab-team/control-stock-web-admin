@@ -2,8 +2,9 @@ class Category {
   final int id;
   final String name;
   final double percentageProfit;
+  final double extraCosts;
 
-  Category({required this.id, required this.name, required this.percentageProfit});
+  Category({required this.id, required this.name, required this.percentageProfit, required this.extraCosts});
 
   @override
   String toString() {
@@ -15,6 +16,7 @@ class Category {
       'id': id,
       'name': name,
       'percentageProfit': percentageProfit,
+      'extraCosts': extraCosts,
     };
   }
 
@@ -23,6 +25,7 @@ class Category {
       id: map['id'],
       name: map['name'],
       percentageProfit: map['percentageProfit'],
+      extraCosts: map['extraCosts'],
     );
   }
 
@@ -30,11 +33,13 @@ class Category {
     int? id,
     String? name,
     double? percentageProfit,
+    double? extraCosts,
   }) {
     return Category(
       id: id ?? this.id,
       name: name ?? this.name,
       percentageProfit: percentageProfit ?? this.percentageProfit,
+      extraCosts: extraCosts ?? this.extraCosts,
     );
   }
 }
