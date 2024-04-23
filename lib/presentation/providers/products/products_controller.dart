@@ -137,6 +137,16 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     sortByName();
   }
 
+  getLastProductCreatedByCategory(int categoryId) {
+    final categoryProducts = products.where((element) => element.category.id! == categoryId).toList();
+    if (categoryProducts.isEmpty) {
+      return null;
+    }
+
+    categoryProducts.sort((a, b) => a.id!.compareTo(b.id!));
+    return categoryProducts.last;
+  }
+
   sortByName() {
     products.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     state = AsyncValue.data(products);

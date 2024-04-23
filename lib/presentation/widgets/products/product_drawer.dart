@@ -64,6 +64,28 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    FormField<Category>(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value == null) {
+                          return Texts.requiredField;
+                        }
+                        return null;
+                      },
+                      builder: (FormFieldState state) {
+                        return CategorySelector(
+                          initialCategory: widget.product?.category.name,
+                          onCategorySelected: (value) {
+                            state.didChange(value);
+                            category = value;
+                            setState(() {});
+                          },
+                        );
+                      },
+                    ),
+                    const Gap.small(),
+                    _buildLastProductCreatedByCategory(),
+                    const Gap.small(),
                     TextFormField(
                       controller: codeController,
                       decoration: const InputDecoration(labelText: Texts.code),
@@ -107,25 +129,6 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       onChanged: (p0) => stockController.text = p0.toString(),
                       label: Texts.stock,
                     ),
-                    const Gap.small(),
-                    FormField<Category>(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null) {
-                          return Texts.requiredField;
-                        }
-                        return null;
-                      },
-                      builder: (FormFieldState state) {
-                        return CategorySelector(
-                          initialCategory: widget.product?.category.name,
-                          onCategorySelected: (value) {
-                            state.didChange(value);
-                            category = value;
-                          },
-                        );
-                      },
-                    ),
                     const Gap.medium(),
                     const Divider(),
                     const Gap.medium(),
@@ -155,6 +158,37 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLastProductCreatedByCategory() {
+    if (category == null) {
+      return const SizedBox();
+    }
+
+    final lastProduct = ref.read(productsControllerProvider.notifier).getLastProductCreatedByCategory(category!.id!);
+    if (lastProduct == null) {
+      return const SizedBox();
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          'Último producto creado en esta categoría:',
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const Gap.small(isHorizontal: true),
+        Text(
+          '${lastProduct.code} '.toUpperCase(),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+        ),
+        Text(
+          '- ${lastProduct.name}'.toUpperCase(),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );
