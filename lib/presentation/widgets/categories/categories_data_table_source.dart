@@ -1,17 +1,19 @@
-import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/button_with_confirmation.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class CategoriesDataTableSource extends DataTableSource {
   final List<Category> _data;
+  final Function(Category category) onEdit;
   final Function(int id) onDelete;
   final Function(Category productUpdated) onChangeAnyValue;
 
   CategoriesDataTableSource({
     List<Category>? data,
+    required this.onEdit,
     required this.onDelete,
     required this.onChangeAnyValue,
   }) : _data = data ?? <Category>[];
@@ -26,25 +28,23 @@ class CategoriesDataTableSource extends DataTableSource {
     }
 
     final category = _data[index];
-    TextEditingController percentageController = TextEditingController();
-    percentageController.text = category.percentageProfit.toString();
 
     return DataRow.byIndex(
       index: index,
       cells: [
         DataCell(Text(category.name.toUpperCase())),
-        DataCell(TextFormField(
-          controller: percentageController,
-          decoration: inputDataTableDecoration.copyWith(
-            suffixText: '%',
-          ),
-          onFieldSubmitted: (value) => onChangeAnyValue(
-            category.copyWith(percentageProfit: double.tryParse(value) ?? 0.0),
-          ),
-        )),
+        DataCell(Text('${category.percentageProfit} %')),
         DataCell(Text(CurrencyFormatter.format(category.extraCosts, arsSettings))),
-        DataCell(ButtonWithConfirmation(
-          onConfirm: () => onDelete(category.id),
+        DataCell(Row(
+          children: [
+            IconButton(
+              icon: const Icon(PhosphorIcons.pencil_simple),
+              onPressed: () => onEdit(category),
+            ),
+            ButtonWithConfirmation(
+              onConfirm: () => onDelete(category.id!),
+            ),
+          ],
         )),
       ],
     );

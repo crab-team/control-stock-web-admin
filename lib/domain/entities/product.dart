@@ -88,7 +88,7 @@ class Product {
       name: name,
       costPrice: costPrice,
       stock: stock,
-      categoryId: category.id,
+      categoryId: category.id!,
       hasQrPrinted: hasQrPrinted,
     );
   }
@@ -100,7 +100,7 @@ class Product {
       name: name,
       costPrice: costPrice,
       stock: stock,
-      categoryId: category.id,
+      categoryId: category.id!,
       imageUrl: imageUrl,
       hasQrPrinted: hasQrPrinted,
     );

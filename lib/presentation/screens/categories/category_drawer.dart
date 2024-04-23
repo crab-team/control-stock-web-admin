@@ -1,4 +1,5 @@
 import 'package:control_stock_web_admin/core/router.dart';
+import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryDrawer extends ConsumerStatefulWidget {
-  const CategoryDrawer({super.key});
+  final Category? category;
+
+  const CategoryDrawer({super.key, this.category});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CategoryDrawerState();
@@ -15,9 +18,25 @@ class CategoryDrawer extends ConsumerStatefulWidget {
 
 class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
   final formKey = GlobalKey<FormState>();
+  bool isUpdating = false;
   TextEditingController nameController = TextEditingController();
   TextEditingController percentageProfitController = TextEditingController();
   TextEditingController extraCostsController = TextEditingController(text: '0');
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.category != null) {
+      _initValues();
+    }
+  }
+
+  void _initValues() {
+    nameController.text = widget.category!.name;
+    percentageProfitController.text = widget.category!.percentageProfit.toString();
+    extraCostsController.text = widget.category!.extraCosts.toStringAsFixed(2).replaceAll('.', ',');
+    isUpdating = widget.category != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +44,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          Texts.createCategory,
+          isUpdating ? Texts.updateCategory : Texts.createCategory,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Gap.small(),
@@ -49,7 +68,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
                 const Gap.small(),
                 TextFormField(
                   controller: percentageProfitController,
-                  decoration: const InputDecoration(labelText: Texts.percentageProfit),
+                  decoration: const InputDecoration(labelText: Texts.percentageProfit, suffixText: '%'),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -61,7 +80,7 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
                 const Gap.small(),
                 TextFormField(
                   controller: extraCostsController,
-                  decoration: const InputDecoration(labelText: Texts.extraCosts),
+                  decoration: const InputDecoration(labelText: Texts.extraCosts, prefixText: '\$ '),
                   inputFormatters: [FilteringTextInputFormatter.allow(currencyInputFormatter)],
                 ),
                 const Gap.medium(),
@@ -71,8 +90,8 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton.icon(
                       icon: const Icon(Icons.save),
-                      onPressed: () => _create(),
-                      label: const Text(Texts.createCategory)),
+                      onPressed: () => _onSubmit(),
+                      label: Text(isUpdating ? Texts.updateCategory : Texts.createCategory)),
                 ),
               ],
             ),
@@ -82,13 +101,22 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
     );
   }
 
-  void _create() {
+  void _onSubmit() {
+    String name = nameController.text;
+    double percentageProfit = double.parse(percentageProfitController.text);
+    double extraCosts = double.parse(extraCostsController.text.replaceAll(',', '.'));
+
     if (formKey.currentState!.validate()) {
-      ref.read(categoriesControllerProvider.notifier).create(
-            nameController.text,
-            double.parse(percentageProfitController.text),
-            double.parse(extraCostsController.text),
-          );
+      if (isUpdating) {
+        ref.read(categoriesControllerProvider.notifier).updateCategory(Category(
+              id: widget.category!.id,
+              name: name,
+              percentageProfit: percentageProfit,
+              extraCosts: extraCosts,
+            ));
+      } else {
+        ref.read(categoriesControllerProvider.notifier).create(name, percentageProfit, extraCosts);
+      }
       ref.read(navigationServiceProvider).goToCategories(context);
       ref.read(navigationServiceProvider).goBack(context);
     }

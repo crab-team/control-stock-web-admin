@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
+import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoriesControllerProvider =
@@ -52,11 +54,16 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
   }
 
   delete(int id) async {
+    _showToast(ToastControllerModel(Texts.categories, '${Texts.deletingCategory} $id', ToastType.info));
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(deleteCategoryUseCaseProvider).execute(id);
       return categoriesEither.fold(
-        (l) => throw l,
+        (l) {
+          _showToast(ToastControllerModel(Texts.categories, '${Texts.errorDeletingCategory} $id', ToastType.error));
+          throw l;
+        },
         (r) {
+          _showToast(ToastControllerModel(Texts.categories, '${Texts.categoryDeleted} $id', ToastType.success));
           categories.removeWhere((element) => element.id == id);
           return categories;
         },
@@ -66,13 +73,18 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
   }
 
   create(String category, double percentageProfit, double extraCosts) async {
-    state = const AsyncValue.loading();
+    _showToast(ToastControllerModel(Texts.categories, '${Texts.creatingCategory} $category', ToastType.info));
     state = await AsyncValue.guard(() async {
       final categoriesEither =
           await ref.read(createCategoryUseCaseProvider).execute(category, percentageProfit, extraCosts);
       return categoriesEither.fold(
-        (l) => throw l,
+        (l) {
+          _showToast(
+              ToastControllerModel(Texts.categories, '${Texts.errorCreatingCategory} $category', ToastType.error));
+          throw l;
+        },
         (r) {
+          _showToast(ToastControllerModel(Texts.categories, '${Texts.categoryCreated} $category', ToastType.success));
           categories.add(r);
           return categories;
         },
@@ -83,12 +95,18 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
   }
 
   updateCategory(Category category) async {
-    state = const AsyncValue.loading();
+    _showToast(ToastControllerModel(Texts.categories, '${Texts.updatingCategory} ${category.name}', ToastType.info));
     state = await AsyncValue.guard(() async {
       final categoriesEither = await ref.read(updateCategoryUseCaseProvider).execute(category);
       return categoriesEither.fold(
-        (l) => throw l,
+        (l) {
+          _showToast(ToastControllerModel(
+              Texts.categories, '${Texts.errorUpdatingCategory} ${category.name}', ToastType.error));
+          throw l;
+        },
         (r) {
+          _showToast(
+              ToastControllerModel(Texts.categories, '${Texts.categoryUpdated} ${category.name}', ToastType.success));
           final index = categories.indexWhere((element) => element.id == category.id);
           categories[index] = category;
           return categories;

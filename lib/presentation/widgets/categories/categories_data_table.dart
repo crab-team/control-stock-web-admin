@@ -1,6 +1,8 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
+import 'package:control_stock_web_admin/presentation/screens/categories/category_drawer.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/add_category_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/categories_data_table_source.dart';
@@ -67,6 +69,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
       source: CategoriesDataTableSource(
         data: data,
         onDelete: _delete,
+        onEdit: _openDrawer,
         onChangeAnyValue: (category) {
           ref.read(categoriesControllerProvider.notifier).updateCategory(category);
         },
@@ -76,6 +79,10 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
 
   void _search(String value) {
     ref.read(categoriesControllerProvider.notifier).search(value);
+  }
+
+  void _openDrawer(Category category) {
+    ref.read(drawerController.notifier).state = CategoryDrawer(category: category);
   }
 
   void _delete(int id) {

@@ -105,6 +105,15 @@ class Texts {
   static const String searchCategory = 'Buscar categoría';
   static const String percentageProfit = 'Porcentaje de ganancia';
   static const String extraCosts = 'Costos extras';
+  static const String creatingCategory = 'Creando categoría';
+  static const String errorCreatingCategory = 'Error al crear categoría';
+  static const String categoryCreated = 'Categoría creada';
+  static const String updatingCategory = 'Actualizando categoría';
+  static const String errorUpdatingCategory = 'Error al actualizar categoría';
+  static const String categoryUpdated = 'Categoría actualizada';
+  static const String deletingCategory = 'Eliminando categoría';
+  static const String errorDeletingCategory = 'Error al eliminar categoría';
+  static const String categoryDeleted = 'Categoría eliminada';
 
   // Customers
   static const String customer = 'Cliente';
