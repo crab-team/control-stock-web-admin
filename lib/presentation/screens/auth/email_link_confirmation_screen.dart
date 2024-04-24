@@ -29,7 +29,7 @@ class EmailLinkConfirmationScreen extends ConsumerWidget {
   }
 
   _goToNextScreen(BuildContext context, WidgetRef ref) {
-    ref.read(navigationServiceProvider).goToPurchases(context);
+    ref.read(navigationServiceProvider).goToPurchases();
   }
 
   _buildSuccess(BuildContext context, WidgetRef ref) {

@@ -89,7 +89,7 @@ class _PaymentMethodsDrawerState extends ConsumerState<PaymentMethodsDrawer> {
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
                             icon: const Icon(Icons.cancel),
-                            onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+                            onPressed: () => ref.read(navigationServiceProvider).goBack(),
                             label: const Text(Texts.cancel),
                           ),
                           const Gap.small(isHorizontal: true),
@@ -126,7 +126,7 @@ class _PaymentMethodsDrawerState extends ConsumerState<PaymentMethodsDrawer> {
       } else {
         ref.read(paymentMethodsControllerProvider.notifier).create(newPaymentMethod);
       }
-      ref.read(navigationServiceProvider).goBack(context);
+      ref.read(navigationServiceProvider).goBack();
     }
   }
 }

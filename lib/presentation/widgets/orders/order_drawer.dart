@@ -94,7 +94,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
                             icon: const Icon(Icons.cancel),
-                            onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+                            onPressed: () => ref.read(navigationServiceProvider).goBack(),
                             label: const Text(Texts.cancel),
                           ),
                           const Gap.small(isHorizontal: true),
@@ -286,7 +286,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     );
 
     ref.read(ordersControllerProvider.notifier).addOrder(order);
-    ref.read(navigationServiceProvider).goBack(context);
+    ref.read(navigationServiceProvider).goBack();
   }
 
   void calculateTotal() {

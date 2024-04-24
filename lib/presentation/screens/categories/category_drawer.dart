@@ -117,8 +117,8 @@ class _CategoryDrawerState extends ConsumerState<CategoryDrawer> {
       } else {
         ref.read(categoriesControllerProvider.notifier).create(name, percentageProfit, extraCosts);
       }
-      ref.read(navigationServiceProvider).goToCategories(context);
-      ref.read(navigationServiceProvider).goBack(context);
+      ref.read(navigationServiceProvider).goToCategories();
+      ref.read(navigationServiceProvider).goBack();
     }
   }
 }

@@ -5,7 +5,6 @@ import 'package:control_stock_web_admin/presentation/screens/auth/sign_in_screen
 import 'package:control_stock_web_admin/presentation/screens/categories/categories_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/commerce/commerce_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/customers/customers_screen.dart';
-import 'package:control_stock_web_admin/presentation/screens/orders/orders_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/products/upload_csv_products_screen.dart';
 import 'package:control_stock_web_admin/presentation/screens/purchases/purchases_screen.dart';
@@ -59,7 +58,7 @@ class NavigationService {
   GoRouter get appRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation: Routes.purchases,
+      initialLocation: Routes.products,
       routes: [
         GoRoute(
           path: Routes.signIn,
@@ -84,8 +83,8 @@ class NavigationService {
           },
           branches: [
             // _ordersBranch(),
-            _shoppingBranch(),
             _productsBranch(),
+            _shoppingBranch(),
             _customersBranch(),
             _categoriesBranch(),
             _commerceBranch(),
@@ -213,7 +212,7 @@ class NavigationService {
               name: Routes.names[Routes.productAnalitycs]!,
               builder: (context, state) {
                 if (state.extra == null) {
-                  goToProducts(context);
+                  goToProducts();
                 }
 
                 Product product = state.extra as Product;
@@ -233,20 +232,20 @@ class NavigationService {
     );
   }
 
-  goToSignIn(BuildContext context) => context.go(Routes.signIn);
+  goToSignIn() => navigatorKey.currentContext!.go(Routes.signIn);
 
-  goToPurchases(BuildContext context) => context.go(Routes.purchases);
+  goToPurchases() => navigatorKey.currentContext!.go(Routes.purchases);
 
-  goToProducts(BuildContext context) => context.go(Routes.products);
-  goToUploadCsvProducts(BuildContext context) => context.go('${Routes.products}/${Routes.productsUploadCsv}');
+  goToProducts() => navigatorKey.currentContext!.go(Routes.products);
+  goToUploadCsvProducts() => navigatorKey.currentContext!.go('${Routes.products}/${Routes.productsUploadCsv}');
 
-  goToCategories(BuildContext context) => context.go(Routes.categories);
+  goToCategories() => navigatorKey.currentContext!.go(Routes.categories);
 
-  goToCommerce(BuildContext context) => context.go(Routes.commerce);
+  goToCommerce() => navigatorKey.currentContext!.go(Routes.commerce);
 
-  goToCustomers(BuildContext context) => context.go(Routes.customers);
-  goToCustomerRecords(BuildContext context, int customerId) =>
-      context.go('${Routes.customers}/$customerId/${Routes.customerRecords}');
+  goToCustomers() => navigatorKey.currentContext!.go(Routes.customers);
+  goToCustomerRecords(int customerId) =>
+      navigatorKey.currentContext!.go('${Routes.customers}/$customerId/${Routes.customerRecords}');
 
-  void goBack(BuildContext context) => context.pop();
+  void goBack() => navigatorKey.currentContext!.pop();
 }

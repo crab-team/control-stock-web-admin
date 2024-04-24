@@ -28,7 +28,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       ref.read(customersControllerProvider.future),
       ref.read(paymentMethodsControllerProvider.future),
       ref.read(purchasesControllerProvider.future),
-    ]).then((value) => ref.read(navigationServiceProvider).goToProducts(context));
+    ]).then((value) => ref.read(navigationServiceProvider).goToProducts());
 
     return LayoutBuilder(builder: (context, constraints) {
       return Container(

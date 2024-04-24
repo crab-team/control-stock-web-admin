@@ -31,7 +31,7 @@ class _UploadCsvProductsScreenState extends ConsumerState<UploadCsvProductsScree
         centerTitle: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+          onPressed: () => ref.read(navigationServiceProvider).goBack(),
         ),
       ),
       body: Padding(

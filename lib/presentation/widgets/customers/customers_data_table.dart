@@ -88,7 +88,7 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
   }
 
   void _goToRecords(int customerId) {
-    ref.read(navigationServiceProvider).goToCustomerRecords(context, customerId);
+    ref.read(navigationServiceProvider).goToCustomerRecords(customerId);
   }
 
   Widget _buildAddCustomer() {

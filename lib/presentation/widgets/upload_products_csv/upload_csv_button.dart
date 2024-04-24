@@ -14,7 +14,7 @@ class _UploadCsvButtonState extends ConsumerState<UploadCsvButton> {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       icon: const Icon(Icons.upload_file),
-      onPressed: () => ref.read(navigationServiceProvider).goToUploadCsvProducts(context),
+      onPressed: () => ref.read(navigationServiceProvider).goToUploadCsvProducts(),
       label: const Text('Subir CSV'),
     );
   }

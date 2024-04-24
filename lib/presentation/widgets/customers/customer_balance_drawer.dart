@@ -86,7 +86,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
                         icon: const Icon(Icons.cancel),
-                        onPressed: () => ref.read(navigationServiceProvider).goBack(context),
+                        onPressed: () => ref.read(navigationServiceProvider).goBack(),
                         label: const Text(Texts.cancel),
                       ),
                       const Gap.small(isHorizontal: true),
@@ -160,7 +160,7 @@ class _DrawerState extends ConsumerState<CustomerBalanceDrawer> {
       );
 
       ref.read(customersControllerProvider.notifier).updateCustomer(client);
-      ref.read(navigationServiceProvider).goBack(context);
+      ref.read(navigationServiceProvider).goBack();
     }
   }
 }
