@@ -143,8 +143,20 @@ class ProductsController extends AsyncNotifier<List<Product>> {
       return null;
     }
 
-    categoryProducts.sort((a, b) => a.id!.compareTo(b.id!));
-    return categoryProducts.last;
+    List<int> codes = categoryProducts.map((e) {
+      final code = int.tryParse(e.code);
+
+      if (code == null) {
+        return 0;
+      }
+
+      return code;
+    }).toList();
+
+    codes.sort();
+
+    final lastCode = codes.last;
+    return categoryProducts.where((element) => element.code == lastCode.toString()).first;
   }
 
   sortByName() {
