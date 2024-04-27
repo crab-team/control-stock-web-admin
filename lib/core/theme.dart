@@ -30,8 +30,8 @@ const dropdownAsFilterDecoration = InputDecoration(
   focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide.none),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
   disabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-  contentPadding: EdgeInsets.zero,
   fillColor: Colors.transparent,
+  contentPadding: EdgeInsets.zero,
 );
 
 final dataTableDecoration = {
@@ -71,6 +71,21 @@ extension ButtonStyleExtension on ButtonStyle {
   ButtonStyle secondary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.secondary);
   ButtonStyle tertiary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.tertiary);
   ButtonStyle inversePrimary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary);
+}
+
+extension TextThemeExtension on Text {
+  Text get displayLarge => Text(data!, style: theme.textTheme.displayLarge);
+  Text get displayMedium => Text(data!, style: theme.textTheme.displayMedium);
+  Text get displaySmall => Text(data!, style: theme.textTheme.displaySmall);
+  Text get bodyLarge => Text(data!, style: theme.textTheme.bodyLarge);
+  Text get bodyMedium => Text(data!, style: theme.textTheme.bodyMedium);
+  Text get bodySmall => Text(data!, style: theme.textTheme.bodySmall);
+  Text get headlineLarge => Text(data!, style: theme.textTheme.headlineLarge);
+  Text get headlineMedium => Text(data!, style: theme.textTheme.headlineMedium);
+  Text get headlineSmall => Text(data!, style: theme.textTheme.headlineSmall);
+  Text get labelLarge => Text(data!, style: theme.textTheme.labelLarge);
+  Text get labelMedium => Text(data!, style: theme.textTheme.labelMedium);
+  Text get labelSmall => Text(data!, style: theme.textTheme.labelSmall);
 }
 
 extension ElevatedButtonExtesion on ElevatedButton {

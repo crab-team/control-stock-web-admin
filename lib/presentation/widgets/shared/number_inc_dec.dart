@@ -33,33 +33,38 @@ class _NumberIncDecState extends State<NumberIncDec> {
         controller: controller,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           label: Text(widget.label ?? ''),
-          prefix: IconButton(
-            padding: EdgeInsets.zero,
-            icon: const Icon(PhosphorIcons.minus, size: 16),
-            onPressed: () {
-              if (value > 0) {
-                value--;
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(PhosphorIcons.minus, size: 16),
+              onPressed: () {
+                if (value > 0) {
+                  value--;
+                  controller.text = value.toString();
+                  widget.onChanged(value);
+                  setState(() {});
+                }
+              },
+            ),
+          ),
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(PhosphorIcons.plus, size: 16),
+              onPressed: () {
+                if (widget.maxValue != null && value >= widget.maxValue!) {
+                  return;
+                }
+
+                value++;
                 controller.text = value.toString();
                 widget.onChanged(value);
                 setState(() {});
-              }
-            },
-          ),
-          suffix: IconButton(
-            padding: EdgeInsets.zero,
-            icon: const Icon(PhosphorIcons.plus, size: 16),
-            onPressed: () {
-              if (widget.maxValue != null && value >= widget.maxValue!) {
-                return;
-              }
-
-              value++;
-              controller.text = value.toString();
-              widget.onChanged(value);
-              setState(() {});
-            },
+              },
+            ),
           ),
         ),
       ),

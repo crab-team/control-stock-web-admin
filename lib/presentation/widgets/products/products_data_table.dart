@@ -47,10 +47,11 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
         const DataColumn2(label: Text('Precio de costo'), size: ColumnSize.S, fixedWidth: 150),
         const DataColumn2(label: Text('Precio público'), size: ColumnSize.S, fixedWidth: 150),
         DataColumn2(
-            label: CategorySelector.asFilter(onCategorySelected: (category) {
-              ref.read(productsControllerProvider.notifier).search(category?.name ?? '');
-            }),
-            size: ColumnSize.S),
+          label: CategorySelector.asFilter(onCategorySelected: (category) {
+            ref.read(productsControllerProvider.notifier).search(category?.name ?? '');
+          }),
+          size: ColumnSize.M,
+        ),
         const DataColumn2(label: Text('Cantidad'), size: ColumnSize.S, fixedWidth: 120),
         const DataColumn2(fixedWidth: 80, label: Icon(PhosphorIcons.printer)),
         const DataColumn2(label: Text('Acciones'), size: ColumnSize.S, fixedWidth: 200),

@@ -78,12 +78,14 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
     return DropdownButtonFormField<T?>(
       decoration: widget.asFilter ? dropdownAsFilterDecoration : null,
       borderRadius: BorderRadius.circular(widget.asFilter ? 0 : kRadiusCornerInside),
+      alignment: Alignment.centerLeft,
       hint: Text(
         widget.label,
         style: widget.asFilter
             ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: colorScheme.inversePrimary)
             : null,
       ),
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: colorScheme.inversePrimary),
       value: _selected,
       validator: (value) {
         if (value == null) {

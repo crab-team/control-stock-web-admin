@@ -2,8 +2,8 @@ import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/presentation/providers/categories/categories_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategorySelector extends ConsumerStatefulWidget {
@@ -20,114 +20,28 @@ class CategorySelector extends ConsumerStatefulWidget {
 }
 
 class _CategorySelectorState extends ConsumerState<CategorySelector> {
-  List<Category> categories = [];
-  Category? _selectedCategory;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      ref.read(categoriesControllerProvider.future).then((value) {
-        categories = value;
-        setState(() {});
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(categoriesControllerProvider);
 
     return state.when(
       data: (values) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_selectedCategory == null && categories.isNotEmpty && widget.initialCategory != null) {
-            _selectedCategory = categories.firstWhere((element) => element.name == widget.initialCategory);
-            widget.onCategorySelected(_selectedCategory);
+        return SelectorWidget<Category>(
+          label: Texts.categories,
+          items: values,
+          asFilter: widget.asFilter,
+          onSelected: (value) {
+            widget.onCategorySelected(value);
             setState(() {});
-          }
-        });
-
-        return DropdownButtonFormField<Category>(
-          decoration: InputDecoration(
-            border: widget.asFilter ? const OutlineInputBorder(borderSide: BorderSide.none) : null,
-            focusedBorder: widget.asFilter
-                ? const OutlineInputBorder(borderSide: BorderSide.none)
-                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
-            errorBorder: widget.asFilter
-                ? const OutlineInputBorder(borderSide: BorderSide.none)
-                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.error)),
-            focusedErrorBorder: widget.asFilter
-                ? const OutlineInputBorder(borderSide: BorderSide.none)
-                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.error)),
-            enabledBorder: widget.asFilter
-                ? const OutlineInputBorder(borderSide: BorderSide.none)
-                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
-            disabledBorder: widget.asFilter
-                ? const OutlineInputBorder(borderSide: BorderSide.none)
-                : OutlineInputBorder(borderSide: BorderSide(color: colorScheme.primary)),
-            contentPadding: widget.asFilter ? EdgeInsets.zero : null,
-            fillColor: Colors.transparent,
-          ),
-          borderRadius: BorderRadius.circular(widget.asFilter ? 0 : kRadiusCornerInside),
-          hint: Text(
-            Texts.categories,
-            style: widget.asFilter
-                ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: colorScheme.inversePrimary)
-                : null,
-          ),
-          value: _selectedCategory,
-          validator: (value) {
-            if (value == null) {
-              return Texts.requiredField;
-            }
-            return null;
           },
-          icon: _selectedCategory == null
-              ? null
-              : Center(
-                  child: IconButton(
-                    icon: const Center(child: Icon(PhosphorIcons.x, size: 14)),
-                    onPressed: () => _onClear(),
-                  ),
-                ),
-          onChanged: (Category? value) => _onChange(value?.id),
-          selectedItemBuilder: (context) {
-            return categories.map<Widget>((Category category) {
-              return Text(
-                widget.asFilter ? Texts.categories : category.name.toUpperCase(),
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: colorScheme.inversePrimary),
-              );
-            }).toList();
-          },
-          items: categories
-              .map<DropdownMenuItem<Category>>(
-                (Category category) => DropdownMenuItem<Category>(
-                  value: category,
-                  child: Text(category.name.toUpperCase()),
-                ),
-              )
-              .toList(),
         );
       },
       loading: () {
-        return Text(Texts.loading, style: Theme.of(context).textTheme.bodyMedium);
+        return const Text(Texts.loading).bodyMedium;
       },
       error: (error, stackTrace) {
         return Center(child: Text('Error: $error'));
       },
     );
-  }
-
-  _onChange(int? categoryId) {
-    _selectedCategory = categories.firstWhere((element) => element.id == categoryId);
-    widget.onCategorySelected(_selectedCategory);
-    setState(() {});
-  }
-
-  _onClear() {
-    _selectedCategory = null;
-    widget.onCategorySelected(null);
-    setState(() {});
   }
 }

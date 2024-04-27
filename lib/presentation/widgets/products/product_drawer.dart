@@ -75,6 +75,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       builder: (FormFieldState state) {
                         return CategorySelector(
                           initialCategory: widget.product?.category.name,
+                          asFilter: false,
                           onCategorySelected: (value) {
                             state.didChange(value);
                             category = value;
