@@ -1,7 +1,6 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:elegant_notification/resources/arrays.dart';
-import 'package:elegant_notification/resources/stacked_options.dart';
 import 'package:flutter/material.dart';
 
 enum ToastType {
