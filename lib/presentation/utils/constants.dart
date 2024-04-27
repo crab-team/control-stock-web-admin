@@ -20,7 +20,7 @@ class Texts {
   static const String lastName = 'Apellido';
   static const String description = 'Descripción';
   static const String price = 'Precio';
-  static const String stock = 'Stock';
+  static const String stock = 'Cantidad';
   static const String code = 'Código';
   static const String loading = 'Cargando...';
   static const String noImage = 'Sin imagen';

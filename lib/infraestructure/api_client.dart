@@ -1,15 +1,20 @@
 import 'dart:io';
 
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
+import 'package:control_stock_web_admin/core/error_handlers/error_code.dart';
+import 'package:control_stock_web_admin/core/error_handlers/exceptions.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
-import 'package:control_stock_web_admin/utils/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class APIClient {
   late final Dio dio;
 
   final String baseUrl;
 
-  APIClient({required this.baseUrl}) {
+  APIClient({
+    required this.baseUrl,
+    // required this.settingsRepository,
+  }) {
     dio = Dio();
     dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 15);
@@ -20,209 +25,207 @@ class APIClient {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.accessControlAllowOriginHeader: '*',
     };
-    // dio.interceptors.add(LogInterceptor(responseBody: true));
-    // dio.interceptors.add(InterceptorsWrapper(onError: (DioException error, handler) async {
-    //   if (error.response?.statusCode == 401) {
-    //     if (!error.requestOptions.path.contains('refresh-token')) {
-    //       await _refreshToken();
-    //       await _retry(error.requestOptions);
-    //     }
-    //   }
-    //   return handler.next(error);
-    // }));
+    // dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+    // dio.interceptors.add(_createRetryInterceptor());
   }
 
-  Future<dynamic> sendGet(
+  Future<Either<AppError, dynamic>> sendGet(
     String path, {
-    bool authenticated = false,
     Map<String, String> headers = const {},
     Map<String, String> queryParams = const {},
   }) async {
-    if (authenticated) {
-      headers = await _addAuthHeader(headers);
+    try {
+      final result = await execute(
+        () => dio.get(
+          path,
+          queryParameters: queryParams,
+          options: Options(headers: headers),
+        ),
+      );
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(_handleAppError(e));
     }
-
-    logger.d('-- GET: $path');
-
-    return execute(
-      () => dio.get(
-        path,
-        queryParameters: queryParams,
-        options: Options(headers: headers),
-      ),
-    );
   }
 
-  Future<dynamic> sendPost(
+  Future<Either<AppError, dynamic>> sendPost(
     String path, {
-    bool authenticated = false,
     Map<String, dynamic> body = const {},
     Map<String, String> headers = const {},
     String? contentType = Headers.jsonContentType,
   }) async {
-    if (authenticated) {
-      headers = await _addAuthHeader(headers);
+    try {
+      final result = await execute(
+        () => dio.post(
+          path,
+          data: body,
+          options: Options(headers: headers, contentType: contentType),
+        ),
+      );
+
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(_handleAppError(e));
     }
-
-    logger.d('-- POST: $path');
-    logger.d('-- BODY: $body');
-
-    return execute(
-      () => dio.post(
-        path,
-        data: body,
-        options: Options(headers: headers, contentType: contentType),
-      ),
-    );
   }
 
-  Future<dynamic> sendDelete(
+  Future<Either<AppError, dynamic>> sendDelete(
     String path, {
-    bool authenticated = false,
     Map<String, dynamic> body = const {},
     Map<String, String> headers = const {},
   }) async {
-    if (authenticated) {
-      headers = await _addAuthHeader(headers);
+    try {
+      final result = await execute(
+        () => dio.delete(
+          path,
+          data: body,
+          options: Options(headers: headers),
+        ),
+      );
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(_handleAppError(e));
     }
-
-    logger.d('-- DELETE: $path');
-    logger.d('-- BODY: $body');
-
-    return execute(
-      () => dio.delete(
-        path,
-        data: body,
-        options: Options(headers: headers),
-      ),
-    );
   }
 
-  Future<dynamic> sendPut(
+  Future<Either<AppError, dynamic>> sendPut(
     String path, {
-    bool authenticated = false,
     Map<String, dynamic> body = const {},
     Map<String, String> headers = const {},
   }) async {
-    if (authenticated) {
-      headers = await _addAuthHeader(headers);
+    try {
+      final result = await execute(
+        () => dio.put(
+          path,
+          data: body,
+          options: Options(headers: headers),
+        ),
+      );
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(_handleAppError(e));
     }
-
-    logger.d('-- PUT: $path');
-    logger.d('-- BODY: $body');
-
-    return execute(
-      () => dio.put(
-        path,
-        data: body,
-        options: Options(headers: headers),
-      ),
-    );
   }
 
-  Future<dynamic> sendPatch(
+  Future<Either<AppError, dynamic>> sendPatch(
     String path, {
-    bool authenticated = false,
     Map<String, dynamic> body = const {},
     Map<String, String> headers = const {},
   }) async {
-    if (authenticated) {
-      headers = await _addAuthHeader(headers);
+    try {
+      final result = await execute(
+        () => dio.patch(
+          path,
+          data: body,
+          options: Options(headers: headers),
+        ),
+      );
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(_handleAppError(e));
     }
-
-    logger.d('-- PATCH: $path');
-    logger.d('-- BODY: $body');
-
-    return execute(
-      () => dio.patch(
-        path,
-        data: body,
-        options: Options(headers: headers),
-      ),
-    );
   }
 
   Future<dynamic> execute(Function() function) async {
     try {
-      var response = await function();
+      Response response = await function();
 
       if (!_isResponseOk(response)) {
-        throw Exception('Error: ${response.statusCode}');
+        throw _handleResponseException(response);
       }
 
       return response.data;
-    } on SocketException {
-      throw Exception('No Internet connection');
     } on DioException catch (e) {
-      logger.d('-- DIO ERROR: ${e.response}');
-      throw Exception('Error: ${e.message}');
+      if (e.type == DioExceptionType.connectionError || e is SocketException) {
+        throw NoInternetConnectionException();
+      }
+      throw _handleResponseException(e.response!);
     }
   }
 
   bool _isResponseOk(Response response) {
     if (response.statusCode == null) return false;
-    return response.statusCode! >= 200 && response.statusCode! < 400;
+    return response.statusCode! >= 200 && response.statusCode! < 300;
   }
 
-  Future<Map<String, String>> _addAuthHeader(Map<String, String> headers) async {
-    String accessToken = await _getAccessToken();
-    return {
-      ...headers,
-      HttpHeaders.authorizationHeader: accessToken,
-    };
-  }
+  // Future<String> _getAccessToken() async {
+  //   final userCredentials = await settingsRepository.getUserCredentials();
+  //   if (userCredentials == null) return '';
+  //   return userCredentials.getAccessToken();
+  // }
 
-  Future<String> _getAccessToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final accessToken = sharedPreferences.getString('accessToken');
+  // Future<String> _refreshToken() async {
+  //   final userCredentials = await settingsRepository.getUserCredentials();
+  //   if (userCredentials == null) return '';
 
-    if (accessToken == null || accessToken.isEmpty) {
-      throw Exception('Access token not found');
+  //   final refreshToken = userCredentials.getRefreshToken();
+  //   final newAccessTokenResponse = await sendPost('/accounts/refresh-token', body: {
+  //     'refreshToken': refreshToken,
+  //   });
+
+  //   final newAccessTokenRight = newAccessTokenResponse.getRight() as Map<String, dynamic>;
+  //   final newAccessToken = newAccessTokenRight['accessToken'];
+  //   await settingsRepository.updateAccessToken(newAccessToken);
+  //   return newAccessToken;
+  // }
+
+  // InterceptorsWrapper _createRetryInterceptor() {
+  //   return InterceptorsWrapper(
+  //     onRequest: (options, handler) async {
+  //       String accessToken = await _getAccessToken();
+  //       options.headers[HttpHeaders.authorizationHeader] = 'Bearer $accessToken';
+  //       return handler.next(options);
+  //     },
+  //     onError: (DioException error, handler) async {
+  //       if (error.response?.statusCode == 401) {
+  //         try {
+  //           String newAccessToken = await _refreshToken();
+  //           error.requestOptions.headers[HttpHeaders.authorizationHeader] = 'Bearer $newAccessToken';
+  //           return handler.resolve(await dio.fetch(error.requestOptions));
+  //         } catch (e) {
+  //           return handler.reject(error);
+  //         }
+  //       }
+
+  //       return handler.next(error);
+  //     },
+  //   );
+  // }
+
+  Exception _handleResponseException(Response response) {
+    switch (response.statusCode) {
+      case 400:
+        final codeAsString = response.data['code'];
+        final code = AppError.fromString(codeAsString);
+        return BadRequestException(code);
+      case 401:
+      case 403:
+        return UnauthorizedException();
+      case 404:
+        return NotFoundException();
+      case 500:
+        return ServerErrorException();
+      default:
+        return UnexpectedErrorException();
     }
-
-    return accessToken;
   }
 
-  Future<String> _getRefreshToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final refreshToken = sharedPreferences.getString('refreshToken');
-
-    logger.d('Refresh token: $refreshToken');
-
-    if (refreshToken == null || refreshToken.isEmpty) {
-      throw Exception('Refresh token not found');
+  AppError _handleAppError(Exception e) {
+    switch (e.runtimeType) {
+      case BadRequestException:
+        final exception = e as BadRequestException;
+        final code = exception.code;
+        return AppError(code: code);
+      case UnauthorizedException:
+      // return UnauthorizedError();
+      case NotFoundException:
+      // return NotFoundError();
+      case ServerErrorException:
+      // return ServerError();
+      case NoInternetConnectionException:
+      // return NoInternetConnectionError();
+      default:
+        return AppError(code: ErrorCode.UNEXPECTED_ERROR, message: 'Unexpected error');
     }
-
-    return refreshToken;
-  }
-
-  Future<dynamic> _retry(RequestOptions requestOptions) async {
-    if (requestOptions.method == 'GET') {
-      return sendGet(
-        requestOptions.path,
-        authenticated: true,
-        headers: requestOptions.headers as Map<String, String>,
-        queryParams: requestOptions.queryParameters as Map<String, String>,
-      );
-    }
-
-    if (requestOptions.method == 'POST') {
-      return sendPost(
-        requestOptions.path,
-        authenticated: true,
-        body: requestOptions.data,
-        headers: requestOptions.headers as Map<String, String>,
-      );
-    }
-
-    throw Exception('Invalid request method');
-  }
-
-  Future<dynamic> _refreshToken() async {
-    String refreshToken = await _getRefreshToken();
-
-    return sendPost('/auth/refresh-token', body: {
-      'refreshToken': refreshToken,
-    });
   }
 }

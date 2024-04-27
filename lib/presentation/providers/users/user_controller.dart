@@ -19,8 +19,8 @@ class UserController extends AsyncNotifier<User?> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(storeUserUseCase).execute(user);
-      response.leftMap((l) {
-        throw l.message;
+      response.mapLeft((l) {
+        throw l.message!;
       });
       return user;
     });

@@ -53,7 +53,7 @@ class ProductsController extends AsyncNotifier<List<Product>> {
       final productsEither = await ref.read(deleteProductUseCaseProvider).execute(id);
       return productsEither.fold(
         (l) {
-          _showToast(ToastControllerModel(Texts.products, '${Texts.errorDeletingProduct} $id', ToastType.error));
+          _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
           throw l;
         },
         (r) {
@@ -72,8 +72,7 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
       return productsEither.fold((l) {
-        _showToast(
-            ToastControllerModel(Texts.products, '${Texts.errorCreatingProduct} ${product.code}', ToastType.error));
+        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
         throw l;
       }, (r) {
         products.add(r);
@@ -90,7 +89,7 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductsUseCaseProvider).execute(products);
       return productsEither.fold((l) {
-        _showToast(ToastControllerModel(Texts.products, Texts.errorCreatingProducts, ToastType.error));
+        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
         throw l;
       }, (r) async {
         _showToast(ToastControllerModel(Texts.products, Texts.allProductsUpdated, ToastType.success));
@@ -107,8 +106,7 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductUseCaseProvider).execute(product);
       return productsEither.fold((l) {
-        _showToast(
-            ToastControllerModel(Texts.products, '${Texts.errorUpdatingProduct} ${product.code}', ToastType.error));
+        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
         throw l;
       }, (r) {
         _showToast(ToastControllerModel(Texts.products, '${Texts.productUpdated} ${product.code}', ToastType.success));
@@ -125,7 +123,7 @@ class ProductsController extends AsyncNotifier<List<Product>> {
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductsUseCaseProvider).execute(products);
       return productsEither.fold((l) {
-        _showToast(ToastControllerModel(Texts.products, Texts.errorUpdatingProducts, ToastType.error));
+        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
         throw l;
       }, (r) async {
         _showToast(ToastControllerModel(Texts.products, Texts.allProductsUpdated, ToastType.success));

@@ -1,5 +1,7 @@
+import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 const kPaddingApp = EdgeInsets.all(100.0);
 const kPaddingAppSmall = EdgeInsets.all(16.0);
@@ -63,6 +65,42 @@ final ColorScheme colorScheme = ColorScheme.fromSeed(
   background: const Color(0xFFFFFFFF),
   onError: const Color(0xFFED1C15),
 );
+
+extension ButtonStyleExtension on ButtonStyle {
+  ButtonStyle primary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.primary);
+  ButtonStyle secondary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.secondary);
+  ButtonStyle tertiary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.tertiary);
+  ButtonStyle inversePrimary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary);
+}
+
+extension ElevatedButtonExtesion on ElevatedButton {
+  ElevatedButton primary() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary), child: child);
+  ElevatedButton secondary() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.secondary), child: child);
+  ElevatedButton tertiary() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.tertiary), child: child);
+  ElevatedButton inversePrimary() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary), child: child);
+  ElevatedButton cancel() => ElevatedButton.icon(
+        icon: const Icon(PhosphorIcons.x_circle),
+        label: const Text(Texts.cancel),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
+      );
+  ElevatedButton inverseCancel() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary), child: child);
+
+  ElevatedButton save({bool isLarge = false}) => ElevatedButton.icon(
+        icon: const Icon(PhosphorIcons.floppy_disk),
+        label: Text(Texts.save, style: TextStyle(fontSize: isLarge ? 18 : 14)),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
+      );
+
+  ElevatedButton inverseSave() => ElevatedButton(
+      onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary), child: child);
+}
 
 final ThemeData theme = ThemeData(
   fontFamily: 'Lato',

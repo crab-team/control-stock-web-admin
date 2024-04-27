@@ -1,5 +1,5 @@
-import 'package:dartz/dartz.dart';
-import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/domain/entities/user.dart';
 import 'package:control_stock_web_admin/domain/repositories/users_repository.dart';
 
@@ -8,7 +8,7 @@ class GetUser {
 
   GetUser(this._repository);
 
-  Future<Either<Failure, User?>> execute() async {
+  Future<Either<AppError, User?>> execute() async {
     return await _repository.getUser();
   }
 }

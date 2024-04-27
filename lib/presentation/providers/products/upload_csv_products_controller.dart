@@ -24,7 +24,7 @@ class UploadCsvProductsController extends AutoDisposeAsyncNotifier<List<Product>
       List<Product> products = [];
 
       csv.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (l) => state = AsyncValue.error(l, StackTrace.current),
         (r) {
           products = r
               .map((e) => Product(

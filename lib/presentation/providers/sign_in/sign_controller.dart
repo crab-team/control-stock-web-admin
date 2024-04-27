@@ -16,8 +16,8 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final response = await ref.read(signInWitEmailLinkUseCase).call(email);
-      response.leftMap((l) {
-        throw l.message;
+      response.mapLeft((l) {
+        throw l.message!;
       });
     });
   }
@@ -27,8 +27,8 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       final response =
           await ref.read(signInWithCredentialsUseCase).execute(SignInCredentials(email: email, password: password));
-      response.leftMap((l) {
-        throw l.message;
+      response.mapLeft((l) {
+        throw l.message!;
       });
     });
   }
@@ -37,7 +37,7 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
 final exchangeTokenController = FutureProvider.autoDispose.family<User, String>((ref, token) async {
   final response = await ref.read(exchangeTokenUseCase).execute(token);
   return response.fold((l) {
-    throw l.message;
+    throw l.message!;
   }, (user) {
     ref.read(userControllerProvider.notifier).storeUser(user);
     return user;

@@ -1,5 +1,6 @@
-import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
-import 'package:dartz/dartz.dart';
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
+import 'package:control_stock_web_admin/core/error_handlers/error_code.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:file_picker/file_picker.dart';
 
 class ProductCsv {
@@ -21,7 +22,7 @@ class ProductCsv {
 }
 
 class ProductsCsvLoader {
-  static Future<Either<Failure, List<ProductCsv>>> upload() async {
+  static Future<Either<AppError, List<ProductCsv>>> upload() async {
     try {
       FilePickerResult? csvFile = await FilePicker.platform.pickFiles(
         allowedExtensions: ['csv'],
@@ -63,9 +64,9 @@ class ProductsCsvLoader {
 
       return Right(csv);
     } on FormatException catch (_) {
-      return Left(FormatFailure());
+      return Left(AppError.handle(ErrorCode.FORMAT_EXCEPTION));
     } catch (e) {
-      return Left(Failure('Error al cargar el archivo'));
+      return Left(AppError.handle(ErrorCode.UNEXPECTED_ERROR));
     }
   }
 

@@ -83,7 +83,6 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                         );
                       },
                     ),
-                    const Gap.small(),
                     _buildLastProductCreatedByCategory(),
                     const Gap.small(),
                     TextFormField(
@@ -137,19 +136,10 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
-                            icon: const Icon(Icons.cancel),
-                            onPressed: () => ref.read(navigationServiceProvider).goBack(),
-                            label: const Text('Cancelar'),
-                          ),
+                          ElevatedButton(child: null, onPressed: () => ref.read(navigationServiceProvider).goBack())
+                              .cancel(),
                           const Gap.small(isHorizontal: true),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
-                            icon: const Icon(Icons.save),
-                            onPressed: () => _onSubmit(),
-                            label: Text(widget.product != null ? 'Editar' : 'Agregar'),
-                          ),
+                          ElevatedButton(child: null, onPressed: () => _onSubmit()).save(),
                         ],
                       ),
                     ),
@@ -173,22 +163,28 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
       return const SizedBox();
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Último producto creado en esta categoría:',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        const Gap.small(isHorizontal: true),
-        Text(
-          '${lastProduct.code} '.toUpperCase(),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-        ),
-        Text(
-          '- ${lastProduct.name}'.toUpperCase(),
-          style: Theme.of(context).textTheme.bodySmall,
+        const Gap.small(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              'Último producto creado en esta categoría:',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const Gap.small(isHorizontal: true),
+            Text(
+              '${lastProduct.code} '.toUpperCase(),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '- ${lastProduct.name}'.toUpperCase(),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
         ),
       ],
     );
@@ -212,7 +208,6 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
       } else {
         ref.read(productsControllerProvider.notifier).create(product);
       }
-      ref.read(navigationServiceProvider).goBack();
     }
   }
 }

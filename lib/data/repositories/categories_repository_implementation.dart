@@ -1,8 +1,8 @@
-import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/data/data_sources/categories/categories_remote_data_source.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/repositories/categories_repository.dart';
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 
 class CategoriesRepositoryImplementation implements CategoriesRepository {
   final CategoriesRemoteDataSource categoriesRemoteDataSource;
@@ -10,51 +10,44 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
   CategoriesRepositoryImplementation(this.categoriesRemoteDataSource);
 
   @override
-  Future<Either<Failure, Category>> get(int id) {
+  Future<Either<AppError, Category>> get(int id) {
     // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, Category>> create(String categoryName, double percentageProfit, double extraCosts) async {
-    try {
-      final categoriesResponse =
-          await categoriesRemoteDataSource.addCategory(categoryName, percentageProfit, extraCosts);
-      final category = categoriesResponse.toDomain();
-      return Right(category);
-    } on Exception catch (e) {
-      return Left(Failure(e.toString()));
-    }
+  Future<Either<AppError, Category>> create(String categoryName, double percentageProfit, double extraCosts) async {
+    final response = await categoriesRemoteDataSource.addCategory(categoryName, percentageProfit, extraCosts);
+    return response.fold(
+      (l) => Left(l),
+      (r) => Right(r.toDomain()),
+    );
   }
 
   @override
-  Future<Either<Failure, void>> delete(int id) async {
-    try {
-      await categoriesRemoteDataSource.deleteCategory(id);
-      return const Right(null);
-    } on Exception catch (e) {
-      return Left(Failure(e.toString()));
-    }
+  Future<Either<AppError, void>> delete(int id) async {
+    final response = await categoriesRemoteDataSource.deleteCategory(id);
+    return response.fold(
+      (l) => Left(l),
+      (r) => const Right(null),
+    );
   }
 
   @override
-  Future<Either<Failure, List<Category>>> getAll() async {
-    try {
-      final categoriesResponse = await categoriesRemoteDataSource.getCategories();
-      final categories = categoriesResponse.map((e) => e.toDomain()).toList();
-      return Right(categories);
-    } on Exception catch (e) {
-      return Left(Failure(e.toString()));
-    }
+  Future<Either<AppError, List<Category>>> getAll() async {
+    final response = await categoriesRemoteDataSource.getCategories();
+    return response.fold(
+      (l) => Left(l),
+      (r) => Right(r.map((e) => e.toDomain()).toList()),
+    );
   }
 
   @override
-  Future<Either<Failure, Category>> update(Category category) async {
-    try {
-      final categoriesResponse = await categoriesRemoteDataSource.updateCategory(category);
-      return Right(categoriesResponse.toDomain());
-    } on Exception catch (e) {
-      return Left(Failure(e.toString()));
-    }
+  Future<Either<AppError, Category>> update(Category category) async {
+    final response = await categoriesRemoteDataSource.updateCategory(category);
+    return response.fold(
+      (l) => Left(l),
+      (r) => Right(r.toDomain()),
+    );
   }
 }

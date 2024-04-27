@@ -1,5 +1,5 @@
-import 'package:dartz/dartz.dart';
-import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/domain/repositories/auth_repository.dart';
 
 class SignInWitEmailLink {
@@ -7,7 +7,7 @@ class SignInWitEmailLink {
 
   SignInWitEmailLink(this._authRepository);
 
-  Future<Either<Failure, void>> call(String email) async {
+  Future<Either<AppError, void>> call(String email) async {
     return await _authRepository.signInWithEmailLink(email);
   }
 }

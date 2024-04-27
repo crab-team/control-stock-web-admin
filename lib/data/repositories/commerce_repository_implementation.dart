@@ -1,8 +1,8 @@
-import 'package:control_stock_web_admin/core/error_handlers/failure.dart';
+import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/data/data_sources/commerce/commerce_remote_data_source.dart';
 import 'package:control_stock_web_admin/domain/entities/commerce.dart';
 import 'package:control_stock_web_admin/domain/repositories/commerce_repository.dart';
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 
 class CommerceRepositoryImplementation implements CommerceRepository {
   final CommerceRemoteDataSource commerceRemoteDataSource;
@@ -10,23 +10,21 @@ class CommerceRepositoryImplementation implements CommerceRepository {
   CommerceRepositoryImplementation(this.commerceRemoteDataSource);
 
   @override
-  Future<Either<Failure, Commerce>> getById(String id) async {
-    try {
-      final response = await commerceRemoteDataSource.getById(id);
-      return Right(response.toDomain());
-    } catch (e) {
-      return Left(ServerFailure());
-    }
+  Future<Either<AppError, Commerce>> getById(String id) async {
+    final response = await commerceRemoteDataSource.getById(id);
+    return response.fold(
+      (l) => Left(l),
+      (r) => Right(r.toDomain()),
+    );
   }
 
   @override
-  Future<Either<Failure, void>> update(Commerce commerce) async {
-    try {
-      var commerceModel = commerce.toUpdateCommerceModel();
-      await commerceRemoteDataSource.update(commerceModel);
-      return const Right(null);
-    } catch (e) {
-      return Left(ServerFailure());
-    }
+  Future<Either<AppError, void>> update(Commerce commerce) async {
+    var commerceModel = commerce.toUpdateCommerceModel();
+    final response = await commerceRemoteDataSource.update(commerceModel);
+    return response.fold(
+      (l) => Left(l),
+      (r) => const Right(null),
+    );
   }
 }
