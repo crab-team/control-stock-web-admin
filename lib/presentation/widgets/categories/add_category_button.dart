@@ -18,6 +18,6 @@ class AddCategoryButton extends ConsumerWidget {
   }
 
   _goToCreateCategory(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const CategoryDrawer();
+    ref.read(drawerControllerProvider.notifier).state = const CategoryDrawer();
   }
 }

@@ -110,6 +110,6 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
   }
 
   _openDrawer(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const OrderDrawer();
+    ref.read(drawerControllerProvider.notifier).state = const OrderDrawer();
   }
 }

@@ -2,6 +2,7 @@ import 'package:control_stock_web_admin/core/router.dart';
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/category.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
@@ -9,6 +10,7 @@ import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.d
 import 'package:control_stock_web_admin/presentation/widgets/shared/number_inc_dec.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductDrawer extends ConsumerStatefulWidget {
@@ -36,11 +38,55 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
       nameController.text = widget.product!.name;
       priceController.text = widget.product!.costPrice.toStringAsFixed(2).replaceAll('.', ',');
       stockController.text = widget.product!.stock.toString();
+      category = widget.product!.category;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(productDrawerStateControllerProvider);
+
+    if (state == ProductDrawerState.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state == ProductDrawerState.error) {
+      Future.delayed(const Duration(seconds: 2), () {
+        ref.read(productDrawerStateControllerProvider.notifier).state = ProductDrawerState.initial;
+        return;
+      });
+
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error, color: colorScheme.error),
+            const Gap.small(),
+            const Text('Ha ocurrido un error'),
+          ],
+        ),
+      );
+    }
+
+    if (state == ProductDrawerState.success) {
+      Future.delayed(const Duration(seconds: 2), () {
+        ref.read(navigationServiceProvider).goBack();
+        ref.read(drawerControllerProvider.notifier).state = null;
+        return;
+      });
+
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(PhosphorIcons.check_circle, color: colorScheme.success, size: 54),
+            const Gap.small(),
+            Text('Producto ${widget.product != null ? 'actualizado' : 'creado'} correctamente').bodyMedium,
+          ],
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,16 +112,11 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                   children: [
                     FormField<Category>(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null) {
-                          return Texts.requiredField;
-                        }
-                        return null;
-                      },
                       builder: (FormFieldState state) {
                         return CategorySelector(
-                          initialCategory: widget.product?.category.name,
+                          initialCategory: category?.name,
                           asFilter: false,
+                          hasError: state.hasError,
                           onCategorySelected: (value) {
                             state.didChange(value);
                             category = value;
@@ -138,9 +179,9 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ElevatedButton(child: null, onPressed: () => ref.read(navigationServiceProvider).goBack())
-                              .cancel(),
+                              .cancel,
                           const Gap.small(isHorizontal: true),
-                          ElevatedButton(child: null, onPressed: () => _onSubmit()).save(),
+                          ElevatedButton(child: null, onPressed: () => _onSubmit()).save,
                         ],
                       ),
                     ),

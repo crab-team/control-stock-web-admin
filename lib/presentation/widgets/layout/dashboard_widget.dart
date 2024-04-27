@@ -60,7 +60,7 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
       key: _scaffoldKey,
       onEndDrawerChanged: (isOpened) {
         if (!isOpened) {
-          ref.read(drawerController.notifier).state = null;
+          ref.read(drawerControllerProvider.notifier).state = null;
         }
       },
       endDrawerEnableOpenDragGesture: false,
@@ -102,7 +102,7 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
   }
 
   Widget _buildDrawer(WidgetRef ref) {
-    final drawerControllerListener = ref.watch(drawerController);
+    final drawerControllerListener = ref.watch(drawerControllerProvider);
     if (drawerControllerListener != null) {
       _scaffoldKey.currentState!.openEndDrawer();
     }

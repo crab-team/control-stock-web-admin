@@ -23,11 +23,6 @@ class ToastUtils {
         animation: AnimationType.fromRight,
         title: Text(title),
         description: Text(message),
-        stackedOptions: StackedOptions(
-          key: 'right',
-          type: StackedType.above,
-          itemOffset: const Offset(0, 5),
-        ),
         shadow: BoxShadow(
           color: colorScheme.primary.withOpacity(0.2),
           spreadRadius: 2,
@@ -47,11 +42,6 @@ class ToastUtils {
     } else if (type == ToastType.error) {
       ElegantNotification.error(
         width: 400,
-        stackedOptions: StackedOptions(
-          key: 'right',
-          type: StackedType.above,
-          itemOffset: const Offset(0, 5),
-        ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -77,11 +67,6 @@ class ToastUtils {
     } else if (type == ToastType.warning) {
       ElegantNotification.info(
         width: 400,
-        stackedOptions: StackedOptions(
-          key: 'right',
-          type: StackedType.above,
-          itemOffset: const Offset(0, 5),
-        ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -107,11 +92,6 @@ class ToastUtils {
     } else if (type == ToastType.info) {
       ElegantNotification.info(
         width: 400,
-        stackedOptions: StackedOptions(
-          key: 'right',
-          type: StackedType.above,
-          itemOffset: const Offset(0, 5),
-        ),
         showProgressIndicator: false,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,
@@ -138,11 +118,6 @@ class ToastUtils {
     if (type == ToastType.loading) {
       ElegantNotification.info(
         width: 400,
-        stackedOptions: StackedOptions(
-          key: 'right',
-          type: StackedType.above,
-          itemOffset: const Offset(0, 5),
-        ),
         showProgressIndicator: true,
         animationCurve: Curves.ease,
         position: Alignment.bottomRight,

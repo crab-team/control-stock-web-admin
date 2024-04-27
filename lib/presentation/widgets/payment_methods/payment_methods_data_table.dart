@@ -110,6 +110,6 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
   }
 
   _openDrawer(BuildContext context, PaymentMethod? paymentMethod) {
-    ref.read(drawerController.notifier).state = PaymentMethodsDrawer(paymentMethod: paymentMethod);
+    ref.read(drawerControllerProvider.notifier).state = PaymentMethodsDrawer(paymentMethod: paymentMethod);
   }
 }

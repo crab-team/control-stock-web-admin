@@ -100,10 +100,10 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
   }
 
   _openDrawer(BuildContext context, WidgetRef ref, Customer? customer) {
-    ref.read(drawerController.notifier).state = CustomerDrawer(customer: customer);
+    ref.read(drawerControllerProvider.notifier).state = CustomerDrawer(customer: customer);
   }
 
   _openBalanceDrawer(BuildContext context, WidgetRef ref, Customer customer) {
-    ref.read(drawerController.notifier).state = CustomerBalanceDrawer(customer: customer);
+    ref.read(drawerControllerProvider.notifier).state = CustomerBalanceDrawer(customer: customer);
   }
 }

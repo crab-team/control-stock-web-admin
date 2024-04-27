@@ -58,13 +58,23 @@ final ColorScheme colorScheme = ColorScheme.fromSeed(
   secondaryContainer: const Color.fromARGB(255, 221, 245, 255),
   tertiary: const Color(0xFFED5B15),
   tertiaryContainer: const Color(0xFFFFD8E4),
-  error: const Color(0xFF02191f),
-  errorContainer: const Color(0xFFE5E5E5),
   inversePrimary: const Color(0xFF0D0D0D),
   outline: const Color(0xFFE5E5E5),
   background: const Color(0xFFFFFFFF),
-  onError: const Color(0xFFED1C15),
+  error: const Color(0xFFED1C15),
+  errorContainer: const Color(0xFFFFD8E4),
+  onError: const Color(0xFFFFFFFF),
 );
+
+extension ColorSchemeExtension on ColorScheme {
+  Color get success => const Color(0xFF00A86B);
+  Color get warning => const Color(0xFFE5A800);
+  Gradient get gradientPrimary => LinearGradient(
+        colors: [primary, secondary],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      );
+}
 
 extension ButtonStyleExtension on ButtonStyle {
   ButtonStyle primary() => ElevatedButton.styleFrom(backgroundColor: colorScheme.primary);
@@ -78,7 +88,7 @@ extension TextThemeExtension on Text {
   Text get displayMedium => Text(data!, style: theme.textTheme.displayMedium);
   Text get displaySmall => Text(data!, style: theme.textTheme.displaySmall);
   Text get bodyLarge => Text(data!, style: theme.textTheme.bodyLarge);
-  Text get bodyMedium => Text(data!, style: theme.textTheme.bodyMedium);
+  Text get bodyMedium => Text(data!, style: theme.textTheme.bodyMedium!);
   Text get bodySmall => Text(data!, style: theme.textTheme.bodySmall);
   Text get headlineLarge => Text(data!, style: theme.textTheme.headlineLarge);
   Text get headlineMedium => Text(data!, style: theme.textTheme.headlineMedium);
@@ -89,31 +99,31 @@ extension TextThemeExtension on Text {
 }
 
 extension ElevatedButtonExtesion on ElevatedButton {
-  ElevatedButton primary() => ElevatedButton(
+  ElevatedButton get primary => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary), child: child);
-  ElevatedButton secondary() => ElevatedButton(
+  ElevatedButton get secondary => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.secondary), child: child);
-  ElevatedButton tertiary() => ElevatedButton(
+  ElevatedButton get tertiary => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.tertiary), child: child);
-  ElevatedButton inversePrimary() => ElevatedButton(
+  ElevatedButton get inversePrimary => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary), child: child);
-  ElevatedButton cancel() => ElevatedButton.icon(
+  ElevatedButton get cancel => ElevatedButton.icon(
         icon: const Icon(PhosphorIcons.x_circle),
         label: const Text(Texts.cancel),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
       );
-  ElevatedButton inverseCancel() => ElevatedButton(
+  ElevatedButton get inverseCancel => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary), child: child);
 
-  ElevatedButton save({bool isLarge = false}) => ElevatedButton.icon(
+  ElevatedButton get save => ElevatedButton.icon(
         icon: const Icon(PhosphorIcons.floppy_disk),
-        label: Text(Texts.save, style: TextStyle(fontSize: isLarge ? 18 : 14)),
+        label: const Text(Texts.save, style: TextStyle(fontSize: 14)),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
       );
 
-  ElevatedButton inverseSave() => ElevatedButton(
+  ElevatedButton get inverseSave => ElevatedButton(
       onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary), child: child);
 }
 

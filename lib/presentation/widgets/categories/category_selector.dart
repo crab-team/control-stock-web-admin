@@ -10,10 +10,16 @@ class CategorySelector extends ConsumerStatefulWidget {
   final String? initialCategory;
   final void Function(Category?) onCategorySelected;
   final bool asFilter;
+  final bool hasError;
 
-  const CategorySelector({super.key, this.initialCategory, required this.onCategorySelected, this.asFilter = false});
+  const CategorySelector(
+      {super.key,
+      this.initialCategory,
+      required this.onCategorySelected,
+      this.asFilter = false,
+      this.hasError = false});
   const CategorySelector.asFilter(
-      {super.key, this.initialCategory, required this.onCategorySelected, this.asFilter = true});
+      {super.key, this.initialCategory, required this.onCategorySelected, this.asFilter = true, this.hasError = false});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CategorySelectorState();
@@ -28,6 +34,8 @@ class _CategorySelectorState extends ConsumerState<CategorySelector> {
       data: (values) {
         return SelectorWidget<Category>(
           label: Texts.categories,
+          hasError: widget.hasError,
+          initialValue: widget.initialCategory,
           items: values,
           asFilter: widget.asFilter,
           onSelected: (value) {

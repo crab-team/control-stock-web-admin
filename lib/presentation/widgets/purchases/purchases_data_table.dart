@@ -72,7 +72,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   void _openDrawer(Purchase purchase) {
-    ref.read(drawerController.notifier).state = PurchasesDrawer(purchase: purchase);
+    ref.read(drawerControllerProvider.notifier).state = PurchasesDrawer(purchase: purchase);
   }
 
   void _search(String value) {

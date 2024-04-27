@@ -82,7 +82,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
   }
 
   void _openDrawer(Category category) {
-    ref.read(drawerController.notifier).state = CategoryDrawer(category: category);
+    ref.read(drawerControllerProvider.notifier).state = CategoryDrawer(category: category);
   }
 
   void _delete(int id) {

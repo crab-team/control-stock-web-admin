@@ -7,6 +7,10 @@ import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+enum ProductDrawerState { initial, loading, error, success }
+
+final productDrawerStateControllerProvider =
+    StateProvider.autoDispose<ProductDrawerState>((ref) => ProductDrawerState.initial);
 final productsControllerProvider = AsyncNotifierProvider<ProductsController, List<Product>>(ProductsController.new);
 
 class ProductsController extends AsyncNotifier<List<Product>> {
@@ -68,15 +72,15 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   create(Product product) async {
-    _showToast(ToastControllerModel(Texts.products, '${Texts.creatingProduct} ${product.code}', ToastType.info));
+    _modifyDrawerState(ProductDrawerState.loading);
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
       return productsEither.fold((l) {
-        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
+        _modifyDrawerState(ProductDrawerState.error);
         throw l;
       }, (r) {
         products.add(r);
-        _showToast(ToastControllerModel(Texts.products, '${Texts.productCreated} ${product.code}', ToastType.success));
+        _modifyDrawerState(ProductDrawerState.success);
         return products;
       });
     });
@@ -102,14 +106,14 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   }
 
   updateProduct(Product product) async {
-    _showToast(ToastControllerModel(Texts.products, '${Texts.updatingProduct} ${product.code}', ToastType.info));
+    _modifyDrawerState(ProductDrawerState.loading);
     state = await AsyncValue.guard(() async {
       final productsEither = await ref.read(updateProductUseCaseProvider).execute(product);
       return productsEither.fold((l) {
-        _showToast(ToastControllerModel(Texts.products, l.code.description, ToastType.error));
+        _modifyDrawerState(ProductDrawerState.error);
         throw l;
       }, (r) {
-        _showToast(ToastControllerModel(Texts.products, '${Texts.productUpdated} ${product.code}', ToastType.success));
+        _modifyDrawerState(ProductDrawerState.success);
         products.removeWhere((element) => element.id == product.id);
         products.add(r);
         return products;
@@ -164,5 +168,9 @@ class ProductsController extends AsyncNotifier<List<Product>> {
 
   void _showToast(ToastControllerModel toastController) {
     ref.read(toastsControllerProvider.notifier).showToast(toastController);
+  }
+
+  void _modifyDrawerState(ProductDrawerState state) {
+    ref.read(productDrawerStateControllerProvider.notifier).state = state;
   }
 }

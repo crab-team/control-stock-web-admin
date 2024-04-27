@@ -14,6 +14,7 @@ class SelectorWidget<T> extends ConsumerStatefulWidget {
   final List<T> items;
   final void Function(T?) onSelected;
   final bool asFilter;
+  final bool hasError;
 
   const SelectorWidget({
     super.key,
@@ -22,6 +23,7 @@ class SelectorWidget<T> extends ConsumerStatefulWidget {
     required this.items,
     required this.onSelected,
     this.asFilter = false,
+    this.hasError = false,
   });
   const SelectorWidget.asFilter({
     super.key,
@@ -30,6 +32,7 @@ class SelectorWidget<T> extends ConsumerStatefulWidget {
     required this.items,
     required this.onSelected,
     this.asFilter = true,
+    this.hasError = false,
   });
 
   @override
@@ -48,33 +51,48 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
   initState() {
     super.initState();
     items = widget.items;
-    if (widget.initialValue != null) {
-      _selected = items.firstWhere((element) => element.id == widget.initialValue);
-    }
+    _setInitialValue();
 
     if (items.isNotEmpty && items.first.runtimeType == Customer) {
       isCustomer = true;
-      setState(() {});
     }
 
     if (items.isNotEmpty && items.first.runtimeType == Product) {
       isProduct = true;
-      setState(() {});
     }
 
     if (items.isNotEmpty && items.first.runtimeType == Category) {
       isCategory = true;
-      setState(() {});
     }
 
     if (items.isNotEmpty && items.first.runtimeType == PaymentMethod) {
       isPaymentMethod = true;
-      setState(() {});
+    }
+
+    setState(() {});
+  }
+
+  _setInitialValue() {
+    if (widget.initialValue != null) {
+      if (isCustomer) {
+        _selected = items.firstWhere((element) => element.id == widget.initialValue);
+      } else if (isProduct) {
+        _selected = items.firstWhere((element) => element.code == widget.initialValue);
+      } else if (isCategory) {
+        _selected = items.firstWhere((element) => element.name == widget.initialValue);
+      } else if (isPaymentMethod) {
+        _selected = items.firstWhere((element) => element.name == widget.initialValue);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _setInitialValue();
+      setState(() {});
+    });
+
     return DropdownButtonFormField<T?>(
       decoration: widget.asFilter ? dropdownAsFilterDecoration : null,
       borderRadius: BorderRadius.circular(widget.asFilter ? 0 : kRadiusCornerInside),
@@ -88,7 +106,7 @@ class _CustomerSelectorState<T> extends ConsumerState<SelectorWidget<T?>> {
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: colorScheme.inversePrimary),
       value: _selected,
       validator: (value) {
-        if (value == null) {
+        if (value == null || widget.hasError) {
           return Texts.requiredField;
         }
         return null;

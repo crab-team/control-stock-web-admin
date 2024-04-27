@@ -17,6 +17,6 @@ class AddProductButton extends ConsumerWidget {
   }
 
   _goToProductForm(BuildContext context, WidgetRef ref) {
-    ref.read(drawerController.notifier).state = const ProductDrawer();
+    ref.read(drawerControllerProvider.notifier).state = const ProductDrawer();
   }
 }
