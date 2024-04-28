@@ -72,6 +72,7 @@ class Texts {
   static const String deleteProduct = 'Eliminar producto';
   static const String deleteProductConfirmation = '¿Está seguro que desea eliminar este producto?';
   static const String noProducts = 'No hay productos';
+  static const String pressAddProduct = 'Presiona el botón para agregar un producto';
   static const String searchProduct = 'Buscar producto';
   static const String uploadCsvProductsScreenTitle = 'Subir productos desde CSV';
   static const String uploadCsv = 'Subir CSV';
@@ -138,6 +139,12 @@ class Texts {
   static const String deleteOrderConfirmation = '¿Está seguro que desea eliminar esta orden?';
   static const String noOrders = 'No hay órdenes';
   static const String searchOrder = 'Buscar orden';
+  static const String addPurchase = 'Agregar compra';
+  static const String purchaseDetails = 'Detalles de la compra';
+  static const String createPurchase = 'Crear compra';
+  static const String editPurchase = 'Editar compra';
+  static const String noPurchases = 'No hay compras';
+  static const String searchPurchase = 'Buscar compra';
   static const String addOrder = 'Agregar orden';
   static const String editOrder = 'Editar orden';
   static const String orderDetails = 'Detalles de la orden';

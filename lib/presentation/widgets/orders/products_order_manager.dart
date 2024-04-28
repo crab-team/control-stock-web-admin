@@ -15,7 +15,7 @@ class ProductsManager extends ConsumerStatefulWidget {
 }
 
 class _ProductsManagerState extends ConsumerState<ProductsManager> {
-  final List<Widget> _productsItems = [const ProductOrderSelector()];
+  final List<Widget> _productsItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +35,17 @@ class _ProductsManagerState extends ConsumerState<ProductsManager> {
             ),
             const Gap.small(),
             Expanded(
-              child: ListView.separated(
-                primary: false,
-                separatorBuilder: (_, __) => const Column(
-                  children: [Gap.small()],
+              child: Visibility(
+                replacement: ListView.separated(
+                  primary: false,
+                  separatorBuilder: (_, __) => const Column(
+                    children: [Gap.small()],
+                  ),
+                  itemCount: _productsItems.length,
+                  itemBuilder: (_, index) => _productsItems[index],
                 ),
-                itemCount: _productsItems.length,
-                itemBuilder: (_, index) => _productsItems[index],
+                visible: _productsItems.isEmpty,
+                child: const Center(child: Text(Texts.pressAddProduct)),
               ),
             ),
           ],

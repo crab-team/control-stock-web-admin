@@ -107,9 +107,12 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
       _scaffoldKey.currentState!.openEndDrawer();
     }
 
-    return Drawer(
-      width: 720,
-      child: Padding(padding: kPaddingAppSmall, child: drawerControllerListener),
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
+      constraints: BoxConstraints(minWidth: 720, maxWidth: MediaQuery.of(context).size.width * 0.8),
+      child: Drawer(
+        child: Padding(padding: kPaddingAppSmall, child: drawerControllerListener),
+      ),
     );
   }
 }

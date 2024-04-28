@@ -36,7 +36,10 @@ class _ProductOrderSelectorState extends ConsumerState<ProductOrderSelector> {
     return Row(
       children: [
         Expanded(
-          child: SearchProduct(alreadySelectedProducts: codes, onProductSelected: (product) => _selectProduct(product)),
+          child: SearchProduct(
+            alreadySelectedProducts: codes,
+            onProductSelected: (product) => _selectProduct(product),
+          ),
         ),
         const Gap.small(isHorizontal: true),
         NumberIncDec(

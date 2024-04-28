@@ -51,68 +51,82 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
       setState(() {});
     });
 
-    return Form(
-      key: globalKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.order != null ? Texts.editCustomer : Texts.createOrder,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const Gap.small(),
-          const Divider(),
-          const Gap.small(),
-          Expanded(
-            child: ListView(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Form(
+        key: globalKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.order != null ? Texts.editPurchase : Texts.createPurchase,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const Gap.small(),
+            const Divider(),
+            const Gap.small(),
+            Expanded(
+              child: Row(
+                children: [
+                  const Expanded(flex: 2, child: ProductsManager()),
+                  const Gap.small(isHorizontal: true),
+                  const VerticalDivider(),
+                  const Gap.small(isHorizontal: true),
+                  Expanded(
+                      child: Column(
+                    children: [
+                      Expanded(child: _buildCustomerSelector()),
+                      const Gap.small(),
+                      const Divider(),
+                      const Gap.small(),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            _buildPaymentMethodSelector(),
+                            const Gap.small(),
+                            _buildGivenAmount(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+                ],
+              ),
+            ),
+            Column(
               children: [
-                _buildCustomerSelector(),
-                const Gap.small(),
-                const Divider(),
-                const Gap.small(),
-                const SizedBox(height: 300, child: ProductsManager()),
-                const Gap.small(),
-                const Divider(),
-                const Gap.small(),
-                _buildPaymentMethodSelector(),
-                const Gap.small(),
-                _buildGivenAmount(),
                 const Gap.small(),
                 const Divider(),
                 const Gap.small(),
                 _buildSummary(),
-                Column(
-                  children: [
-                    const Gap.small(),
-                    const Divider(),
-                    const Gap.small(),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
-                            icon: const Icon(Icons.cancel),
-                            onPressed: () => ref.read(navigationServiceProvider).goBack(),
-                            label: const Text(Texts.cancel),
-                          ),
-                          const Gap.small(isHorizontal: true),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
-                            icon: const Icon(Icons.save),
-                            onPressed: () => _onSubmit(),
-                            label: Text(widget.order != null ? Texts.edit : Texts.add),
-                          ),
-                        ],
+                const Gap.small(),
+                const Divider(),
+                const Gap.small(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(backgroundColor: colorScheme.inversePrimary),
+                        icon: const Icon(Icons.cancel),
+                        onPressed: () => ref.read(navigationServiceProvider).goBack(),
+                        label: const Text(Texts.cancel),
                       ),
-                    ),
-                  ],
+                      const Gap.small(isHorizontal: true),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(backgroundColor: colorScheme.primary),
+                        icon: const Icon(Icons.save),
+                        onPressed: () => _onSubmit(),
+                        label: Text(widget.order != null ? Texts.edit : Texts.add),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

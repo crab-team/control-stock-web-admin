@@ -27,6 +27,8 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
       bool notContains = widget.alreadySelectedProducts.where((selected) => selected == element.code).isEmpty;
       return notContains && element.stock > 0;
     }).toList();
+
+    productsFiltered = products;
   }
 
   @override
@@ -34,7 +36,7 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
     return SearchAnchor(
       viewOnChanged: (value) {
         if (value.isEmpty) {
-          productsFiltered = [];
+          productsFiltered = products;
         }
         productsFiltered = products.where((element) {
           final byCode = element.code.toLowerCase().contains(value.toLowerCase());
