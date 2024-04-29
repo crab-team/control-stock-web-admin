@@ -36,6 +36,7 @@ class Texts {
   static const String record = 'Ficha';
   static const String paymentStatus = 'Estado de pago';
   static const String paymentMethod = 'Método de pago';
+  static const String selectPaymentMethod = 'Seleccionar método de pago';
   static const String surcharge = 'Recargo';
   static const String discount = 'Descuento';
   static const String unitPrice = 'Precio/u';
@@ -52,6 +53,7 @@ class Texts {
   static const String paid = 'Pagado';
   static const String customerGiveMoney = 'Cliente entrega dinero';
   static const String commerceReturnMoney = 'Comercio devuelve dinero';
+  static const String scanQR = 'Escanear QR';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -95,6 +97,7 @@ class Texts {
   static const String productsCreated = 'Productos creados correctamente';
   static const String productsUpdated = 'Productos actualizados correctamente';
   static const String errorUploadingCsv = 'Error al subir archivo CSV';
+  static const String selectProduct = 'Seleccionar un producto';
 
   // Categories
   static const String categories = 'Categorías';
@@ -129,6 +132,7 @@ class Texts {
   static const String searchRecord = 'Buscar registro';
   static const String addRecord = 'Agregar registro';
   static const String balance = 'Saldo';
+  static const String selectCustomer = 'Seleccionar cliente';
 
   // Purchases
   static const String purchases = 'Compras';

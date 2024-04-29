@@ -76,7 +76,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     return Text(Texts.purchases, style: Theme.of(context).textTheme.headlineMedium);
   }
 
-  void _openDrawer(Purchase? purchase) {
+  Future<void> _openDrawer(Purchase? purchase) async {
     ref.read(drawerControllerProvider.notifier).state = const OrderDrawer();
   }
 

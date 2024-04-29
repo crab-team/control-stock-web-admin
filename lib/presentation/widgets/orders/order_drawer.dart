@@ -9,8 +9,9 @@ import 'package:control_stock_web_admin/presentation/providers/orders/order_prod
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/payment_methods/payment_methods_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/orders/products_order_manager.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/products_order_manager_data_table.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
+import 'package:control_stock_web_admin/presentation/widgets/shared/search_bar_menu_widget.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/selector_widget.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:currency_formatter/currency_formatter.dart';
@@ -48,7 +49,6 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
     ref.listen(orderProductsControllerProvider, (prev, next) {
       productsSelected = next;
       quantity = productsSelected.fold(0, (previousValue, element) => previousValue + element.quantity);
-      setState(() {});
     });
 
     return SizedBox(
@@ -68,7 +68,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
             Expanded(
               child: Row(
                 children: [
-                  const Expanded(flex: 2, child: ProductsManager()),
+                  const Expanded(flex: 2, child: ProductsOrderManagerDataTable()),
                   const Gap.small(isHorizontal: true),
                   const VerticalDivider(),
                   const Gap.small(isHorizontal: true),
@@ -168,15 +168,25 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
         const Gap.small(),
         state.when(
           data: (values) {
-            return SelectorWidget<Customer>(
-              label: Texts.customers,
-              initialValue: customer?.name,
-              items: values,
+            return SearchBarMenuWidget<Customer>(
+              values: values,
+              initialValue: '${customer?.name} ${customer?.lastName}',
+              hintText: Texts.selectCustomer,
+              alreadySelectedProducts: const [],
               onSelected: (value) {
                 customer = value;
                 setState(() {});
               },
             );
+            // return SelectorWidget<Customer>(
+            //   label: Texts.selectCustomer,
+            //   initialValue: customer?.name,
+            //   items: values,
+            //   onSelected: (value) {
+            //     customer = value;
+            //     setState(() {});
+            //   },
+            // );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, _) => Center(child: Text(error.toString())),
@@ -185,10 +195,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
         if (customer != null) ...[
           Row(
             children: [
-              Text(
-                '${Texts.balance}: ',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              const Text('${Texts.balance}: ').bodySmall,
               Text(
                 CurrencyFormatter.format(customer!.balance, arsSettings),
                 style: Theme.of(context)
@@ -218,7 +225,7 @@ class _OrderDrawerStateConsumer extends ConsumerState<OrderDrawer> {
         state.when(
           data: (values) {
             return SelectorWidget<PaymentMethod>(
-              label: Texts.paymentMethods,
+              label: Texts.selectPaymentMethod,
               initialValue: paymentMethod?.name,
               items: values,
               onSelected: (value) {

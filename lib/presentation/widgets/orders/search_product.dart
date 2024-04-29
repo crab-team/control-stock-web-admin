@@ -7,10 +7,25 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchProduct extends ConsumerStatefulWidget {
+  final String? intialValue;
   final List<String> alreadySelectedProducts;
   final Function(Product) onProductSelected;
+  final bool withoutBorder;
 
-  const SearchProduct({super.key, required this.alreadySelectedProducts, required this.onProductSelected});
+  const SearchProduct({
+    super.key,
+    this.intialValue,
+    required this.alreadySelectedProducts,
+    required this.onProductSelected,
+    this.withoutBorder = false,
+  });
+
+  const SearchProduct.withoutBorder({
+    super.key,
+    this.intialValue,
+    required this.alreadySelectedProducts,
+    required this.onProductSelected,
+  }) : withoutBorder = true;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchProductState();
@@ -46,10 +61,12 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
       },
       viewBackgroundColor: colorScheme.background,
       viewSurfaceTintColor: colorScheme.background,
-      viewShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kRadiusCornerInside),
-        side: BorderSide(color: colorScheme.primaryContainer),
-      ),
+      viewShape: widget.withoutBorder
+          ? null
+          : RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kRadiusCornerInside),
+              side: BorderSide(color: colorScheme.primaryContainer),
+            ),
       suggestionsBuilder: (context, controller) {
         return productsFiltered.map((product) {
           return ListTile(
@@ -60,10 +77,20 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
         }).toList();
       },
       builder: (context, controller) {
+        controller.text = widget.intialValue ?? '';
+
         return SearchBar(
           controller: controller,
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchProduct,
+          side: widget.withoutBorder
+              ? null
+              : MaterialStateProperty.all<BorderSide>(BorderSide(color: colorScheme.primaryContainer)),
+          shape: widget.withoutBorder
+              ? null
+              : MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(kRadiusCornerInside)),
+                ),
           onTap: () {
             controller.openView();
           },
