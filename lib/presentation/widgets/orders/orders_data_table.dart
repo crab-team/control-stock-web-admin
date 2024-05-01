@@ -3,7 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/orders/orders_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/orders/order_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/purchases/purchase_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/orders/orders_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -110,6 +110,6 @@ class _OrdersDataTableState extends ConsumerState<OrdersDataTable> {
   }
 
   _openDrawer(BuildContext context, WidgetRef ref) {
-    ref.read(drawerControllerProvider.notifier).state = const OrderDrawer();
+    ref.read(drawerControllerProvider.notifier).state = const PurchaseDrawer();
   }
 }

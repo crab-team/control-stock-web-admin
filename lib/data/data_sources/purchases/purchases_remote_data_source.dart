@@ -6,7 +6,7 @@ import 'package:fpdart/fpdart.dart';
 
 abstract class PurchasesRemoteDataSource {
   Future<Either<AppError, List<PurchaseResponse>>> getAll();
-  Future<Either<AppError, void>> createPurchase(int customerId, PurchaseOrderModel purchaseOrderModel);
+  Future<Either<AppError, void>> createPurchase(int customerId, Map<String, dynamic> purchaseModel);
   Future<Either<AppError, void>> updatePurchase(int customerId, int purchaseId, PurchaseOrderModel purchaseOrderModel);
   Future<Either<AppError, void>> delete(int customerId, int purchaseId);
   Future<Either<AppError, void>> modifyStatus(int customerId, int purchaseId, String purchaseStatus);

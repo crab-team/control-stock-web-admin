@@ -4,7 +4,6 @@ import 'package:control_stock_web_admin/presentation/providers/products/products
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/toasts/toasts_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:control_stock_web_admin/utils/toast_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,18 +27,18 @@ class OrdersController extends Notifier<List<PurchaseOrder>> {
 
   Future<void> confirmOrder(PurchaseOrder order) async {
     _showToast(ToastControllerModel(Texts.orders, '${Texts.confirmingOrder} ${order.id}', ToastType.info));
-    final either = await ref.read(confirmPurchaseUseCaseProvider).execute(order);
-    either.fold(
-      (l) {
-        _showToast(ToastControllerModel(Texts.orders, '${Texts.errorConfirmingOrder} ${order.id}', ToastType.error));
-        throw Exception('Error');
-      },
-      (r) async {
-        _showToast(
-            ToastControllerModel(Texts.orders, '${Texts.orderPurchaseConfrimated} ${order.id}', ToastType.success));
-        removeOrder(order.id!);
-      },
-    );
+    // final either = await ref.read(confirmPurchaseUseCaseProvider).execute(order);
+    // either.fold(
+    //   (l) {
+    //     _showToast(ToastControllerModel(Texts.orders, '${Texts.errorConfirmingOrder} ${order.id}', ToastType.error));
+    //     throw Exception('Error');
+    //   },
+    //   (r) async {
+    //     _showToast(
+    //         ToastControllerModel(Texts.orders, '${Texts.orderPurchaseConfrimated} ${order.id}', ToastType.success));
+    //     removeOrder(order.id!);
+    //   },
+    // );
 
     await ref.read(productsControllerProvider.notifier).getAll();
     await ref.read(purchasesControllerProvider.notifier).getAll();

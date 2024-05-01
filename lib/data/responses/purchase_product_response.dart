@@ -27,7 +27,7 @@ class PurchaseProductResponse {
 
   PurchaseProduct toDomain() {
     return PurchaseProduct(
-      id: id,
+      viewId: id,
       code: code,
       quantity: quantity,
       unitPrice: unitPrice,

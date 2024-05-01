@@ -1,4 +1,92 @@
+import 'package:control_stock_web_admin/domain/entities/customer.dart';
+import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
+
+class Purchase {
+  final int? id;
+  final Customer? customer;
+  final PaymentMethod? paymentMethod;
+  final double? totalShopping;
+  final double? subtotalShopping;
+  final List<PurchaseProduct> purchaseProducts;
+  final DateTime? createdAt;
+  final PurchaseStatus? status;
+  final double? debt;
+
+  Purchase({
+    this.id,
+    required this.customer,
+    required this.paymentMethod,
+    this.totalShopping,
+    this.subtotalShopping,
+    required this.purchaseProducts,
+    this.createdAt,
+    this.status,
+    this.debt,
+  });
+
+  factory Purchase.fromJson(Map<String, dynamic> json) {
+    return Purchase(
+      id: json['id'],
+      customer: json['customer'],
+      totalShopping: json['totalShopping'],
+      subtotalShopping: json['subtotalShopping'],
+      paymentMethod: json['paymentMethod'],
+      purchaseProducts: List<PurchaseProduct>.from(json['purchaseProducts'].map((x) => PurchaseProduct.fromJson(x))),
+      createdAt: DateTime.parse(json['createdAt']),
+      status: json['status'],
+      debt: json['debt'],
+    );
+  }
+
+  copyWith({
+    int? id,
+    Customer? customer,
+    PaymentMethod? paymentMethod,
+    double? totalShopping,
+    double? subtotalShopping,
+    List<PurchaseProduct>? purchaseProducts,
+    DateTime? createdAt,
+    PurchaseStatus? status,
+    double? debt,
+  }) {
+    return Purchase(
+      id: id ?? this.id,
+      customer: customer ?? this.customer,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      totalShopping: totalShopping ?? this.totalShopping,
+      subtotalShopping: subtotalShopping ?? this.subtotalShopping,
+      purchaseProducts: purchaseProducts ?? this.purchaseProducts,
+      createdAt: createdAt ?? this.createdAt,
+      status: status ?? this.status,
+      debt: debt ?? this.debt,
+    );
+  }
+
+  String get fullName => '${customer!.name} ${customer!.lastName}';
+
+  toJson() {
+    return {
+      'id': id,
+      'customer': customer?.toJson(),
+      'paymentMethod': paymentMethod?.toJson(),
+      'totalShopping': totalShopping,
+      'subtotalShopping': subtotalShopping,
+      'purchaseProducts': purchaseProducts.map((e) => e.toJson()).toList(),
+      'createdAt': createdAt,
+      'status': status,
+      'debt': debt,
+    };
+  }
+
+  toConfirmPurchase() {
+    return {
+      'paymentMethodId': paymentMethod?.id,
+      'products': purchaseProducts.map((e) => e.toCreateJson()).toList(),
+      'debt': debt,
+    };
+  }
+}
 
 enum PurchaseStatus { pending, confirmed, canceled, modified }
 
@@ -57,95 +145,5 @@ extension PurchaseStatusStringExtension on String {
       default:
         return PurchaseStatus.pending;
     }
-  }
-}
-
-class Purchase {
-  final int? id;
-  final int? customerId;
-  final String customerName;
-  final String customerLastName;
-  final int paymentMethodId;
-  final String? paymentMethodName;
-  final double? paymentMethodSurchargePercentage;
-  final double? totalShopping;
-  final List<PurchaseProduct> purchaseProducts;
-  final DateTime? createdAt;
-  final PurchaseStatus? status;
-
-  Purchase({
-    this.id,
-    this.customerId,
-    required this.customerName,
-    required this.customerLastName,
-    required this.paymentMethodId,
-    this.paymentMethodName,
-    this.paymentMethodSurchargePercentage,
-    this.totalShopping,
-    required this.purchaseProducts,
-    this.createdAt,
-    this.status,
-  });
-
-  factory Purchase.fromJson(Map<String, dynamic> json) {
-    return Purchase(
-      id: json['id'],
-      customerId: json['customerId'],
-      customerName: json['customerName'],
-      customerLastName: json['customerLastName'],
-      totalShopping: json['totalShopping'],
-      paymentMethodId: json['paymentMethodId'],
-      paymentMethodName: json['paymentMethodName'],
-      paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
-      purchaseProducts: List<PurchaseProduct>.from(json['purchaseProducts'].map((x) => PurchaseProduct.fromJson(x))),
-      createdAt: DateTime.parse(json['createdAt']),
-      status: json['status'],
-    );
-  }
-
-  copyWith({
-    int? id,
-    int? customerId,
-    String? customerName,
-    String? customerLastName,
-    int? paymentMethodId,
-    String? paymentMethodName,
-    double? paymentMethodSurchargePercentage,
-    double? totalShopping,
-    List<PurchaseProduct>? purchaseProducts,
-    DateTime? createdAt,
-    PurchaseStatus? status,
-  }) {
-    return Purchase(
-      id: id ?? this.id,
-      customerId: customerId ?? this.customerId,
-      customerName: customerName ?? this.customerName,
-      customerLastName: customerLastName ?? this.customerLastName,
-      paymentMethodId: paymentMethodId ?? this.paymentMethodId,
-      paymentMethodName: paymentMethodName ?? this.paymentMethodName,
-      paymentMethodSurchargePercentage: paymentMethodSurchargePercentage ?? this.paymentMethodSurchargePercentage,
-      totalShopping: totalShopping ?? this.totalShopping,
-      purchaseProducts: purchaseProducts ?? this.purchaseProducts,
-      createdAt: createdAt ?? this.createdAt,
-      status: status ?? this.status,
-    );
-  }
-
-  String get fullName => '$customerName $customerLastName';
-
-  toJson() {
-    return {
-      'id': id,
-      'customerId': customerId,
-      'customerName': customerName,
-      'customerLastName': customerLastName,
-      'totalShopping': totalShopping,
-      'paymentMethodId': paymentMethodId,
-      'paymentMethodName': paymentMethodName,
-      'paymentMethodSurcharge': paymentMethodSurchargePercentage,
-      'purchaseProducts': purchaseProducts.map((e) => e.toJson()).toList(),
-      'createdAt': createdAt,
-      'status': status,
-    };
   }
 }

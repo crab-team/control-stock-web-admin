@@ -1,9 +1,7 @@
 import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/data/data_sources/purchases/purchases_remote_data_source.dart';
-import 'package:control_stock_web_admin/data/models/purchase_order_model.dart';
 import 'package:control_stock_web_admin/data/models/purchase_products_model.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
-import 'package:control_stock_web_admin/domain/entities/purchase_order.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/domain/repositories/purchases_repository.dart';
 import 'package:fpdart/fpdart.dart';
@@ -35,9 +33,10 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
   }
 
   @override
-  Future<Either<AppError, void>> purchaseOrder(PurchaseOrder purchaseOrder) async {
-    PurchaseOrderModel model = purchaseOrder.toModel();
-    final response = await purchasesRemoteDataSource.createPurchase(purchaseOrder.customer!.id!, model);
+  Future<Either<AppError, void>> confirmPurchase(Purchase purchase) async {
+    final model = purchase.toConfirmPurchase();
+    print('model $model');
+    final response = await purchasesRemoteDataSource.createPurchase(purchase.customer!.id!, model);
     return response.fold((l) => Left(l), (r) => const Right(null));
   }
 

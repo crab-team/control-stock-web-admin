@@ -35,4 +35,13 @@ class PaymentMethod {
       surchargePercentage: surchargePercentage,
     );
   }
+
+  toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'installments': installments,
+      'surchargePercentage': surchargePercentage,
+    };
+  }
 }

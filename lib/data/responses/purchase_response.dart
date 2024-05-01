@@ -1,28 +1,22 @@
+import 'package:control_stock_web_admin/data/responses/customer_response.dart';
+import 'package:control_stock_web_admin/data/responses/payment_method_response.dart';
 import 'package:control_stock_web_admin/data/responses/purchase_product_response.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 
 class PurchaseResponse {
   final int id;
-  final int customerId;
-  final String customerName;
-  final String customerLastName;
+  final CustomerResponse customer;
   final double totalShopping;
-  final int paymentMethodId;
-  final String paymentMethodName;
-  final double paymentMethodSurchargePercentage;
+  final PaymentMethodResponse paymentMethod;
   final List<PurchaseProductResponse> purchaseProductsResponses;
   final String createdAt;
   final String status;
 
   PurchaseResponse({
     required this.id,
-    required this.customerId,
-    required this.customerName,
-    required this.customerLastName,
+    required this.customer,
     required this.totalShopping,
-    required this.paymentMethodId,
-    required this.paymentMethodName,
-    required this.paymentMethodSurchargePercentage,
+    required this.paymentMethod,
     required this.purchaseProductsResponses,
     required this.createdAt,
     required this.status,
@@ -31,13 +25,9 @@ class PurchaseResponse {
   factory PurchaseResponse.fromJson(Map<String, dynamic> json) {
     return PurchaseResponse(
       id: json['id'],
-      customerId: json['customerId'],
-      customerName: json['customerName'],
-      customerLastName: json['customerLastName'],
+      customer: CustomerResponse.fromJson(json['customer']),
+      paymentMethod: PaymentMethodResponse.fromJson(json['paymentMethod']),
       totalShopping: json['totalShopping'],
-      paymentMethodId: json['paymentMethodId'],
-      paymentMethodName: json['paymentMethodName'],
-      paymentMethodSurchargePercentage: json['paymentMethodSurcharge'],
       purchaseProductsResponses:
           List<PurchaseProductResponse>.from(json['purchaseProducts'].map((x) => PurchaseProductResponse.fromJson(x))),
       createdAt: json['createdAt'],
@@ -50,13 +40,9 @@ class PurchaseResponse {
 
     return Purchase(
       id: id,
-      customerId: customerId,
-      customerName: customerName,
-      customerLastName: customerLastName,
+      customer: customer.toDomain(),
       totalShopping: totalShopping,
-      paymentMethodId: paymentMethodId,
-      paymentMethodName: paymentMethodName,
-      paymentMethodSurchargePercentage: paymentMethodSurchargePercentage,
+      paymentMethod: paymentMethod.toDomain(),
       purchaseProducts: purchaseProductsResponses.map((e) => e.toDomain()).toList(),
       createdAt: dateLocal,
       status: status.toPurchaseStatus(),

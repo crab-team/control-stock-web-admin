@@ -48,9 +48,10 @@ class PurchasesDataTableSource extends DataTableSource {
             Visibility(
               visible: purchase.status != PurchaseStatus.canceled,
               child: ButtonWithConfirmation(
-                  label: Texts.cancel,
-                  icon: PhosphorIcons.arrow_u_left_up,
-                  onConfirm: () => onCancel(purchase.customerId!, purchase.id!)),
+                label: Texts.cancel,
+                icon: PhosphorIcons.arrow_u_left_up,
+                onConfirm: () => onCancel(purchase.customer!.id!, purchase.id!),
+              ),
             ),
           ],
         )),

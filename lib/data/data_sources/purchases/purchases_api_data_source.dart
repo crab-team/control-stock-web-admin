@@ -13,8 +13,8 @@ class PurchasesApiDataSource implements PurchasesRemoteDataSource {
   String path = '/commerces/1/purchases';
 
   @override
-  Future<Either<AppError, void>> createPurchase(int customerId, PurchaseOrderModel purchaseOrderModel) async {
-    final response = await apiClient.sendPost('$path?customerId=$customerId', body: purchaseOrderModel.toCreateJson());
+  Future<Either<AppError, void>> createPurchase(int customerId, Map<String, dynamic> purchaseModel) async {
+    final response = await apiClient.sendPost('$path?customerId=$customerId', body: purchaseModel);
     return response.fold((l) => Left(l), (r) => const Right(null));
   }
 

@@ -1,10 +1,9 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
 class NumberIncDec extends StatefulWidget {
-  final int initialValue;
+  final int? value;
   final int? maxValue;
   final String? label;
   final bool withoutBorder;
@@ -12,7 +11,7 @@ class NumberIncDec extends StatefulWidget {
 
   const NumberIncDec({
     super.key,
-    this.initialValue = 0,
+    this.value,
     this.maxValue,
     this.label,
     required this.onChanged,
@@ -21,7 +20,7 @@ class NumberIncDec extends StatefulWidget {
 
   const NumberIncDec.withoutBorder({
     super.key,
-    this.initialValue = 0,
+    this.value,
     this.maxValue,
     this.label,
     required this.onChanged,
@@ -38,7 +37,7 @@ class _NumberIncDecState extends State<NumberIncDec> {
   @override
   void initState() {
     super.initState();
-    value = widget.initialValue;
+    value = widget.value ?? 0;
     controller.text = value.toString();
   }
 
@@ -50,46 +49,42 @@ class _NumberIncDecState extends State<NumberIncDec> {
         readOnly: true,
         controller: controller,
         textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(bottom: 20),
           border: widget.withoutBorder ? InputBorder.none : const OutlineInputBorder(),
           enabledBorder: widget.withoutBorder ? InputBorder.none : const OutlineInputBorder(),
           errorBorder: widget.withoutBorder ? InputBorder.none : const OutlineInputBorder(),
           focusedErrorBorder: widget.withoutBorder ? InputBorder.none : const OutlineInputBorder(),
           focusColor: colorScheme.primaryContainer,
           label: Text(widget.label ?? ''),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: IconButton(
-              focusNode: FocusNode(canRequestFocus: false),
-              padding: EdgeInsets.zero,
-              icon: const Icon(PhosphorIcons.minus, size: 16),
-              onPressed: () {
-                if (value > 0) {
-                  value--;
-                  controller.text = value.toString();
-                  widget.onChanged(value);
-                  setState(() {});
-                }
-              },
-            ),
-          ),
-          suffixIcon: Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              focusNode: FocusNode(canRequestFocus: false),
-              padding: EdgeInsets.zero,
-              icon: const Icon(PhosphorIcons.plus, size: 16),
-              onPressed: () {
-                if (widget.maxValue != null && value >= widget.maxValue!) {
-                  return;
-                }
-
-                value++;
+          prefixIcon: IconButton(
+            focusNode: FocusNode(canRequestFocus: false),
+            padding: EdgeInsets.zero,
+            icon: const Icon(PhosphorIcons.minus, size: 16),
+            onPressed: () {
+              if (value > 0) {
+                value--;
                 controller.text = value.toString();
                 widget.onChanged(value);
                 setState(() {});
-              },
-            ),
+              }
+            },
+          ),
+          suffixIcon: IconButton(
+            focusNode: FocusNode(canRequestFocus: false),
+            padding: EdgeInsets.zero,
+            icon: const Icon(PhosphorIcons.plus, size: 16),
+            onPressed: () {
+              if (widget.maxValue != null && value >= widget.maxValue!) {
+                return;
+              }
+
+              value++;
+              controller.text = value.toString();
+              widget.onChanged(value);
+              setState(() {});
+            },
           ),
         ),
       ),

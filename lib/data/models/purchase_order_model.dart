@@ -40,7 +40,6 @@ class PurchaseOrderModel {
     return {
       'products': products.map((e) => e.toCreateJson()).toList(),
       'paymentMethodId': paymentMethodId,
-      'debt': debt,
     };
   }
 }

@@ -39,4 +39,13 @@ class PurchaseModel {
       'paymentMethodId': paymentMethodId,
     };
   }
+
+  toCreate() {
+    return {
+      'productId': productId,
+      'quantity': quantity,
+      'unitPrice': unitPrice,
+      'paymentMethodId': paymentMethodId,
+    };
+  }
 }

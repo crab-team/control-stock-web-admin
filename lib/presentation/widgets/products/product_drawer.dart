@@ -166,7 +166,7 @@ class _ProductDrawerState extends ConsumerState<ProductDrawer> {
                     ),
                     const Gap.small(),
                     NumberIncDec(
-                      initialValue: widget.product?.stock ?? 0,
+                      value: widget.product?.stock ?? 0,
                       onChanged: (p0) => stockController.text = p0.toString(),
                       label: Texts.stock,
                     ),

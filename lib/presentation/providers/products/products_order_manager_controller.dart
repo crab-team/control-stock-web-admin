@@ -1,40 +1,47 @@
-import 'package:control_stock_web_admin/presentation/widgets/products/products_order_manager_data_table_source.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final productsOrderManagerControllerProvider =
-    AsyncNotifierProvider.autoDispose<ProductsOrderManagerController, List<ProductOrder>>(
+    AsyncNotifierProvider.autoDispose<ProductsOrderManagerController, List<PurchaseProduct>>(
         ProductsOrderManagerController.new);
 
-class ProductsOrderManagerController extends AutoDisposeAsyncNotifier<List<ProductOrder>> {
-  List<ProductOrder> productOrders = [];
+class ProductsOrderManagerController extends AutoDisposeAsyncNotifier<List<PurchaseProduct>> {
+  List<PurchaseProduct> purchaseProducts = [];
 
   @override
-  List<ProductOrder> build() {
+  List<PurchaseProduct> build() {
     Future.microtask(() => _initialize());
-    return productOrders;
+    return purchaseProducts;
   }
 
   Future<void> _initialize() async {
     await Future.wait([
       Future.microtask(() {
-        List.generate(20, (index) {
-          final productOrder = ProductOrder(id: index, quantity: 0);
-          productOrders.add(productOrder);
-        });
+        final purchaseProduct = PurchaseProduct(viewId: 0);
+        purchaseProducts.add(purchaseProduct);
       })
     ]);
 
-    state = AsyncValue.data(productOrders);
+    state = AsyncValue.data(purchaseProducts);
   }
 
-  void set(ProductOrder productOrder) {
-    productOrders.setAll(productOrder.id, [productOrder]);
-    state = AsyncValue.data(productOrders);
+  void set(PurchaseProduct purchaseProduct) {
+    final index = purchaseProducts.indexWhere((element) => element.viewId == purchaseProduct.viewId);
+    purchaseProducts[index] = purchaseProduct;
+    print(purchaseProducts.map((e) => e.toJson()));
+    state = AsyncValue.data(purchaseProducts);
+  }
+
+  void addEmptyProduct() {
+    final purchaseProduct =
+        PurchaseProduct(viewId: purchaseProducts.length, quantity: 0, unitPrice: 0.0, code: '', name: '');
+    purchaseProducts.add(purchaseProduct);
+    state = AsyncValue.data(purchaseProducts);
   }
 
   void clear(int id) {
-    final index = productOrders.indexWhere((element) => element.id == id);
-    productOrders[index] = productOrders[index].copyWith(product: null, quantity: 0);
-    state = AsyncValue.data(productOrders);
+    final index = purchaseProducts.indexWhere((element) => element.viewId == id);
+    purchaseProducts[index] = purchaseProducts[index].copyWith(quantity: 0, unitPrice: 0.0, code: '', name: '');
+    state = AsyncValue.data(purchaseProducts);
   }
 }

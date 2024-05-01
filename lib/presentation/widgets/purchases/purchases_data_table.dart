@@ -3,7 +3,7 @@ import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_controller.dart';
 import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
-import 'package:control_stock_web_admin/presentation/widgets/orders/order_drawer.dart';
+import 'package:control_stock_web_admin/presentation/widgets/purchases/purchase_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/purchases/purchases_data_table_source.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +23,9 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     final state = ref.watch(purchasesControllerProvider);
 
     return state.when(
-      data: (data) {
-        return _buildDataTable(data);
-      },
-      loading: () {
-        return const Center(child: CircularProgressIndicator());
-      },
-      error: (error, stackTrace) {
-        return Center(child: Text('Error: $error'));
-      },
+      data: (data) => _buildDataTable(data),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => Center(child: Text('Error: $error')),
     );
   }
 
@@ -55,7 +49,11 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
         const VerticalDivider(indent: 8, endIndent: 8),
         SizedBox(
           width: 300,
-          child: ElevatedButton(onPressed: () => _openDrawer(null), child: const Text(Texts.addPurchase)).primary,
+          child: ElevatedButton.icon(
+            icon: const Icon(PhosphorIcons.plus),
+            onPressed: () => _openDrawer(null),
+            label: const Text(Texts.addPurchase),
+          ).primary,
         ),
       ],
       header: _buildHeader(),
@@ -77,7 +75,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   Future<void> _openDrawer(Purchase? purchase) async {
-    ref.read(drawerControllerProvider.notifier).state = const OrderDrawer();
+    ref.read(drawerControllerProvider.notifier).state = const PurchaseDrawer();
   }
 
   void _search(String value) {
