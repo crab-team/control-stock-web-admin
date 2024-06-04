@@ -64,4 +64,11 @@ class ProductsApiDataSource implements ProductsRemoteDataSource {
     final response = await apiClient.sendPatch('$path/bulk', body: body);
     return response.fold((l) => Left(l), (r) => const Right(null));
   }
+
+  @override
+  Future<Either<AppError, void>> adjustPricesByCategory(int categoryId, double percentage) async {
+    final response =
+        await apiClient.sendPatch('$path/adjustPricesByCategory/$categoryId', body: {"percentage": percentage});
+    return response.fold((l) => throw l, (r) => r);
+  }
 }

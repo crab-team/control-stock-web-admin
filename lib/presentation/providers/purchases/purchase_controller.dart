@@ -5,6 +5,7 @@ import 'package:control_stock_web_admin/domain/entities/payment_method.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:control_stock_web_admin/domain/entities/purchase_products.dart';
 import 'package:control_stock_web_admin/presentation/providers/products/products_order_manager_controller.dart';
+import 'package:control_stock_web_admin/presentation/providers/purchases/purchases_controller.dart';
 import 'package:control_stock_web_admin/providers/use_cases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,7 +39,7 @@ class PurchaseController extends AutoDisposeAsyncNotifier<Purchase?> {
             subtotalShopping: subtotal,
           );
           state = AsyncValue.data(updatedPurchase);
-          setTotalShopping();
+          Future.microtask(() => setTotalShopping());
         }
       },
     );
@@ -73,14 +74,22 @@ class PurchaseController extends AutoDisposeAsyncNotifier<Purchase?> {
   }
 
   setCustomerPayAmount(double amount) {
-    double debt = state.asData!.value!.totalShopping! - amount;
+    double balance = state.asData!.value!.customer!.balance;
+    double total = state.asData!.value!.totalShopping!;
+    double debt = total;
+    if (balance >= total) {
+      debt = 0;
+    } else {
+      debt = total - balance;
+    }
+
     Purchase updated = state.asData!.value!.copyWith(debt: debt);
     state = AsyncValue.data(updated);
   }
 
   setTotalShopping() {
     final subtotal = state.asData!.value?.subtotalShopping ?? 0;
-    final total = subtotal * (state.asData!.value?.paymentMethod?.surchargePercentage ?? 0);
+    final total = subtotal * (state.asData!.value?.paymentMethod?.surchargePercentage ?? 1);
     state = AsyncValue.data(state.asData!.value!.copyWith(totalShopping: total));
   }
 
@@ -90,5 +99,7 @@ class PurchaseController extends AutoDisposeAsyncNotifier<Purchase?> {
       final response = await ref.read(confirmPurchaseUseCaseProvider).execute(updated);
       return response.fold((l) => state.asData!.value, (r) => updated);
     });
+
+    ref.read(purchasesControllerProvider.notifier).getAll();
   }
 }

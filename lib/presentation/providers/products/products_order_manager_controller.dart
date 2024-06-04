@@ -28,7 +28,6 @@ class ProductsOrderManagerController extends AutoDisposeAsyncNotifier<List<Purch
   void set(PurchaseProduct purchaseProduct) {
     final index = purchaseProducts.indexWhere((element) => element.viewId == purchaseProduct.viewId);
     purchaseProducts[index] = purchaseProduct;
-    print(purchaseProducts.map((e) => e.toJson()));
     state = AsyncValue.data(purchaseProducts);
   }
 

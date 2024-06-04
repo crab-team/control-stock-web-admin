@@ -73,5 +73,6 @@ class _CustomerSelectorPurchaseState extends ConsumerState<CustomerSelectorPurch
 
   void _onSelectCustomer(Customer customer) {
     ref.read(purchaseControllerProvider.notifier).setCustomer(customer);
+    Future.microtask(() => ref.read(purchaseControllerProvider.notifier).setCustomerPayAmount(0));
   }
 }

@@ -10,4 +10,5 @@ abstract class ProductsRemoteDataSource {
   Future<Either<AppError, ProductResponse>> update(ProductModel product);
   Future<Either<AppError, void>> updateProducts(List<ProductModel> products);
   Future<Either<AppError, void>> delete(int id);
+  Future<Either<AppError, void>> adjustPricesByCategory(int categoryId, double adjust);
 }

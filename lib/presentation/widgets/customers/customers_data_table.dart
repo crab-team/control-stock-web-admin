@@ -46,11 +46,11 @@ class _CustomersDataTableState extends ConsumerState<CustomersDataTable> {
       wrapInCard: dataTableDecoration['wrapInCard'] as bool,
       headingRowHeight: dataTableDecoration['headingRowHeight'] as double,
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
-      headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
+      headingRowColor: dataTableDecoration['headingRowColor'] as WidgetStateProperty<Color>,
       actions: [
         const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
+          shape: WidgetStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchCustomer,
           onChanged: (value) => _search(value),

@@ -28,7 +28,7 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
 
     return ElevatedButton.icon(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith(
+        backgroundColor: WidgetStateProperty.resolveWith(
             (states) => hasProductsSelected ? colorScheme.primary : colorScheme.primaryContainer),
       ),
       icon: const Icon(PhosphorIcons.printer),
@@ -109,7 +109,7 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
           actions: [
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith((states) => colorScheme.tertiary),
+                backgroundColor: WidgetStateProperty.resolveWith((states) => colorScheme.tertiary),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -124,7 +124,7 @@ class _PrintQrProductsButtonState extends ConsumerState<PrintQrProductsButton> {
                   Navigator.of(context).pop();
                 }
               },
-              child: const Text('Imprimir'),
+              child: const Text(Texts.print),
             ),
           ],
         );

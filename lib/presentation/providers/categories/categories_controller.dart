@@ -117,6 +117,24 @@ class CategoriesController extends AsyncNotifier<List<Category>> {
     sortByName();
   }
 
+  applyAdjust(int categoryId, double percentage) async {
+    _showToast(ToastControllerModel(Texts.categories, '${Texts.applyingAdjust} $categoryId', ToastType.info));
+    await AsyncValue.guard(() async {
+      final categoriesEither = await ref.read(applyAdjustCategoryUseCaseProvider)(categoryId, percentage);
+      return categoriesEither.fold(
+        (l) {
+          _showToast(
+              ToastControllerModel(Texts.categories, '${Texts.errorApplyingAdjust} $categoryId', ToastType.error));
+          throw l;
+        },
+        (_) {
+          _showToast(ToastControllerModel(Texts.categories, '${Texts.adjustApplied} $categoryId', ToastType.success));
+        },
+      );
+    });
+    _refreshProducts();
+  }
+
   sortByName() {
     categories.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     state = AsyncValue.data(categories);

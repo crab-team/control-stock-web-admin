@@ -37,7 +37,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsOrderManagerDataTabl
       wrapInCard: dataTableDecoration['wrapInCard'] as bool,
       headingRowHeight: dataTableDecoration['headingRowHeight'] as double,
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
-      headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
+      headingRowColor: dataTableDecoration['headingRowColor'] as WidgetStateProperty<Color>,
       empty: const Center(child: Text(Texts.noProducts)),
       header: const Text(Texts.products).headlineSmall,
       actions: [ElevatedButton(onPressed: () => _addNewProduct(), child: const Text(Texts.addProduct)).inversePrimary],

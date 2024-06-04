@@ -2,16 +2,17 @@
 import 'package:control_stock_web_admin/domain/use_cases/auth/exchange_token.dart';
 import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_crendetials.dart';
 import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_email_link.dart';
+import 'package:control_stock_web_admin/domain/use_cases/products/adjust_prices_by_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/create_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/delete_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/update_category.dart';
+import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
+import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/create_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/delete_customer.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/get_customers.dart';
 import 'package:control_stock_web_admin/domain/use_cases/customers/update_customer.dart';
-import 'package:control_stock_web_admin/domain/use_cases/commerce/get_commerce_by_id.dart';
-import 'package:control_stock_web_admin/domain/use_cases/commerce/update_commerce.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/create_payment_method.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/delete_payment_method.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/get_payment_methods.dart';
@@ -79,6 +80,10 @@ final createProductsUseCaseProvider = Provider<CreateProducts>((ref) {
 
 final deleteProductUseCaseProvider = Provider<DeleteProduct>((ref) {
   return DeleteProduct(ref.read(productsRepositoryProvider));
+});
+
+final applyAdjustCategoryUseCaseProvider = Provider<ApplyAdjustCategory>((ref) {
+  return ApplyAdjustCategory(ref.read(productsRepositoryProvider));
 });
 
 // ---------------------//

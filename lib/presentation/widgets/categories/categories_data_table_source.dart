@@ -10,12 +10,14 @@ class CategoriesDataTableSource extends DataTableSource {
   final Function(Category category) onEdit;
   final Function(int id) onDelete;
   final Function(Category productUpdated) onChangeAnyValue;
+  final Function(int id) onApplyAdjust;
 
   CategoriesDataTableSource({
     List<Category>? data,
     required this.onEdit,
     required this.onDelete,
     required this.onChangeAnyValue,
+    required this.onApplyAdjust,
   }) : _data = data ?? <Category>[];
 
   @override
@@ -44,6 +46,7 @@ class CategoriesDataTableSource extends DataTableSource {
             ButtonWithConfirmation(
               onConfirm: () => onDelete(category.id!),
             ),
+            ElevatedButton(onPressed: () => onApplyAdjust(category.id!), child: const Text(Texts.applyAdjust))
           ],
         )),
       ],

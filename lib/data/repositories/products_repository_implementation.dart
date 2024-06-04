@@ -13,6 +13,8 @@ class ProductsRepositoryImplementation implements ProductsRepository {
   Future<Either<AppError, Product>> create(Product product) async {
     final productModel = product.toCreateProductJson();
     final productResponse = await productsRemoteDataSource.add(productModel);
+
+    print('productResponse: $productResponse');
     return productResponse.fold((l) => Left(l), (r) => Right(r.toDomain()));
   }
 
@@ -52,5 +54,14 @@ class ProductsRepositoryImplementation implements ProductsRepository {
     final productsModel = products.map((e) => e.toUpdateProductJson()).toList();
     final response = await productsRemoteDataSource.updateProducts(productsModel);
     return response.fold((l) => Left(l), (r) => const Right(null));
+  }
+
+  @override
+  Future<Either<AppError, void>> adjustPricesByCategory(int categoryId, double percentage) async {
+    final response = await productsRemoteDataSource.adjustPricesByCategory(categoryId, percentage);
+    return response.fold(
+      (l) => Left(l),
+      (r) => const Right(null),
+    );
   }
 }

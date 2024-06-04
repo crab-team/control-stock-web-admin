@@ -28,14 +28,12 @@ class PurchasesRepositoryImplementation implements PurchasesRepository {
 
   @override
   Future<Either<AppError, List<Purchase>>> getByCustomerId(int customerId) {
-    // TODO: implement getByCustomerId
     throw UnimplementedError();
   }
 
   @override
   Future<Either<AppError, void>> confirmPurchase(Purchase purchase) async {
     final model = purchase.toConfirmPurchase();
-    print('model $model');
     final response = await purchasesRemoteDataSource.createPurchase(purchase.customer!.id!, model);
     return response.fold((l) => Left(l), (r) => const Right(null));
   }

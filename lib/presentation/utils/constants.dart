@@ -54,6 +54,8 @@ class Texts {
   static const String customerGiveMoney = 'Cliente entrega dinero';
   static const String commerceReturnMoney = 'Comercio devuelve dinero';
   static const String scanQR = 'Escanear QR';
+  static const String print = 'Imprimir';
+  static const String applyAdjust = 'Aplicar ajuste';
 
   // Commerce
   static const String email = 'Correo electrónico';
@@ -118,6 +120,9 @@ class Texts {
   static const String deletingCategory = 'Eliminando categoría';
   static const String errorDeletingCategory = 'Error al eliminar categoría';
   static const String categoryDeleted = 'Categoría eliminada';
+  static const String applyingAdjust = 'Aplicando ajuste';
+  static const String errorApplyingAdjust = 'Error al aplicar ajuste';
+  static const String adjustApplied = 'Ajuste aplicado';
 
   // Customers
   static const String customer = 'Cliente';
@@ -180,6 +185,8 @@ class Texts {
   static const String updatingPurchase = 'Actualizando compra';
   static const String errorUpdatingPurchase = 'Error al actualizar compra';
   static const String purchaseUpdated = 'Compra actualizada';
+  static const String errorCancelingPurchase = 'Error al cancelar compra';
+  static const String purchaseCanceled = 'Compra cancelada';
 
   // Payment methods
   static const String paymentMethods = 'Métodos de pago';
@@ -193,6 +200,7 @@ class Texts {
   static const String editPaymentMethod = 'Editar método de pago';
   static const String installments = 'Cuotas';
   static const String surchargePercentage = 'Porcentaje de recargo';
+  static const String useBalance = 'Usar saldo en cuenta';
 
   // Errors
   static const String error = 'Error';

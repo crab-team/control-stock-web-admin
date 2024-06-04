@@ -5,6 +5,7 @@ import 'package:control_stock_web_admin/presentation/providers/dashboard/drawer_
 import 'package:control_stock_web_admin/presentation/screens/categories/category_drawer.dart';
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/add_category_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/categories/apply_adjust_dialog.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/categories_data_table_source.dart';
 import 'package:control_stock_web_admin/presentation/widgets/shared/gap_widget.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -45,11 +46,11 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
       wrapInCard: dataTableDecoration['wrapInCard'] as bool,
       headingRowHeight: dataTableDecoration['headingRowHeight'] as double,
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
-      headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
+      headingRowColor: dataTableDecoration['headingRowColor'] as WidgetStateProperty<Color>,
       actions: [
         const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
+          shape: WidgetStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchCategory,
           onChanged: (value) => _search(value),
@@ -64,7 +65,7 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
         DataColumn2(label: Text('Nombre'), size: ColumnSize.L),
         DataColumn2(fixedWidth: 200, label: Text('Porcentaje de ganancia'), size: ColumnSize.L),
         DataColumn2(fixedWidth: 200, label: Text(Texts.extraCosts), size: ColumnSize.L),
-        DataColumn2(fixedWidth: 150, label: Text('Acciones'), size: ColumnSize.S),
+        DataColumn2(fixedWidth: 300, label: Text('Acciones'), size: ColumnSize.S),
       ],
       source: CategoriesDataTableSource(
         data: data,
@@ -72,6 +73,9 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
         onEdit: _openDrawer,
         onChangeAnyValue: (category) {
           ref.read(categoriesControllerProvider.notifier).updateCategory(category);
+        },
+        onApplyAdjust: (id) {
+          _openDialogApplyAdjust(id);
         },
       ),
     );
@@ -87,5 +91,14 @@ class _CategoriesDataTableState extends ConsumerState<CategoriesDataTable> {
 
   void _delete(int id) {
     ref.read(categoriesControllerProvider.notifier).delete(id);
+  }
+
+  void _openDialogApplyAdjust(int id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ApplyAdjustDialog(categoryId: id);
+      },
+    );
   }
 }

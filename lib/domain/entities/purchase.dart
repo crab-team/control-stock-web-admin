@@ -88,7 +88,7 @@ class Purchase {
   }
 }
 
-enum PurchaseStatus { pending, confirmed, canceled, modified }
+enum PurchaseStatus { pending, confirmed, cancelled, modified }
 
 extension PurchaseStatusExtension on PurchaseStatus {
   String get name {
@@ -97,7 +97,7 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return 'Pendiente';
       case PurchaseStatus.confirmed:
         return 'Confirmada';
-      case PurchaseStatus.canceled:
+      case PurchaseStatus.cancelled:
         return 'Cancelada';
       case PurchaseStatus.modified:
         return 'Modificada';
@@ -110,8 +110,8 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return 'PENDING';
       case PurchaseStatus.confirmed:
         return 'CONFIRMED';
-      case PurchaseStatus.canceled:
-        return 'CANCELED';
+      case PurchaseStatus.cancelled:
+        return 'CANCELLED';
       case PurchaseStatus.modified:
         return 'MODIFIED';
     }
@@ -123,7 +123,7 @@ extension PurchaseStatusExtension on PurchaseStatus {
         return 'FFA500';
       case PurchaseStatus.confirmed:
         return '008000';
-      case PurchaseStatus.canceled:
+      case PurchaseStatus.cancelled:
         return 'FF0000';
       case PurchaseStatus.modified:
         return '0000FF';
@@ -138,8 +138,8 @@ extension PurchaseStatusStringExtension on String {
         return PurchaseStatus.pending;
       case 'CONFIRMED':
         return PurchaseStatus.confirmed;
-      case 'CANCELED':
-        return PurchaseStatus.canceled;
+      case 'CANCELLED':
+        return PurchaseStatus.cancelled;
       case 'MODIFIED':
         return PurchaseStatus.modified;
       default:

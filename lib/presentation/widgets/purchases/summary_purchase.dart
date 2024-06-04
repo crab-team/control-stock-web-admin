@@ -30,6 +30,8 @@ class _SummaryPurchaseState extends ConsumerState<SummaryPurchase> {
         ) ??
         0;
 
+    double debt = purchaseState?.debt ?? 0;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,7 +65,7 @@ class _SummaryPurchaseState extends ConsumerState<SummaryPurchase> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(Texts.debt).bodyMedium,
-            Text(CurrencyFormatter.format(purchaseState?.debt ?? '0', arsSettings)).bodyMedium,
+            Text(CurrencyFormatter.format(debt < 0 ? '0' : debt, arsSettings)).bodyMedium,
           ],
         ),
         const Gap.small(),

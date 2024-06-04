@@ -125,6 +125,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     });
 
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       body: LayoutBuilder(builder: (context, constraints) {
         return Stack(
           children: [

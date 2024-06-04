@@ -23,6 +23,7 @@ class Routes {
   static const String home = '/';
   static const String signIn = '/signIn';
   static const String emailLinkConfirmation = 'emailLinkConfirmation/:token';
+  // static const String summary = '/resumen';
   static const String purchases = '/purchases';
   static const String products = '/products';
   static const String productAnalitycs = 'product/analytics';
@@ -37,6 +38,7 @@ class Routes {
     home: 'Inicio',
     purchases: 'Compras',
     signIn: 'Iniciar sesión',
+    // summary: 'Resumen',
     products: 'Productos',
     productAnalitycs: 'Análisis de producto',
     productsUploadCsv: 'Subir productos',
@@ -83,9 +85,10 @@ class NavigationService {
           },
           branches: [
             // _ordersBranch(),
+            // _summaryBranch(),
             _productsBranch(),
             _shoppingBranch(),
-            _customersBranch(),
+            // _customersBranch(),
             _categoriesBranch(),
             _commerceBranch(),
           ],
@@ -112,6 +115,7 @@ class NavigationService {
 
   Map<String, IconData> get routesIcon => {
         Routes.signIn: Icons.login,
+        // Routes.summary: PhosphorIcons.graph,
         Routes.products: PhosphorIcons.shopping_bag,
         Routes.categories: PhosphorIcons.tag,
         Routes.customers: PhosphorIcons.users,
@@ -196,6 +200,21 @@ class NavigationService {
     );
   }
 
+  // StatefulShellBranch _summaryBranch() {
+  //   return StatefulShellBranch(
+  //     initialLocation: Routes.summary,
+  //     routes: [
+  //       GoRoute(
+  //         path: Routes.summary,
+  //         name: Routes.names[Routes.summary]!,
+  //         builder: (context, state) {
+  //           return const SummaryScreen();
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+
   StatefulShellBranch _productsBranch() {
     return StatefulShellBranch(
       initialLocation: Routes.products,
@@ -233,6 +252,8 @@ class NavigationService {
   }
 
   goToSignIn() => navigatorKey.currentContext!.go(Routes.signIn);
+
+  // goToSummary() => navigatorKey.currentContext!.go(Routes.summary);
 
   goToPurchases() => navigatorKey.currentContext!.go(Routes.purchases);
 

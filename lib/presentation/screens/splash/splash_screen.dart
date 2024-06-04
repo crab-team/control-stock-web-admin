@@ -32,7 +32,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        color: colorScheme.background,
+        color: colorScheme.surface,
         child: const Center(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:control_stock_web_admin/core/error_handlers/app_error.dart';
 import 'package:control_stock_web_admin/core/error_handlers/error_code.dart';
 import 'package:control_stock_web_admin/core/error_handlers/exceptions.dart';
+import 'package:control_stock_web_admin/utils/logger.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 
@@ -136,6 +137,7 @@ class APIClient {
 
       return response.data;
     } on DioException catch (e) {
+      logger.e(e);
       if (e.type == DioExceptionType.connectionError || e is SocketException) {
         throw NoInternetConnectionException();
       }

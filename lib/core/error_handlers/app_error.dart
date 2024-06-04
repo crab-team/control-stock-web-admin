@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:control_stock_web_admin/core/error_handlers/error_code.dart';
+import 'package:control_stock_web_admin/utils/logger.dart';
 
 class AppError {
   final ErrorCode code;
@@ -31,7 +32,7 @@ class AppError {
   }
 
   static AppError handle(dynamic error) {
-    print('Error: $error');
+    logger.e('Error: $error');
     return AppError.fromMap(json.decode(error.toString()));
   }
 }

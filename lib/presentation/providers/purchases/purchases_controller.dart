@@ -20,6 +20,7 @@ class PurchasesController extends AsyncNotifier<List<Purchase>> {
     if (purchases.isEmpty) {
       await getAll();
     }
+
     return purchases;
   }
 

@@ -20,7 +20,7 @@ class _ConfirmPurchaseOrderButtonState extends ConsumerState<ConfirmPurchaseOrde
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
+        backgroundColor: WidgetStateProperty.all<Color>(
             isLoading ? colorScheme.inversePrimary.withOpacity(0.2) : colorScheme.primary),
       ),
       onPressed: () => _onConfirmPurchase(),

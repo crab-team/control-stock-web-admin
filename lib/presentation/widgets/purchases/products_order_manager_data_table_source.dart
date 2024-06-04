@@ -64,7 +64,8 @@ class ProductOrderManagerDataTableSource extends DataTableSource {
 
   Widget _buildSelector(ValueKey key, PurchaseProduct initialValue) {
     return Consumer(builder: (context, ref, _) {
-      final values = ref.watch(productsControllerProvider.notifier).products;
+      final values =
+          ref.watch(productsControllerProvider.notifier).products.where((element) => element.stock > 0).toList();
 
       return SearchBarMenuWidget<Product>.withoutBorder(
         key: key,

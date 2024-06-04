@@ -45,7 +45,7 @@ final dataTableDecoration = {
   'rowsPerPage': 20,
   'wrapInCard': false,
   'headingRowHeight': 42,
-  'headingRowColor': MaterialStateProperty.resolveWith((states) => colorScheme.primaryContainer),
+  'headingRowColor': WidgetStateProperty.resolveWith((states) => colorScheme.primaryContainer),
   'dataRowHeight': 42,
 };
 
@@ -60,7 +60,7 @@ final ColorScheme colorScheme = ColorScheme.fromSeed(
   tertiaryContainer: const Color(0xFFFFD8E4),
   inversePrimary: const Color(0xFF0D0D0D),
   outline: const Color(0xFFE5E5E5),
-  background: const Color(0xFFFFFFFF),
+  surface: const Color(0xFFFFFFFF),
   error: const Color(0xFFED1C15),
   errorContainer: const Color(0xFFFFD8E4),
   onError: const Color(0xFFFFFFFF),
@@ -69,6 +69,7 @@ final ColorScheme colorScheme = ColorScheme.fromSeed(
 extension ColorSchemeExtension on ColorScheme {
   Color get success => const Color(0xFF00A86B);
   Color get warning => const Color(0xFFE5A800);
+  Color get disable => const Color(0xFFBDBDBD);
   Gradient get gradientPrimary => LinearGradient(
         colors: [primary, secondary],
         begin: Alignment.centerLeft,
@@ -172,20 +173,20 @@ final ThemeData theme = ThemeData(
     ),
   ),
   searchBarTheme: SearchBarThemeData(
-    padding: MaterialStateProperty.all(
+    padding: WidgetStateProperty.all(
       kPaddingAppSmall.copyWith(top: 0, bottom: 0),
     ),
-    shape: MaterialStateProperty.all(
+    shape: WidgetStateProperty.all(
       RoundedRectangleBorder(
         side: BorderSide(color: colorScheme.primaryContainer, width: 1),
         borderRadius: BorderRadius.circular(kRadiusCornerInside),
       ),
     ),
-    backgroundColor: MaterialStateProperty.all(Colors.white),
-    surfaceTintColor: MaterialStateProperty.all(Colors.white),
-    overlayColor: MaterialStateProperty.all(Colors.transparent),
-    shadowColor: MaterialStateProperty.all(Colors.transparent),
-    hintStyle: MaterialStateProperty.all(
+    backgroundColor: WidgetStateProperty.all(Colors.white),
+    surfaceTintColor: WidgetStateProperty.all(Colors.white),
+    overlayColor: WidgetStateProperty.all(Colors.transparent),
+    shadowColor: WidgetStateProperty.all(Colors.transparent),
+    hintStyle: WidgetStateProperty.all(
       TextStyle(
         color: colorScheme.inversePrimary.withOpacity(0.4),
       ),
@@ -214,15 +215,15 @@ final ThemeData theme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(colorScheme.primary),
-      foregroundColor: MaterialStateProperty.all(Colors.white),
-      shape: MaterialStateProperty.all(
+      backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+      foregroundColor: WidgetStateProperty.all(Colors.white),
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRadiusCornerInside),
         ),
       ),
-      iconSize: MaterialStateProperty.all(14.0),
-      textStyle: MaterialStateProperty.all(
+      iconSize: WidgetStateProperty.all(14.0),
+      textStyle: WidgetStateProperty.all(
         const TextStyle(
           color: Colors.white,
           fontSize: 14.0,
@@ -233,13 +234,13 @@ final ThemeData theme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(colorScheme.inversePrimary),
-      shape: MaterialStateProperty.all(
+      foregroundColor: WidgetStateProperty.all(colorScheme.inversePrimary),
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRadiusCornerInside),
         ),
       ),
-      textStyle: MaterialStateProperty.all(
+      textStyle: WidgetStateProperty.all(
         const TextStyle(
           fontSize: 16.0,
           color: Colors.white,
@@ -249,7 +250,7 @@ final ThemeData theme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     iconColor: colorScheme.secondary,
-    fillColor: colorScheme.background,
+    fillColor: colorScheme.surface,
     activeIndicatorBorder: BorderSide(color: colorScheme.primary),
     enabledBorder: OutlineInputBorder(
       borderRadius: const BorderRadius.all(Radius.circular(kRadiusCornerInside)),

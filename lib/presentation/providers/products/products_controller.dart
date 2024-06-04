@@ -74,7 +74,8 @@ class ProductsController extends AsyncNotifier<List<Product>> {
   create(Product product) async {
     _modifyDrawerState(ProductDrawerState.loading);
     state = await AsyncValue.guard(() async {
-      final productsEither = await ref.read(createProductUseCaseProvider).execute(product);
+      final productsEither = await ref.read(createProductUseCaseProvider).call(product);
+      print(productsEither);
       return productsEither.fold((l) {
         _modifyDrawerState(ProductDrawerState.error);
         throw l;

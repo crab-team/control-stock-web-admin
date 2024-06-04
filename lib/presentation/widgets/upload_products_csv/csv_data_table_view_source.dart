@@ -38,7 +38,7 @@ class CSVDataTableViewSource extends DataTableSource {
 
     return DataRow.byIndex(
       index: index,
-      color: MaterialStateProperty.all(hasSomeAnomaly ? colorScheme.tertiary.withOpacity(0.05) : Colors.transparent),
+      color: WidgetStateProperty.all(hasSomeAnomaly ? colorScheme.tertiary.withOpacity(0.05) : Colors.transparent),
       cells: [
         DataCell(Text(product.code)),
         DataCell(TextFormField(

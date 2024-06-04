@@ -23,7 +23,7 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
     final state = ref.watch(purchasesControllerProvider);
 
     return state.when(
-      data: (data) => _buildDataTable(data),
+      data: (data) => _buildDataTable(data.where((element) => element.status != PurchaseStatus.cancelled).toList()),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text('Error: $error')),
     );
@@ -37,11 +37,11 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
       wrapInCard: dataTableDecoration['wrapInCard'] as bool,
       headingRowHeight: dataTableDecoration['headingRowHeight'] as double,
       dataRowHeight: dataTableDecoration['dataRowHeight'] as double,
-      headingRowColor: dataTableDecoration['headingRowColor'] as MaterialStateProperty<Color>,
+      headingRowColor: dataTableDecoration['headingRowColor'] as WidgetStateProperty<Color>,
       actions: [
         const VerticalDivider(indent: 8, endIndent: 8),
         SearchBar(
-          shape: MaterialStateProperty.all<OutlinedBorder>(const LinearBorder()),
+          shape: WidgetStateProperty.all<OutlinedBorder>(const LinearBorder()),
           leading: const Icon(PhosphorIcons.magnifying_glass),
           hintText: Texts.searchRecord,
           onChanged: (value) => _search(value),
@@ -83,6 +83,6 @@ class _DataTableState extends ConsumerState<PurchasesDataTable> {
   }
 
   void _cancel(int customerId, int purchaseId) {
-    ref.read(purchasesControllerProvider.notifier).modifyStatus(purchaseId, customerId, PurchaseStatus.canceled);
+    ref.read(purchasesControllerProvider.notifier).modifyStatus(purchaseId, customerId, PurchaseStatus.cancelled);
   }
 }

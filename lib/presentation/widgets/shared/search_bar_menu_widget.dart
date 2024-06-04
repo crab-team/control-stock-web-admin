@@ -1,6 +1,7 @@
 import 'package:control_stock_web_admin/core/theme.dart';
 import 'package:control_stock_web_admin/domain/entities/customer.dart';
 import 'package:control_stock_web_admin/domain/entities/product.dart';
+import 'package:control_stock_web_admin/domain/entities/purchase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,8 +53,8 @@ class _SearchProductState<T> extends ConsumerState<SearchBarMenuWidget<T>> {
   Widget build(BuildContext context) {
     return SearchAnchor(
       viewOnChanged: _filterValues,
-      viewBackgroundColor: colorScheme.background,
-      viewSurfaceTintColor: colorScheme.background,
+      viewBackgroundColor: colorScheme.surface,
+      viewSurfaceTintColor: colorScheme.surface,
       viewShape: widget.withoutBorder
           ? null
           : RoundedRectangleBorder(
@@ -81,6 +82,9 @@ class _SearchProductState<T> extends ConsumerState<SearchBarMenuWidget<T>> {
         final byCode = element.code.toLowerCase().contains(value.toLowerCase());
         final byName = element.name.toLowerCase().contains(value.toLowerCase());
         return byCode || byName;
+      } else if (element is PurchaseStatus) {
+        final byName = element.name.toLowerCase().contains(value.toLowerCase());
+        return byName;
       }
 
       return false;
@@ -97,11 +101,11 @@ class _SearchProductState<T> extends ConsumerState<SearchBarMenuWidget<T>> {
       leading: const Icon(PhosphorIcons.magnifying_glass),
       hintText: widget.hintText,
       side: widget.withoutBorder
-          ? MaterialStateProperty.all(BorderSide.none)
-          : MaterialStateProperty.all<BorderSide>(BorderSide(color: colorScheme.primaryContainer)),
+          ? WidgetStateProperty.all(BorderSide.none)
+          : WidgetStateProperty.all<BorderSide>(BorderSide(color: colorScheme.primaryContainer)),
       shape: widget.withoutBorder
-          ? MaterialStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(side: BorderSide.none))
-          : MaterialStateProperty.all<OutlinedBorder>(
+          ? WidgetStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(side: BorderSide.none))
+          : WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(kRadiusCornerInside)),
             ),
       onTap: () {
@@ -120,6 +124,8 @@ class _SearchProductState<T> extends ConsumerState<SearchBarMenuWidget<T>> {
     } else if (value is Product) {
       title = value.name;
       subtitle = value.code;
+    } else if (value is PurchaseStatus) {
+      title = value.name;
     }
 
     return ListTile(
@@ -135,6 +141,8 @@ class _SearchProductState<T> extends ConsumerState<SearchBarMenuWidget<T>> {
       selectedText = '${value.name} ${value.lastName}';
     } else if (value is Product) {
       selectedText = value.code;
+    } else if (value is PurchaseStatus) {
+      selectedText = value.name;
     }
 
     filteredValues = values;

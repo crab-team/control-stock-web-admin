@@ -58,6 +58,7 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: colorScheme.surface,
       onEndDrawerChanged: (isOpened) {
         if (!isOpened) {
           ref.read(drawerControllerProvider.notifier).state = null;
@@ -84,7 +85,7 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
   Widget _buildLoading() {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        color: colorScheme.background,
+        color: colorScheme.surface,
         child: const Center(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

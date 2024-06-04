@@ -11,7 +11,6 @@ class CategoriesRepositoryImplementation implements CategoriesRepository {
 
   @override
   Future<Either<AppError, Category>> get(int id) {
-    // TODO: implement get
     throw UnimplementedError();
   }
 

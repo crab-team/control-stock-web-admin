@@ -9,5 +9,6 @@ abstract class ProductsRepository {
   Future<Either<AppError, void>> createProducts(List<Product> products);
   Future<Either<AppError, Product>> update(Product product);
   Future<Either<AppError, void>> updateProducts(List<Product> products);
+  Future<Either<AppError, void>> adjustPricesByCategory(int categoryId, double adjust);
   Future<Either<AppError, void>> delete(int id);
 }
