@@ -57,6 +57,8 @@ class Texts {
   static const String print = 'Imprimir';
   static const String applyAdjust = 'Aplicar ajuste';
   static const String analytics = 'Análisis';
+  static const String priceVariations = 'Variaciones de precio';
+  static const String stockVariations = 'Variaciones de stock';
 
   // Commerce
   static const String email = 'Correo electrónico';
