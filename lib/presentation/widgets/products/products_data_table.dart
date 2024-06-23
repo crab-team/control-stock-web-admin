@@ -6,6 +6,7 @@ import 'package:control_stock_web_admin/presentation/providers/products/products
 import 'package:control_stock_web_admin/presentation/utils/constants.dart';
 import 'package:control_stock_web_admin/presentation/widgets/categories/category_selector.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/add_product_button.dart';
+import 'package:control_stock_web_admin/presentation/widgets/products/historical_product_variation/historical_product_variation_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/print_qr_products_button.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/product_drawer.dart';
 import 'package:control_stock_web_admin/presentation/widgets/products/products_data_table_source.dart';
@@ -110,5 +111,7 @@ class _ProductsDataTableState extends ConsumerState<ProductsDataTable> {
     ref.read(drawerControllerProvider.notifier).state = ProductDrawer(product: product);
   }
 
-  void _goToAnalitycs(Product product) {}
+  void _goToAnalitycs(Product product) {
+    ref.read(drawerControllerProvider.notifier).state = HistoricalProductVariationDrawer(product: product);
+  }
 }

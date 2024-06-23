@@ -2,7 +2,6 @@
 import 'package:control_stock_web_admin/domain/use_cases/auth/exchange_token.dart';
 import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_crendetials.dart';
 import 'package:control_stock_web_admin/domain/use_cases/auth/sign_in_with_email_link.dart';
-import 'package:control_stock_web_admin/domain/use_cases/products/adjust_prices_by_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/create_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/delete_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/categories/get_categories.dart';
@@ -17,11 +16,13 @@ import 'package:control_stock_web_admin/domain/use_cases/payment_methods/create_
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/delete_payment_method.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/get_payment_methods.dart';
 import 'package:control_stock_web_admin/domain/use_cases/payment_methods/update_payment_method.dart';
+import 'package:control_stock_web_admin/domain/use_cases/products/adjust_prices_by_category.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/create_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/delete_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/get_products.dart';
+import 'package:control_stock_web_admin/domain/use_cases/products/historical_product_variation/get_historical_product_variations.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_product.dart';
 import 'package:control_stock_web_admin/domain/use_cases/products/update_products.dart';
 import 'package:control_stock_web_admin/domain/use_cases/purchases/confirm_purchase.dart';
@@ -84,6 +85,14 @@ final deleteProductUseCaseProvider = Provider<DeleteProduct>((ref) {
 
 final applyAdjustCategoryUseCaseProvider = Provider<ApplyAdjustCategory>((ref) {
   return ApplyAdjustCategory(ref.read(productsRepositoryProvider));
+});
+
+// ------------------------------------- //
+// ---- Histical Product Variations ---- //
+// ------------------------------------- //
+
+final getHistoricalProductVariationUseCaseProvider = Provider<GetHistoricalProductVariationUseCase>((ref) {
+  return GetHistoricalProductVariationUseCase(ref.read(historicalProductVariationsRepositoryProvider));
 });
 
 // ---------------------//

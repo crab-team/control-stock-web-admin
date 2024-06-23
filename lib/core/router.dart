@@ -87,7 +87,7 @@ class NavigationService {
             // _ordersBranch(),
             // _summaryBranch(),
             _productsBranch(),
-            _shoppingBranch(),
+            // _shoppingBranch(),
             // _customersBranch(),
             _categoriesBranch(),
             _commerceBranch(),

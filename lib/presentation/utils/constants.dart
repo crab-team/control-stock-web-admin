@@ -56,6 +56,7 @@ class Texts {
   static const String scanQR = 'Escanear QR';
   static const String print = 'Imprimir';
   static const String applyAdjust = 'Aplicar ajuste';
+  static const String analytics = 'Análisis';
 
   // Commerce
   static const String email = 'Correo electrónico';

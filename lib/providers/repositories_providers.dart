@@ -2,6 +2,7 @@ import 'package:control_stock_web_admin/data/repositories/auth_repository_implem
 import 'package:control_stock_web_admin/data/repositories/categories_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/customers_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/commerce_repository_implementation.dart';
+import 'package:control_stock_web_admin/data/repositories/historical_product_variations_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/payment_methods_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/products_repository_implementation.dart';
 import 'package:control_stock_web_admin/data/repositories/purchases_repository_implementation.dart';
@@ -16,6 +17,10 @@ final usersRepositoryProvider = Provider((ref) => UsersRepositoryImplementation(
     ));
 final productsRepositoryProvider =
     Provider((ref) => ProductsRepositoryImplementation(ref.read(productsRemoteDataSourcesProvider)));
+final historicalProductVariationsRepositoryProvider =
+    Provider((ref) => HistoricalProductVariationsRepositoryImplementation(
+          ref.read(historicalProductVariationsRemoteDataSourcesProvider),
+        ));
 final categoriesRepositoryProvider =
     Provider((ref) => CategoriesRepositoryImplementation(ref.read(categoriesRemoteDataSourcesProvider)));
 final commerceRepositoryProvider =
